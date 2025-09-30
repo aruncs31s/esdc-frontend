@@ -1,0 +1,51 @@
+const Hero = () => {
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = document.querySelector('.navbar').offsetHeight;
+      const targetPosition = element.offsetTop - headerHeight;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <section id="home" className="hero">
+      <div className="container">
+        <div className="hero-content">
+          <h1 className="hero-title">Embedded Systems Design Club</h1>
+          <h2 className="hero-subtitle">Government College of Engineering Kannur</h2>
+          <p className="hero-description">
+            Empowering students to explore the fascinating world of embedded systems, IoT, and hardware design
+            through hands-on learning and innovative projects.
+          </p>
+          <div className="hero-buttons">
+            <a 
+              href="#about" 
+              className="btn btn-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('about');
+              }}
+            >
+              Learn More
+            </a>
+            <a 
+              href="https://chat.whatsapp.com/BKA9R6hfyMM2VE23a8UzkW" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+            >
+              Join Us
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
