@@ -296,6 +296,12 @@ const Login = ({ isDarkMode, toggleTheme }) => {
                           By signing in, you agree to our terms of service and privacy policy.
                         </small>
                       </div>
+
+                      <div className="text-center mt-2">
+                        <small className="text-muted">
+                          Don't have an account? <a href="/register" className="text-decoration-none">Register here</a>
+                        </small>
+                      </div>
                     </div>
 
                     {error && (

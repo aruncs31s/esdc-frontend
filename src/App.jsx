@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Login from './components/Login';
+import LoginForm from './components/LoginForm';
 import Register from './components/Register';
 import UserProfile from './components/UserProfile';
 import Footer from './components/Footer';
@@ -42,32 +43,39 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={
-            <>
-              <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-              <Home />
-              <Footer />
-            </>
-          } />
-          <Route path="/login" element={
-            <Login isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-          } />
-          <Route path="/register" element={
-            <Register isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-          } />
-          <Route path="/profile" element={
-            <>
-              <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-              <UserProfile isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-              <Footer />
-            </>
-          } />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Home />
+                <h1>Hi</h1>
+                <Footer />
+              </>
+            } />
+            <Route path="/login" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <LoginForm isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Footer />
+              </>
+            } />
+            <Route path="/register" element={
+              <Register isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+            } />
+            <Route path="/profile" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <UserProfile isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Footer />
+              </>
+            } />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

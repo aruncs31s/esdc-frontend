@@ -1,28 +1,31 @@
 import { useState, useEffect } from 'react';
 import { BsGithub, BsArrowClockwise, BsGit } from 'react-icons/bs';
+import { useAuth } from '../contexts/AuthContext';
+import { userAPI } from '../services/api';
 
 const UserProfile = ({ isDarkMode, toggleTheme }) => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
   const [challenges, setChallenges] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
-    initializeAuth();
-  }, []);
+    if (isAuthenticated && user) {
+      loadUserData();
+    } else {
+      setLoading(false);
+    }
+  }, [isAuthenticated, user]);
 
-  const initializeAuth = async () => {
+  const loadUserData = async () => {
     try {
-      const token = localStorage.getItem('github_token');
-      const userData = localStorage.getItem('github_user');
-      
-      if (token && userData) {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-        await loadChallenges();
-      }
+      await Promise.all([
+        loadChallenges(),
+        loadSubmissions()
+      ]);
     } catch (error) {
-      console.error('Auth initialization error:', error);
+      console.error('Error loading user data:', error);
     } finally {
       setLoading(false);
     }
@@ -30,23 +33,51 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
 
   const loadChallenges = async () => {
     try {
+      const response = await userAPI.getChallenges();
+      if (response.success) {
+        setChallenges(response.challenges || []);
+      } else {
+        // Fallback to mock data if API fails
+        const mockChallenges = [
+          { id: 1, title: 'Basic LED Control', difficulty: 'Beginner', status: 'completed' },
+          { id: 2, title: 'Motor Control System', difficulty: 'Intermediate', status: 'in-progress' },
+          { id: 3, title: 'Advanced Robotics', difficulty: 'Advanced', status: 'not-started' }
+        ];
+        setChallenges(mockChallenges);
+      }
+    } catch (error) {
+      console.error('Error loading challenges:', error);
+      // Fallback to mock data
       const mockChallenges = [
         { id: 1, title: 'Basic LED Control', difficulty: 'Beginner', status: 'completed' },
         { id: 2, title: 'Motor Control System', difficulty: 'Intermediate', status: 'in-progress' },
         { id: 3, title: 'Advanced Robotics', difficulty: 'Advanced', status: 'not-started' }
       ];
       setChallenges(mockChallenges);
+    }
+  };
+
+  const loadSubmissions = async () => {
+    try {
+      const response = await userAPI.getSubmissions();
+      if (response.success) {
+        setSubmissions(response.submissions || []);
+      }
     } catch (error) {
-      console.error('Error loading challenges:', error);
+      console.error('Error loading submissions:', error);
     }
   };
 
   const handleRefresh = async () => {
     setRefreshing(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      alert('Successfully synchronized with repository! Found 0 new submissions.');
-      await loadChallenges();
+      const response = await userAPI.syncRepository();
+      if (response.success) {
+        alert(`Successfully synchronized with repository! Found ${response.newSubmissions || 0} new submissions.`);
+        await loadUserData();
+      } else {
+        alert('Failed to synchronize with repository: ' + (response.message || 'Unknown error'));
+      }
     } catch (error) {
       alert('Failed to synchronize with repository: ' + error.message);
     } finally {
@@ -58,10 +89,8 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
     window.location.href = '/login';
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('github_token');
-    localStorage.removeItem('github_user');
-    sessionStorage.removeItem('oauth_state');
+  const handleLogout = async () => {
+    await logout();
     window.location.href = '/';
   };
 
@@ -281,9 +310,25 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
               <div className="card-icon">📝</div>
               <h3>Recent Submissions</h3>
               <div>
-                <div className="p-4 text-center">
-                  <p className="text-muted">No submissions yet.</p>
-                </div>
+                {submissions.length > 0 ? (
+                  <div className="list-group list-group-flush">
+                    {submissions.slice(0, 5).map((submission, index) => (
+                      <div key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <h6 className="mb-1">{submission.challenge_title}</h6>
+                          <small className="text-muted">{new Date(submission.submitted_at).toLocaleDateString()}</small>
+                        </div>
+                        <span className={`badge bg-${submission.status === 'passed' ? 'success' : submission.status === 'failed' ? 'danger' : 'warning'}`}>
+                          {submission.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-4 text-center">
+                    <p className="text-muted">No submissions yet.</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
