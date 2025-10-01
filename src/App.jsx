@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import LoginForm from './components/LoginForm';
+import Login from './components/Login';
 import Register from './components/Register';
 import UserProfile from './components/UserProfile';
 import Footer from './components/Footer';
@@ -56,11 +56,7 @@ function App() {
               </>
             } />
             <Route path="/login" element={
-              <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-                <LoginForm isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-                <Footer />
-              </>
+              <Login isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
             } />
             <Route path="/register" element={
               <Register isDarkMode={isDarkMode} toggleTheme={toggleTheme} />

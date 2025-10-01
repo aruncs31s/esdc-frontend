@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.DEV ? '/api' : (import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080');
+const API_BASE_URL = 'http://localhost:9999';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -41,12 +41,12 @@ api.interceptors.response.use(
 // Auth API calls
 export const authAPI = {
     login: async(credentials) => {
-        const response = await api.post('/user/login', credentials);
-        return response.data;
+        const response = await api.post('/api/user/login', credentials);
+        return response.data
     },
 
     register: async(userData) => {
-        const response = await api.post('/user/register', userData);
+        const response = await api.post('/api/user/register', userData);
         return response.data;
     },
 
@@ -56,7 +56,7 @@ export const authAPI = {
     },
 
     getProfile: async() => {
-        const response = await api.get('/user/profile');
+        const response = await api.get('/api/user/profile');
         return response.data;
     }
 };
@@ -64,7 +64,7 @@ export const authAPI = {
 // User API calls
 export const userAPI = {
     getChallenges: async() => {
-        const response = await api.get('/user/challenges');
+        const response = await api.get('/api/user/challenges');
         return response.data;
     },
 

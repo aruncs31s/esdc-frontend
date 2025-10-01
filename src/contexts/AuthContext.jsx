@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -45,27 +46,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (credentials) => {
-    try {
-      const response = await authAPI.login(credentials);
-      
-      if (response.success && response.token) {
-        localStorage.setItem('auth_token', response.token);
-        localStorage.setItem('user_data', JSON.stringify(response.user));
-        setUser(response.user);
-        setIsAuthenticated(true);
-        return { success: true };
-      } else {
-        return { success: false, message: response.message || 'Login failed' };
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      return { 
-        success: false, 
-        message: error.response?.data?.message || 'Login failed' 
-      };
+ 
+const login = async (credentials) => {
+  try {
+    const response = await authAPI.login(credentials);
+    if (response.status && response.data.token) {
+      const token = response.data.token;
+      localStorage.setItem('auth_token', token);
+
+      // Decode the JWT to get claims
+      const decoded = jwtDecode(token);
+      console.log("Decoded JWT:", decoded);
+      setUser({
+        email: decoded.sub,
+        username: decoded.user,
+        role: decoded.role
+      });
+      setIsAuthenticated(true);
+
+      return { success: true };
+    } else {
+      return { success: false, message: response.message || 'Login failed' };
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    return { 
+      success: false, 
+      message: error.response?.data?.message || 'Login failed' 
+    };
+  }
+};
 
   const register = async (userData) => {
     try {
