@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Login from './components/Login';
+import Register from './components/Register';
+import UserProfile from './components/UserProfile';
 import Footer from './components/Footer';
 import './index.css';
 
@@ -41,11 +44,28 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={
+            <>
+              <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+              <Home />
+              <Footer />
+            </>
+          } />
+          <Route path="/login" element={
+            <Login isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+          } />
+          <Route path="/register" element={
+            <Register isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+          } />
+          <Route path="/profile" element={
+            <>
+              <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+              <UserProfile isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+              <Footer />
+            </>
+          } />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );

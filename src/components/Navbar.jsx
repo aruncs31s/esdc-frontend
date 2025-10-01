@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
 
 const Navbar = ({ isDarkMode, toggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -28,9 +31,30 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
       }
     };
 
+    // Check authentication status
+    const checkAuth = () => {
+      const token = localStorage.getItem('github_token');
+      const userData = localStorage.getItem('github_user');
+      setIsLoggedIn(token && userData);
+    };
+
+    checkAuth();
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('storage', checkAuth);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('storage', checkAuth);
+    };
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('github_token');
+    localStorage.removeItem('github_user');
+    sessionStorage.removeItem('oauth_state');
+    setIsLoggedIn(false);
+    window.location.href = '/';
+  };
 
   return (
     <nav className="navbar">
@@ -44,6 +68,14 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
           <li><a href="#projects" className="nav-link" onClick={() => scrollToSection('projects')}>Projects</a></li>
           <li><a href="#team" className="nav-link" onClick={() => scrollToSection('team')}>Team</a></li>
           <li><a href="#contact" className="nav-link" onClick={() => scrollToSection('contact')}>Contact</a></li>
+          {!isLoggedIn ? (
+            <li><Link to="/login" className="nav-link">Login</Link></li>
+          ) : (
+            <>
+              <li><Link to="/profile" className="nav-link">Profile</Link></li>
+              <li><a href="#" className="nav-link" onClick={handleLogout}>Logout</a></li>
+            </>
+          )}
         </ul>
         <div className="theme-toggle">
           <button 
@@ -51,16 +83,14 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            <span className="theme-icon">{isDarkMode ? '☀️' : '🌙'}</span>
+            {isDarkMode ? <FiSun className="theme-icon" /> : <FiMoon className="theme-icon" />}
           </button>
         </div>
         <div 
           className={`hamburger ${isMenuOpen ? 'active' : ''}`}
           onClick={toggleMenu}
         >
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
+          {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </div>
       </div>
     </nav>

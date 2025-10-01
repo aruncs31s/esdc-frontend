@@ -1,3 +1,5 @@
+import { FaMapMarkerAlt, FaEnvelope, FaGlobe, FaWhatsapp } from 'react-icons/fa';
+
 const Contact = () => {
   return (
     <section id="contact" className="contact">
@@ -9,21 +11,27 @@ const Contact = () => {
         <div className="contact-content">
           <div className="contact-info">
             <div className="contact-item">
-              <div className="contact-icon">📍</div>
+              <div className="contact-icon">
+                <FaMapMarkerAlt size={24} />
+              </div>
               <div>
                 <h3>Location</h3>
                 <p>Government College of Engineering Kannur<br />Kannur, Kerala, India</p>
               </div>
             </div>
             <div className="contact-item">
-              <div className="contact-icon">📧</div>
+              <div className="contact-icon">
+                <FaEnvelope size={24} />
+              </div>
               <div>
                 <h3>Email</h3>
                 <p>esdc@gcek.ac.in</p>
               </div>
             </div>
             <div className="contact-item">
-              <div className="contact-icon">🌐</div>
+              <div className="contact-icon">
+                <FaGlobe size={24} />
+              </div>
               <div>
                 <h3>Connect</h3>
                 <p>Follow us on social media for updates and announcements</p>
@@ -40,7 +48,7 @@ const Contact = () => {
                 rel="noopener noreferrer"
                 className="btn btn-primary whatsapp-btn"
               >
-                <img src="/icons/whatsapp.png" alt="WhatsApp" className="whatsapp-icon" />
+                <FaWhatsapp size={20} className="whatsapp-icon" />
                 Join WhatsApp Group
               </a>
             </div>

@@ -798,3 +798,101 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--subtext0);
 }
+
+/* Bootstrap component overrides for UserProfile */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-item a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--text);
+}
+
+.table {
+    color: var(--text);
+    background-color: var(--base);
+}
+
+.table-light {
+    background-color: var(--surface0);
+    color: var(--text);
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--surface0);
+}
+
+.table-success {
+    background-color: rgba(166, 227, 161, 0.1);
+}
+
+.progress {
+    background-color: var(--surface0);
+}
+
+.progress-bar {
+    background-color: var(--green) !important;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+.bg-success {
+    background-color: var(--green) !important;
+}
+
+.bg-warning {
+    background-color: var(--yellow) !important;
+    color: var(--base) !important;
+}
+
+.bg-danger {
+    background-color: var(--red) !important;
+}
+
+.bg-secondary {
+    background-color: var(--surface2) !important;
+}
+
+.text-muted {
+    color: var(--subtext0) !important;
+}
+
+.spinner-border {
+    color: var(--blue);
+}
+
+.btn-outline-primary {
+    color: var(--blue);
+    border-color: var(--blue);
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--blue);
+    border-color: var(--blue);
+    color: var(--base);
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.btn-group-sm > .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+}
