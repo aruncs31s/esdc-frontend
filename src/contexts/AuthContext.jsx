@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -17,9 +18,12 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    checkAuthStatus();
-  }, []);
+  const clearAuth = () => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
+    setUser(null);
+    setIsAuthenticated(false);
+  };
 
   const checkAuthStatus = async () => {
     try {
@@ -34,17 +38,23 @@ export const AuthProvider = ({ children }) => {
         try {
           const profile = await authAPI.getProfile();
           setUser(profile.user);
-        } catch (error) {
+        } catch (err) {
+          console.error('Token verification failed:', err);
           // Token invalid, clear auth
-          logout();
+          clearAuth();
         }
       }
-    } catch (error) {
-      console.error('Auth check failed:', error);
+    } catch (err) {
+      console.error('Auth check failed:', err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    checkAuthStatus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
  
 const login = async (credentials) => {

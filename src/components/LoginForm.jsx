@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 
-const LoginForm = ({ isDarkMode, toggleTheme }) => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -36,7 +36,8 @@ const LoginForm = ({ isDarkMode, toggleTheme }) => {
       } else {
         setError(result.message);
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Login error:', err);
       setError('Login failed. Please try again.');
     } finally {
       setIsLoading(false);

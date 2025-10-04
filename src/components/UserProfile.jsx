@@ -1,37 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BsGithub, BsArrowClockwise, BsGit } from 'react-icons/bs';
 import { useAuth } from '../contexts/AuthContext';
 import { userAPI } from '../services/api';
 
-const UserProfile = ({ isDarkMode, toggleTheme }) => {
+const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [challenges, setChallenges] = useState([]);
   const [submissions, setSubmissions] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      loadUserData();
-    } else {
-      setLoading(false);
-    }
-  }, [isAuthenticated, user]);
-
-  const loadUserData = async () => {
-    try {
-      await Promise.all([
-        loadChallenges(),
-        loadSubmissions()
-      ]);
-    } catch (error) {
-      console.error('Error loading user data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadChallenges = async () => {
+  const loadChallenges = useCallback(async () => {
     try {
       const response = await userAPI.getChallenges();
       if (response.success) {
@@ -55,9 +34,9 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
       ];
       setChallenges(mockChallenges);
     }
-  };
+  }, []);
 
-  const loadSubmissions = async () => {
+  const loadSubmissions = useCallback(async () => {
     try {
       const response = await userAPI.getSubmissions();
       if (response.success) {
@@ -66,7 +45,29 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
     } catch (error) {
       console.error('Error loading submissions:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated || !user) {
+      setLoading(false);
+      return;
+    }
+
+    const loadUserData = async () => {
+      try {
+        await Promise.all([
+          loadChallenges(),
+          loadSubmissions()
+        ]);
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, [isAuthenticated, user, loadChallenges, loadSubmissions]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -74,7 +75,7 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
       const response = await userAPI.syncRepository();
       if (response.success) {
         alert(`Successfully synchronized with repository! Found ${response.newSubmissions || 0} new submissions.`);
-        await loadUserData();
+        await Promise.all([loadChallenges(), loadSubmissions()]);
       } else {
         alert('Failed to synchronize with repository: ' + (response.message || 'Unknown error'));
       }
@@ -87,11 +88,6 @@ const UserProfile = ({ isDarkMode, toggleTheme }) => {
 
   const handleLogin = () => {
     window.location.href = '/login';
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    window.location.href = '/';
   };
 
   const getDifficultyColor = (difficulty) => {

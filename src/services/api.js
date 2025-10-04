@@ -79,4 +79,141 @@ export const userAPI = {
     }
 };
 
+// Admin API calls
+export const adminAPI = {
+    // Stats
+    getStats: async() => {
+        try {
+            const response = await api.get('/api/admin/stats');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching stats:', error);
+            // Return mock data if API fails
+            return {
+                totalUsers: 45,
+                totalProjects: 12,
+                totalChallenges: 28,
+                activeUsers: 32
+            };
+        }
+    },
+
+    // Users Management
+    getUsers: async() => {
+        try {
+            const response = await api.get('/api/admin/users');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            // Return mock data if API fails
+            return [
+                { id: 1, username: 'john_doe', email: 'john@example.com', role: 'user', status: 'active' },
+                { id: 2, username: 'jane_smith', email: 'jane@example.com', role: 'user', status: 'active' },
+                { id: 3, username: 'admin_user', email: 'admin@example.com', role: 'admin', status: 'active' }
+            ];
+        }
+    },
+
+    deleteUser: async(userId) => {
+        const response = await api.delete(`/api/admin/users/${userId}`);
+        return response.data;
+    },
+
+    updateUser: async(userId, userData) => {
+        const response = await api.put(`/api/admin/users/${userId}`, userData);
+        return response.data;
+    },
+
+    // Projects Management
+    getProjects: async() => {
+        try {
+            const response = await api.get('/api/admin/projects');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+            // Return mock data if API fails
+            return [
+                { 
+                    id: 1, 
+                    title: 'IoT Weather Station', 
+                    description: 'Build a weather monitoring system with Arduino',
+                    status: 'active',
+                    createdAt: new Date().toISOString()
+                },
+                { 
+                    id: 2, 
+                    title: 'Smart Home Automation', 
+                    description: 'Control home appliances using ESP32',
+                    status: 'active',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+        }
+    },
+
+    createProject: async(projectData) => {
+        const response = await api.post('/api/admin/projects', projectData);
+        return response.data;
+    },
+
+    deleteProject: async(projectId) => {
+        const response = await api.delete(`/api/admin/projects/${projectId}`);
+        return response.data;
+    },
+
+    updateProject: async(projectId, projectData) => {
+        const response = await api.put(`/api/admin/projects/${projectId}`, projectData);
+        return response.data;
+    },
+
+    // Challenges Management
+    getChallenges: async() => {
+        try {
+            const response = await api.get('/api/admin/challenges');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching challenges:', error);
+            // Return mock data if API fails
+            return [
+                { 
+                    id: 1, 
+                    title: 'LED Blink Challenge', 
+                    difficulty: 'Easy',
+                    points: 10,
+                    status: 'active'
+                },
+                { 
+                    id: 2, 
+                    title: 'Motor Control Challenge', 
+                    difficulty: 'Medium',
+                    points: 25,
+                    status: 'active'
+                },
+                { 
+                    id: 3, 
+                    title: 'Advanced Robotics', 
+                    difficulty: 'Hard',
+                    points: 50,
+                    status: 'active'
+                }
+            ];
+        }
+    },
+
+    createChallenge: async(challengeData) => {
+        const response = await api.post('/api/admin/challenges', challengeData);
+        return response.data;
+    },
+
+    deleteChallenge: async(challengeId) => {
+        const response = await api.delete(`/api/admin/challenges/${challengeId}`);
+        return response.data;
+    },
+
+    updateChallenge: async(challengeId, challengeData) => {
+        const response = await api.put(`/api/admin/challenges/${challengeId}`, challengeData);
+        return response.data;
+    }
+};
+
 export default api;

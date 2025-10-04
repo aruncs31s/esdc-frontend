@@ -66,7 +66,8 @@ const Register = ({ isDarkMode, toggleTheme }) => {
       } else {
         setError(result.message);
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Registration error:', err);
       setError('Registration failed. Please try again.');
     } finally {
       setIsLoading(false);

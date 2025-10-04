@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Challenges from './pages/Challenges';
 import Resources from './pages/Resources';
+import AdminPanel from './pages/AdminPanel';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserProfile from './components/UserProfile';
@@ -111,6 +113,15 @@ function App() {
                 <UserProfile isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <Footer />
               </>
+            } />
+            <Route path="/admin" element={
+              <ProtectedRoute requiredRole="admin">
+                <>
+                  <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                  <AdminPanel />
+                  <Footer />
+                </>
+              </ProtectedRoute>
             } />
           </Routes>
         </div>

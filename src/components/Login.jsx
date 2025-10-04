@@ -10,7 +10,7 @@ const Login = ({ isDarkMode, toggleTheme }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const { login, logout, isAuthenticated, user, loading } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +34,8 @@ const Login = ({ isDarkMode, toggleTheme }) => {
       if (!result.success) {
         setError(result.message);
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Login error:', err);
       setError('Login failed. Please try again.');
     } finally {
       setIsLoading(false);

@@ -264,6 +264,7 @@ body {
     opacity: 0.15;
     animation: float 8s ease-in-out infinite;
     filter: blur(60px);
+    pointer-events: none;
 }
 
 .hero::after {
@@ -277,6 +278,7 @@ body {
     opacity: 0.1;
     animation: float 10s ease-in-out infinite reverse;
     filter: blur(60px);
+    pointer-events: none;
 }
 
 @keyframes float {
@@ -368,6 +370,7 @@ body {
     background: rgba(255, 255, 255, 0.3);
     transform: translate(-50%, -50%);
     transition: width 0.6s, height 0.6s;
+    pointer-events: none;
 }
 
 .btn:hover::before {
@@ -475,6 +478,7 @@ section {
     opacity: 0.05;
     animation: float 15s ease-in-out infinite;
     filter: blur(80px);
+    pointer-events: none;
 }
 
 .about-grid {
@@ -508,6 +512,7 @@ section {
     background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
     transform: rotate(45deg);
     transition: all 0.6s ease;
+    pointer-events: none;
 }
 
 .about-card:hover {
@@ -581,6 +586,7 @@ section {
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
+    z-index: -1;
 }
 
 .project-card:hover {
@@ -613,6 +619,7 @@ section {
     opacity: 0;
     transition: opacity 0.4s ease;
     z-index: 1;
+    pointer-events: none;
 }
 
 .project-card:hover .project-image::before {
@@ -886,6 +893,7 @@ section {
     background: rgba(255, 255, 255, 0.2);
     transform: translate(-50%, -50%);
     transition: width 0.6s, height 0.6s;
+    pointer-events: none;
 }
 
 .whatsapp-btn:hover::before {
@@ -926,6 +934,7 @@ section {
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, var(--lavender) 50%, transparent 100%);
     opacity: 0.5;
+    pointer-events: none;
 }
 
 .footer-content {
@@ -1179,6 +1188,8 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--subtext0);
 }
+
+
 
 /* Bootstrap component overrides for UserProfile */
 .breadcrumb {
