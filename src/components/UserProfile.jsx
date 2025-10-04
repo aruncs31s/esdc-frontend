@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { BsGithub, BsArrowClockwise, BsGit } from 'react-icons/bs';
+import { BsGithub, BsArrowClockwise } from 'react-icons/bs';
 import { useAuth } from '../hooks/useAuth';
 import { userAPI } from '../services/api';
 
@@ -90,24 +90,6 @@ const UserProfile = () => {
     window.location.href = '/login';
   };
 
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case 'Beginner': return 'success';
-      case 'Intermediate': return 'warning';
-      case 'Advanced': return 'danger';
-      default: return 'secondary';
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'completed': return 'success';
-      case 'in-progress': return 'warning';
-      case 'not-started': return 'secondary';
-      default: return 'secondary';
-    }
-  };
-
   const getStatusText = (status) => {
     switch (status) {
       case 'completed': return 'Completed';
@@ -158,112 +140,84 @@ const UserProfile = () => {
   const displayName = user.name || user.login || 'User';
 
   return (
-    <section className="hero" style={{ minHeight: 'calc(100vh - 200px)', padding: '2rem 0' }}>
+    <section className="profile-page">
       <div className="container">
-        <div className="row mb-4">
-          <div className="col">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <a href="/">Home</a>
-                </li>
-                <li className="breadcrumb-item active">Profile: {displayName}</li>
-              </ol>
-            </nav>
-          </div>
+
+        <div className="section-header">
+          <h2>{displayName}'s Profile</h2>
+          <p>Track your progress and challenge achievements</p>
         </div>
 
-        <div className="row mb-4">
-          <div className="col-md-4">
-            <div className="about-card mb-4">
-              <div className="card-icon">👤</div>
-              <h3>{displayName}'s Profile</h3>
-              <div>
-                <div className="d-flex align-items-center mb-3">
-                  <img 
-                    src={user.avatar_url || `https://github.com/${username}.png`}
-                    alt="Profile"
-                    className="rounded-circle me-3" 
-                    style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-                  />
-                  <div>
-                    <h5 className="mb-1">{displayName}</h5>
-                    <a 
-                      href={user.html_url || `https://github.com/${username}`}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-decoration-none"
-                    >
-                      <BsGithub className="me-1" /> GitHub Profile
-                    </a>
-                  </div>
-                </div>
+        <div className="profile-content">
+          <div className="profile-sidebar">
+            <div className="profile-info-card">
+              <div className="profile-avatar-section">
+                <img 
+                  src={user.avatar_url || `https://github.com/${username}.png`}
+                  alt="Profile"
+                  className="profile-avatar"
+                />
+                <h3 className="profile-name">{displayName}</h3>
+                <a 
+                  href={user.html_url || `https://github.com/${username}`}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="profile-github-link"
+                >
+                  <BsGithub /> GitHub Profile
+                </a>
+              </div>
 
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <span style={{ color: 'white' }}>Repository synchronization:</span>
-                  <button 
-                    className="btn btn-sm btn-outline-primary"
-                    onClick={handleRefresh}
-                    disabled={refreshing}
-                  >
-                    {refreshing ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        {' '}Syncing...
-                      </>
-                    ) : (
-                      <>
-                        <BsArrowClockwise className="me-1" /> Sync with Repo
-                      </>
-                    )}
-                  </button>
-                </div>
+              <button 
+                className="btn btn-secondary sync-btn"
+                onClick={handleRefresh}
+                disabled={refreshing}
+              >
+                {refreshing ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm"></span>
+                    Syncing...
+                  </>
+                ) : (
+                  <>
+                    <BsArrowClockwise /> Sync with Repo
+                  </>
+                )}
+              </button>
 
-                <div className="progress mb-3" style={{ height: '25px' }}>
-                  <div 
-                    className="progress-bar bg-success"
-                    role="progressbar" 
-                    style={{ width: `${progressPercent}%` }}
-                    aria-valuenow={progressPercent} 
-                    aria-valuemin="0" 
-                    aria-valuemax="100"
-                  >
-                    <span>{solved}/{challenges.length} Challenges Completed</span>
-                  </div>
+              <div className="profile-progress">
+                <div className="progress-label">
+                  <span>Progress</span>
+                  <span>{solved}/{challenges.length}</span>
                 </div>
+                <div className="progress-bar-wrapper">
+                  <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
+                </div>
+              </div>
 
-                <div className="row text-center mt-4">
-                  <div className="col-4">
-                    <div className="p-3 border rounded mb-2">
-                      <h3 className="mb-0">{solved}</h3>
-                    </div>
-                    <span style={{ color: 'white' }}>Solved</span>
-                  </div>
-                  <div className="col-4">
-                    <div className="p-3 border rounded mb-2">
-                      <h3 className="mb-0">{beginner}</h3>
-                    </div>
-                    <span style={{ color: '#a6e3a1' }}>Beginner</span>
-                  </div>
-                  <div className="col-4">
-                    <div className="p-3 border rounded mb-2">
-                      <h3 className="mb-0">{advanced}</h3>
-                    </div>
-                    <span style={{ color: '#f38ba8' }}>Advanced</span>
-                  </div>
+              <div className="profile-stats">
+                <div className="stat-item">
+                  <div className="stat-value">{solved}</div>
+                  <div className="stat-label">Solved</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-value beginner">{beginner}</div>
+                  <div className="stat-label">Beginner</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-value advanced">{advanced}</div>
+                  <div className="stat-label">Advanced</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="col-md-8">
-            <div className="about-card mb-4">
-              <div className="card-icon">🏆</div>
-              <h3>Challenge Progress</h3>
-              <div>
-                <div className="table-responsive">
-                  <table className="table table-hover mb-0">
-                    <thead className="table-light">
+          <div className="profile-main">
+            <div className="profile-challenges-card">
+              <h3><span className="card-icon">🏆</span> Challenge Progress</h3>
+              <div className="table-responsive">
+                <table className="profile-table">
+                    <thead>
                       <tr>
                         <th>#</th>
                         <th>Challenge</th>
@@ -275,57 +229,51 @@ const UserProfile = () => {
                     </thead>
                     <tbody>
                       {challenges.map(challenge => (
-                        <tr key={challenge.id} className={challenge.status === 'completed' ? 'table-success' : ''}>
+                        <tr key={challenge.id} className={challenge.status === 'completed' ? 'completed' : ''}>
                           <td>{challenge.id}</td>
                           <td>{challenge.title}</td>
                           <td>
-                            <span className={`badge rounded-pill bg-${getDifficultyColor(challenge.difficulty)}`}>
+                            <span className={`difficulty-badge ${challenge.difficulty.toLowerCase()}`}>
                               {challenge.difficulty}
                             </span>
                           </td>
                           <td>
-                            <span className={`badge bg-${getStatusColor(challenge.status)}`}>
+                            <span className={`status-badge ${challenge.status}`}>
                               {getStatusText(challenge.status)}
                             </span>
                           </td>
                           <td>-</td>
                           <td>
-                            <div className="btn-group btn-group-sm" role="group">
-                              <a href="#" className="btn btn-outline-primary">Start</a>
-                            </div>
+                            <a href="#" className="btn btn-primary btn-sm">Start</a>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              </div>
             </div>
 
-            <div className="about-card">
-              <div className="card-icon">📝</div>
-              <h3>Recent Submissions</h3>
-              <div>
-                {submissions.length > 0 ? (
-                  <div className="list-group list-group-flush">
-                    {submissions.slice(0, 5).map((submission, index) => (
-                      <div key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                          <h6 className="mb-1">{submission.challenge_title}</h6>
-                          <small className="text-muted">{new Date(submission.submitted_at).toLocaleDateString()}</small>
-                        </div>
-                        <span className={`badge bg-${submission.status === 'passed' ? 'success' : submission.status === 'failed' ? 'danger' : 'warning'}`}>
-                          {submission.status}
-                        </span>
+            <div className="profile-submissions-card">
+              <h3><span className="card-icon">📝</span> Recent Submissions</h3>
+              {submissions.length > 0 ? (
+                <div className="submissions-list">
+                  {submissions.slice(0, 5).map((submission, index) => (
+                    <div key={index} className="submission-item">
+                      <div>
+                        <h6>{submission.challenge_title}</h6>
+                        <small>{new Date(submission.submitted_at).toLocaleDateString()}</small>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-4 text-center">
-                    <p className="text-muted">No submissions yet.</p>
-                  </div>
-                )}
-              </div>
+                      <span className={`status-badge ${submission.status}`}>
+                        {submission.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <p>No submissions yet.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

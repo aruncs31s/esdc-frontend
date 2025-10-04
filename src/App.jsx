@@ -16,6 +16,7 @@ import UserProfile from './components/UserProfile';
 import Dashboard from './components/Dashboard';
 import Leaderboard from './components/Leaderboard';
 import Footer from './components/Footer';
+import Chatbot from './components/Chatbot';
 import './index.css';
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
+          <Chatbot />
           <Routes>
             <Route path="/" element={
               <>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaTrophy, FaMedal, FaAward } from 'react-icons/fa';
+import { FiUser } from 'react-icons/fi';
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -12,11 +13,14 @@ const Leaderboard = () => {
   const fetchLeaderboard = async () => {
     // Mock data - replace with API call
     setLeaderboard([
-      { id: 1, username: 'techmaster', points: 1250, rank: 1, avatar: '/avatars/1.jpg' },
-      { id: 2, username: 'codewiz', points: 980, rank: 2, avatar: '/avatars/2.jpg' },
-      { id: 3, username: 'hardwarehero', points: 875, rank: 3, avatar: '/avatars/3.jpg' },
-      { id: 4, username: 'iotexpert', points: 720, rank: 4, avatar: '/avatars/4.jpg' },
-      { id: 5, username: 'embeddedengineer', points: 650, rank: 5, avatar: '/avatars/5.jpg' }
+      { id: 1, username: 'techmaster', points: 1250, rank: 1, avatar: null },
+      { id: 2, username: 'codewiz', points: 980, rank: 2, avatar: null },
+      { id: 3, username: 'hardwarehero', points: 875, rank: 3, avatar: null },
+      { id: 4, username: 'iotexpert', points: 720, rank: 4, avatar: null },
+      { id: 5, username: 'embeddedengineer', points: 650, rank: 5, avatar: null },
+      { id: 6, username: 'robotbuilder', points: 580, rank: 6, avatar: null },
+      { id: 7, username: 'circuitmaster', points: 520, rank: 7, avatar: null },
+      { id: 8, username: 'codeninjas', points: 480, rank: 8, avatar: null }
     ]);
   };
 
@@ -54,7 +58,13 @@ const Leaderboard = () => {
               </div>
               
               <div className="user-info">
-                <img src={user.avatar} alt={user.username} className="avatar" />
+                {user.avatar ? (
+                  <img src={user.avatar} alt={user.username} className="avatar" />
+                ) : (
+                  <div className="avatar avatar-placeholder">
+                    <FiUser />
+                  </div>
+                )}
                 <span className="username">{user.username}</span>
               </div>
               

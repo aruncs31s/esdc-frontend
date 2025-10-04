@@ -1,0 +1,270 @@
+/* Resources Page Styles */
+.resources-page {
+  padding: 100px 0 60px;
+  min-height: 100vh;
+}
+
+.resources-page h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.resources-page > .container > p {
+  text-align: center;
+  color: var(--subtext0);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Category Filter */
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.category-filter button {
+  padding: 10px 24px;
+  border: 2px solid var(--surface1);
+  background: var(--mantle);
+  color: var(--text);
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+.category-filter button:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.category-filter button.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+/* Resources Grid */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Resource Card */
+.resource-card {
+  background: var(--mantle);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 6px var(--shadow);
+  transition: all 0.3s ease;
+  border: 2px solid var(--surface0);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue), var(--mauve));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.resource-card:hover::before {
+  transform: scaleX(1);
+}
+
+.resource-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px var(--shadow);
+  border-color: var(--blue);
+}
+
+/* Resource Icon */
+.resource-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue), var(--mauve));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.resource-card:hover .resource-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Resource Content */
+.resource-card h3 {
+  margin: 0 0 12px 0;
+  color: var(--text);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.resource-card p {
+  color: var(--subtext0);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  flex-grow: 1;
+  font-size: 0.95rem;
+}
+
+/* Resource Link */
+.resource-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  padding: 10px 0;
+}
+
+.resource-card a:hover {
+  gap: 12px;
+  color: var(--mauve);
+}
+
+.resource-card a svg {
+  font-size: 0.85rem;
+  transition: transform 0.3s ease;
+}
+
+.resource-card a:hover svg {
+  transform: translateX(3px);
+}
+
+/* Resource Type Badge */
+.resource-type {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resource-type.document {
+  background: var(--green);
+  color: white;
+}
+
+.resource-type.video {
+  background: var(--red);
+  color: white;
+}
+
+.resource-type.code {
+  background: var(--yellow);
+  color: var(--crust);
+}
+
+.resource-type.link {
+  background: var(--blue);
+  color: white;
+}
+
+/* Empty State */
+.resources-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--subtext0);
+}
+
+.resources-empty svg {
+  font-size: 4rem;
+  color: var(--surface1);
+  margin-bottom: 20px;
+}
+
+.resources-empty h3 {
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.resources-empty p {
+  font-size: 1rem;
+  color: var(--subtext0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .resources-page {
+    padding: 80px 0 40px;
+  }
+
+  .resources-page h1 {
+    font-size: 2rem;
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .category-filter {
+    gap: 8px;
+  }
+
+  .category-filter button {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .resource-card {
+    padding: 24px;
+  }
+
+  .resource-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .resources-page h1 {
+    font-size: 1.75rem;
+  }
+
+  .category-filter {
+    flex-direction: column;
+  }
+
+  .category-filter button {
+    width: 100%;
+  }
+}

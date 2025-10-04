@@ -12,7 +12,6 @@ const Challenges = () => {
   }, []);
 
   const fetchChallenges = async () => {
-    // Mock data - replace with API call
     setChallenges([
       {
         id: 1,
@@ -36,7 +35,6 @@ const Challenges = () => {
   };
 
   const submitSolution = async (challengeId) => {
-    // API call to submit solution
     console.log('Submitting solution for:', challengeId);
   };
 
@@ -45,15 +43,18 @@ const Challenges = () => {
   );
 
   return (
-    <div className="challenges-page">
+    <section className="challenges-page">
       <div className="container">
-        <h1>Coding Challenges</h1>
+        <div className="section-header">
+          <h2>Coding Challenges</h2>
+          <p>Test your skills with hands-on embedded systems challenges</p>
+        </div>
         
         <div className="filter-tabs">
           {['all', 'beginner', 'intermediate', 'advanced'].map(level => (
             <button 
               key={level}
-              className={filter === level ? 'active' : ''}
+              className={`filter-btn ${filter === level ? 'active' : ''}`}
               onClick={() => setFilter(level)}
             >
               {level.charAt(0).toUpperCase() + level.slice(1)}
@@ -66,7 +67,7 @@ const Challenges = () => {
             <div key={challenge.id} className="challenge-card">
               <div className="challenge-header">
                 <h3>{challenge.title}</h3>
-                <span className={`difficulty ${challenge.difficulty.toLowerCase()}`}>
+                <span className={`difficulty-badge ${challenge.difficulty.toLowerCase()}`}>
                   {challenge.difficulty}
                 </span>
               </div>
@@ -74,14 +75,20 @@ const Challenges = () => {
               <p>{challenge.description}</p>
               
               <div className="challenge-meta">
-                <div><FaTrophy /> {challenge.points} points</div>
-                <div><FaClock /> Due: {challenge.deadline}</div>
+                <div className="meta-item">
+                  <FaTrophy /> <span>{challenge.points} points</span>
+                </div>
+                <div className="meta-item">
+                  <FaClock /> <span>Due: {challenge.deadline}</span>
+                </div>
               </div>
 
               {isAuthenticated && (
                 <div className="challenge-actions">
-                  <button><FaDownload /> Download Kit</button>
-                  <button onClick={() => submitSolution(challenge.id)}>
+                  <button className="btn btn-secondary btn-sm">
+                    <FaDownload /> Download Kit
+                  </button>
+                  <button className="btn btn-primary btn-sm" onClick={() => submitSolution(challenge.id)}>
                     <FaCode /> Submit Solution
                   </button>
                 </div>
@@ -90,7 +97,7 @@ const Challenges = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,0 +1,323 @@
+/* Profile Popup - Android Quick Settings Style */
+.profile-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.profile-popup {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 340px;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: profilePopupSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+  border: 1px solid var(--border);
+}
+
+.dark-mode .profile-popup {
+  background: var(--surface);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes profilePopupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Profile Header */
+.profile-popup-header {
+  padding: 24px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-popup-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: profileHeaderShine 3s linear infinite;
+}
+
+@keyframes profileHeaderShine {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-popup-avatar-container {
+  position: relative;
+  z-index: 1;
+}
+
+.profile-popup-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-popup-avatar-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-popup-info {
+  flex: 1;
+  z-index: 1;
+  min-width: 0;
+}
+
+.profile-popup-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 4px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-popup-email {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 8px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-popup-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.profile-popup-badge-admin {
+  background: rgba(255, 107, 107, 0.9);
+}
+
+.profile-popup-badge-moderator {
+  background: rgba(250, 179, 135, 0.9);
+}
+
+.profile-popup-badge-member {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Quick Tiles - Android Style */
+.profile-popup-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 20px;
+  background: var(--background);
+}
+
+.profile-popup-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-popup-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-popup-tile:hover::before {
+  opacity: 0.08;
+}
+
+.profile-popup-tile.active {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(137, 180, 250, 0.3);
+}
+
+.profile-popup-tile.active::before {
+  opacity: 0;
+}
+
+.dark-mode .profile-popup-tile {
+  background: rgba(49, 50, 68, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .profile-popup-tile:hover {
+  background: rgba(49, 50, 68, 0.8);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-mode .profile-popup-tile.active {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  border-color: transparent;
+}
+
+.profile-popup-tile-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(137, 180, 250, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.profile-popup-tile.active .profile-popup-tile-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.profile-popup-tile:hover .profile-popup-tile-icon {
+  transform: scale(1.1);
+}
+
+.profile-popup-tile-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Logout Button */
+.profile-popup-logout {
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-popup-logout:hover {
+  background: rgba(243, 139, 168, 0.1);
+}
+
+.dark-mode .profile-popup-logout {
+  background: rgba(30, 30, 46, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .profile-popup-logout:hover {
+  background: rgba(243, 139, 168, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-popup {
+    right: 10px;
+    top: 60px;
+    width: calc(100vw - 20px);
+    max-width: 340px;
+  }
+
+  .profile-popup-header {
+    padding: 20px;
+  }
+
+  .profile-popup-avatar,
+  .profile-popup-avatar-placeholder {
+    width: 56px;
+    height: 56px;
+  }
+
+  .profile-popup-name {
+    font-size: 1.1rem;
+  }
+
+  .profile-popup-tiles {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .profile-popup-tile {
+    padding: 16px 12px;
+  }
+
+  .profile-popup-tile-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-popup {
+    width: calc(100vw - 20px);
+  }
+}

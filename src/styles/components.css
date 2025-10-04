@@ -272,3 +272,274 @@
     z-index: 10000;
     transition: width 0.1s ease;
 }
+
+/* Events Page */
+.events-page {
+    background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.event-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.event-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+
+.event-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.event-card:hover::before {
+    left: 100%;
+}
+
+.event-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.event-card p {
+    color: var(--subtext0);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.event-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.event-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--subtext1);
+    font-size: 0.9rem;
+}
+
+.event-detail-item svg {
+    color: var(--blue);
+    font-size: 1rem;
+}
+
+.event-card .btn {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.event-card:nth-child(1) { animation-delay: 0.1s; }
+.event-card:nth-child(2) { animation-delay: 0.2s; }
+.event-card:nth-child(3) { animation-delay: 0.3s; }
+.event-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Challenges Page */
+.challenges-page {
+    background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--subtext1);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.filter-btn:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+    color: var(--base);
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(30, 102, 245, 0.3);
+}
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.challenge-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.challenge-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+
+.challenge-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.challenge-card:hover::before {
+    left: 100%;
+}
+
+.challenge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.challenge-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+}
+
+.difficulty-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.difficulty-badge.beginner {
+    background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+    color: var(--base);
+    box-shadow: 0 4px 15px rgba(166, 227, 161, 0.3);
+}
+
+.difficulty-badge.intermediate {
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--peach) 100%);
+    color: var(--base);
+    box-shadow: 0 4px 15px rgba(249, 226, 175, 0.3);
+}
+
+.difficulty-badge.advanced {
+    background: linear-gradient(135deg, var(--red) 0%, var(--maroon) 100%);
+    color: var(--base);
+    box-shadow: 0 4px 15px rgba(243, 139, 168, 0.3);
+}
+
+.challenge-card p {
+    color: var(--subtext0);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.challenge-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--subtext1);
+    font-size: 0.9rem;
+}
+
+.meta-item svg {
+    color: var(--blue);
+    font-size: 1rem;
+}
+
+.challenge-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.challenge-actions .btn {
+    flex: 1;
+    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.challenge-card:nth-child(1) { animation-delay: 0.1s; }
+.challenge-card:nth-child(2) { animation-delay: 0.2s; }
+.challenge-card:nth-child(3) { animation-delay: 0.3s; }
+.challenge-card:nth-child(4) { animation-delay: 0.4s; }

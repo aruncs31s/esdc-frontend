@@ -4,6 +4,18 @@
         display: flex;
     }
     
+    .profile-name {
+        display: none;
+    }
+    
+    .nav-auth {
+        gap: 0.5rem;
+    }
+    
+    .btn-profile {
+        padding: 0.6rem;
+    }
+    
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -12,14 +24,40 @@
         background-color: var(--base);
         width: 100%;
         text-align: center;
-        transition: 0.3s;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 10px 27px var(--shadow);
         border-top: 1px solid var(--surface0);
         padding: 2rem 0;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
     }
     
     .nav-menu.active {
         left: 0;
+    }
+    
+    .nav-link {
+        width: 100%;
+        padding: 1rem 2rem;
+        border-radius: 0;
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+    
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(137, 180, 250, 0.1);
+        border-left: 4px solid var(--blue);
+    }
+    
+    .nav-link-admin:hover,
+    .nav-link-admin.active {
+        background: rgba(243, 139, 168, 0.1);
+        border-left: 4px solid var(--red);
     }
     
     .hero-title {

@@ -4,19 +4,32 @@
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(239, 241, 245, 0.7);
+    background: rgba(239, 241, 245, 0.75);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    box-shadow: 0 2px 8px 0 rgba(31, 38, 135, 0.05);
     z-index: 1000;
-    padding: 1rem 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.75rem 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.scrolled {
+    padding: 0.5rem 0;
+    background: rgba(239, 241, 245, 0.95);
+    box-shadow: 0 4px 20px 0 rgba(31, 38, 135, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .dark-mode .navbar {
-    background: rgba(30, 30, 46, 0.7);
+    background: rgba(30, 30, 46, 0.75);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .navbar.scrolled {
+    background: rgba(30, 30, 46, 0.95);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .nav-container {
@@ -28,7 +41,39 @@
     align-items: center;
 }
 
-.nav-logo h2 {
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-logo:hover {
+    transform: translateY(-2px);
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: white;
+    box-shadow: 0 4px 12px rgba(137, 180, 250, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-logo:hover .logo-icon {
+    transform: rotate(-10deg) scale(1.05);
+    box-shadow: 0 6px 20px rgba(137, 180, 250, 0.6);
+}
+
+.logo-text {
     background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -36,108 +81,222 @@
     font-weight: 800;
     font-size: 1.6rem;
     letter-spacing: -0.5px;
-    transition: all 0.3s ease;
-}
-
-.nav-logo h2:hover {
-    transform: scale(1.05);
-    filter: brightness(1.2);
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 0.5rem;
+    align-items: center;
 }
 
 .nav-link {
     text-decoration: none;
     color: var(--text);
     font-weight: 600;
+    font-size: 0.95rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     letter-spacing: 0.3px;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    display: inline-block;
 }
 
 .nav-link:hover {
     color: var(--blue);
+    background: rgba(137, 180, 250, 0.1);
     transform: translateY(-2px);
+}
+
+.nav-link.active {
+    color: var(--blue);
+    background: rgba(137, 180, 250, 0.15);
+    font-weight: 700;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 3px;
-    bottom: -5px;
-    left: 0;
+    height: 2px;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
     background: linear-gradient(90deg, var(--blue) 0%, var(--lavender) 100%);
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 2px;
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: calc(100% - 2rem);
+}
+
+.nav-link-admin {
+    color: var(--red);
+    font-weight: 700;
+}
+
+.nav-link-admin:hover {
+    background: rgba(243, 139, 168, 0.15);
+    color: var(--red);
+}
+
+.nav-link-admin.active {
+    background: rgba(243, 139, 168, 0.2);
 }
 
 /* Right side controls container */
 .nav-controls {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-left: auto;
 }
 
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.hamburger .bar {
-    width: 25px;
-    height: 3px;
-    background-color: var(--text);
-    margin: 3px 0;
-    transition: 0.3s;
-    border-radius: 3px;
-}
-
-.theme-toggle {
+/* Auth Buttons */
+.nav-auth {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
 }
 
-.theme-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    cursor: pointer;
-    padding: 0.6rem;
-    border-radius: 50%;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+.btn-login {
+    padding: 0.65rem 1.5rem;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(137, 180, 250, 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(137, 180, 250, 0.5);
+}
+
+.btn-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(137, 180, 250, 0.1);
+    color: var(--blue);
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(137, 180, 250, 0.2);
+}
+
+.btn-profile:hover {
+    background: rgba(137, 180, 250, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(137, 180, 250, 0.2);
+}
+
+.profile-name {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-logout {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.6rem;
+    background: rgba(243, 139, 168, 0.1);
+    color: var(--red);
+    border: 1px solid rgba(243, 139, 168, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.1rem;
 }
 
-.theme-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+.btn-logout:hover {
+    background: rgba(243, 139, 168, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(243, 139, 168, 0.2);
 }
 
-.theme-btn:active {
-    transform: translateY(0) scale(0.95);
+/* Profile Trigger Button */
+.btn-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(137, 180, 250, 0.1);
+    color: var(--text);
+    border: 1px solid rgba(137, 180, 250, 0.2);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.theme-icon {
-    font-size: 1.3rem;
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+.btn-profile-trigger:hover {
+    background: rgba(137, 180, 250, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(137, 180, 250, 0.2);
 }
 
-.theme-btn:hover .theme-icon {
+.profile-avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+    color: white;
+}
+
+.profile-avatar-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-chevron {
+    font-size: 1rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-chevron.open {
     transform: rotate(180deg);
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-icon {
+    font-size: 1.5rem;
+    color: var(--text);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger:hover .hamburger-icon {
+    color: var(--blue);
+    transform: scale(1.1);
 }
