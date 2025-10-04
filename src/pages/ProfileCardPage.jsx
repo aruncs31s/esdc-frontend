@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import ProfileCard from '../components/ProfileCard';
 import { useAuth } from '../hooks/useAuth';
@@ -6,7 +7,7 @@ import { useAuth } from '../hooks/useAuth';
  * ProfileCardDemo Page
  * A demo page to showcase the ProfileCard component with live examples
  */
-const ProfileCardDemo = () => {
+const ProfileCardPage = () => {
   const { user: currentUser } = useAuth();
   const [selectedExample, setSelectedExample] = useState('current');
 
@@ -277,4 +278,4 @@ function MyComponent() {
   );
 };
 
-export default ProfileCardDemo;
+export default ProfileCardPage;

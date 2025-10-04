@@ -20,7 +20,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
     };
 
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -37,12 +37,12 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
         <div className="nav-logo">
           <h2>ESDC</h2>
         </div>
-        
+
         {/* Desktop Menu */}
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li>
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="nav-link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -50,8 +50,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </Link>
           </li>
           <li>
-            <a 
-              href="#about" 
+            <a
+              href="#about"
               className="nav-link"
               onClick={() => { navigate('/'); setTimeout(() => window.location.hash = 'about', 100); setIsMenuOpen(false); }}
             >
@@ -59,8 +59,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </a>
           </li>
           <li>
-            <a 
-              href="#projects" 
+            <a
+              href="#projects"
               className="nav-link"
               onClick={() => { navigate('/'); setTimeout(() => window.location.hash = 'projects', 100); setIsMenuOpen(false); }}
             >
@@ -68,8 +68,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </a>
           </li>
           <li>
-            <a 
-              href="#team" 
+            <a
+              href="#team"
               className="nav-link"
               onClick={() => { navigate('/'); setTimeout(() => window.location.hash = 'team', 100); setIsMenuOpen(false); }}
             >
@@ -77,8 +77,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </a>
           </li>
           <li>
-            <Link 
-              to="/events" 
+            <Link
+              to="/events"
               className="nav-link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -86,8 +86,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </Link>
           </li>
           <li>
-            <Link 
-              to="/challenges" 
+            <Link
+              to="/challenges"
               className="nav-link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -95,8 +95,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </Link>
           </li>
           <li>
-            <Link 
-              to="/resources" 
+            <Link
+              to="/resources"
               className="nav-link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -104,8 +104,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </Link>
           </li>
           <li>
-            <Link 
-              to="/users" 
+            <Link
+              to="/users"
               className="nav-link"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -115,8 +115,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
           {isAuthenticated && (
             <>
               <li>
-                <Link 
-                  to="/dashboard" 
+                <Link
+                  to="/dashboard"
                   className="nav-link"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -124,8 +124,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/leaderboard" 
+                <Link
+                  to="/leaderboard"
                   className="nav-link"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -134,8 +134,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
               </li>
               {user?.role === 'admin' && (
                 <li>
-                  <Link 
-                    to="/admin" 
+                  <Link
+                    to="/admin"
                     className="nav-link"
                     onClick={() => setIsMenuOpen(false)}
                     style={{ color: 'var(--red)', fontWeight: '700' }}
@@ -147,34 +147,34 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             </>
           )}
           <li>
-            <a 
-              href="#contact" 
+            <a
+              href="#contact"
               className="nav-link"
               onClick={() => { navigate('/'); setTimeout(() => window.location.hash = 'contact', 100); setIsMenuOpen(false); }}
             >
               Contact
             </a>
           </li>
-          
+
           {/* Auth Links */}
           <li>
             {!isAuthenticated ? (
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="nav-link"
               >
                 Login
               </Link>
             ) : (
               <>
-                <Link 
-                  to="/profile" 
+                <Link
+                  to="/profile"
                   className="nav-link"
                 >
                   Profile
                 </Link>
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="nav-link"
                   onClick={handleLogout}
                 >
@@ -184,25 +184,28 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             )}
           </li>
         </ul>
-       
-        <div className="theme-toggle">
-          <button 
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="theme-btn"
-          >
-            {isDarkMode ? <FiSun className="theme-icon" /> : <FiMoon className="theme-icon" />}
-          </button>
-        </div>
 
-        {/* Hamburger Menu */}
-        <div 
-          className={`hamburger ${isMenuOpen ? 'active' : ''}`}
-          onClick={toggleMenu}
-        >
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
+        {/* Right side controls */}
+        <div className="nav-controls">
+          <div className="theme-toggle">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="theme-btn"
+            >
+              {isDarkMode ? <FiSun className="theme-icon" /> : <FiMoon className="theme-icon" />}
+            </button>
+          </div>
+
+          {/* Hamburger Menu */}
+          <div
+            className={`hamburger ${isMenuOpen ? 'active' : ''}`}
+            onClick={toggleMenu}
+          >
+            <span className="bar"></span>
+            <span className="bar"></span>
+            <span className="bar"></span>
+          </div>
         </div>
       </div>
     </nav>

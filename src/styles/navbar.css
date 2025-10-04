@@ -80,6 +80,14 @@
     width: 100%;
 }
 
+/* Right side controls container */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -96,7 +104,8 @@
 }
 
 .theme-toggle {
-    margin-left: 1rem;
+    display: flex;
+    align-items: center;
 }
 
 .theme-btn {

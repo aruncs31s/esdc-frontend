@@ -18,116 +18,7 @@ const Users = () => {
   const [sortBy, setSortBy] = useState('name');
   const { user: currentUser, isAuthenticated } = useAuth();
 
-  // Generate mock users for demonstration
-  const generateMockUsers = () => {
-    return [
-      {
-        id: 1,
-        username: 'alice_johnson',
-        name: 'Alice Johnson',
-        email: 'alice@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=1',
-        bio: 'Robotics enthusiast and full-stack developer',
-        role: 'admin',
-        points: 2500,
-        completedChallenges: 35,
-        joinedDate: '2024-01-15T10:30:00Z',
-        githubUsername: 'alice_codes'
-      },
-      {
-        id: 2,
-        username: 'bob_smith',
-        name: 'Bob Smith',
-        email: 'bob@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=2',
-        bio: 'Embedded systems engineer passionate about IoT',
-        role: 'user',
-        points: 1800,
-        completedChallenges: 28,
-        joinedDate: '2024-02-20T14:20:00Z',
-        githubUsername: 'bob_embedded'
-      },
-      {
-        id: 3,
-        username: 'charlie_brown',
-        name: 'Charlie Brown',
-        email: 'charlie@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=3',
-        bio: 'Hardware hacker and maker',
-        role: 'user',
-        points: 1500,
-        completedChallenges: 22,
-        joinedDate: '2024-03-10T09:15:00Z',
-        githubUsername: 'charlie_maker'
-      },
-      {
-        id: 4,
-        username: 'diana_prince',
-        name: 'Diana Prince',
-        email: 'diana@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=4',
-        bio: 'AI/ML researcher working on edge computing',
-        role: 'user',
-        points: 2200,
-        completedChallenges: 30,
-        joinedDate: '2024-01-25T11:45:00Z',
-        githubUsername: 'diana_ai'
-      },
-      {
-        id: 5,
-        username: 'evan_williams',
-        name: 'Evan Williams',
-        email: 'evan@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=5',
-        bio: 'Electronics engineer and Arduino expert',
-        role: 'user',
-        points: 1200,
-        completedChallenges: 18,
-        joinedDate: '2024-04-05T16:30:00Z',
-        githubUsername: 'evan_electronics'
-      },
-      {
-        id: 6,
-        username: 'fiona_garcia',
-        name: 'Fiona Garcia',
-        email: 'fiona@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=6',
-        bio: 'Mechanical engineer interested in robotics',
-        role: 'user',
-        points: 950,
-        completedChallenges: 14,
-        joinedDate: '2024-05-12T13:20:00Z',
-        githubUsername: 'fiona_mech'
-      },
-      {
-        id: 7,
-        username: 'george_miller',
-        name: 'George Miller',
-        email: 'george@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=7',
-        bio: 'Computer science student learning embedded systems',
-        role: 'user',
-        points: 750,
-        completedChallenges: 11,
-        joinedDate: '2024-06-18T10:00:00Z',
-        githubUsername: 'george_cs'
-      },
-      {
-        id: 8,
-        username: 'hannah_lee',
-        name: 'Hannah Lee',
-        email: 'hannah@esdc.com',
-        avatar_url: 'https://i.pravatar.cc/150?img=8',
-        bio: 'Product designer with interest in smart devices',
-        role: 'user',
-        points: 1100,
-        completedChallenges: 16,
-        joinedDate: '2024-04-28T15:45:00Z',
-        githubUsername: 'hannah_design'
-      }
-    ];
-  };
-
+  
   // Load users from API
   useEffect(() => {
     const loadUsers = async () => {
@@ -138,10 +29,6 @@ const Users = () => {
         setFilteredUsers(fetchedUsers);
       } catch (error) {
         console.error('Error loading users:', error);
-        // Fallback to mock data if API fails
-        const mockUsers = generateMockUsers();
-        setUsers(mockUsers);
-        setFilteredUsers(mockUsers);
       } finally {
         setLoading(false);
       }
