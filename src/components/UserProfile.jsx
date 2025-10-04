@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BsGithub, BsArrowClockwise, BsGit } from 'react-icons/bs';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { userAPI } from '../services/api';
 
 const UserProfile = () => {

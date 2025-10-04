@@ -1,4 +1,5 @@
 import axios from 'axios';
+import User from '../models/user';
 
 const API_BASE_URL = 'http://localhost:9999';
 
@@ -57,7 +58,8 @@ export const authAPI = {
 
     getProfile: async() => {
         const response = await api.get('/api/user/profile');
-        return response.data;
+        // Convert to User model instance
+        return User.fromAPI(response.data);
     }
 };
 
@@ -65,7 +67,7 @@ export const authAPI = {
 export const userAPI = {
     getChallenges: async() => {
         const response = await api.get('/api/user/challenges');
-        return response.data;
+        return Array.isArray(response.data) ? response.data : [];
     },
 
     getSubmissions: async() => {
@@ -79,21 +81,29 @@ export const userAPI = {
     }
 };
 
+
+
 // Admin API calls
 export const adminAPI = {
     // Stats
     getStats: async() => {
         try {
             const response = await api.get('/api/admin/stats');
-            return response.data;
+            const data = response.data?.data || {};
+            return {
+                totalUsers: data.total_users || 0,
+                totalProjects: data.total_projects || 0,
+                totalChallenges: data.total_challenges || 0,
+                activeUsers: data.active_users || 0
+            };
         } catch (error) {
             console.error('Error fetching stats:', error);
             // Return mock data if API fails
             return {
-                totalUsers: 45,
-                totalProjects: 12,
-                totalChallenges: 28,
-                activeUsers: 32
+                totalUsers: 0,
+                totalProjects: 0,
+                totalChallenges: 0,
+                activeUsers: 0
             };
         }
     },
@@ -102,16 +112,21 @@ export const adminAPI = {
     getUsers: async() => {
         try {
             const response = await api.get('/api/admin/users');
-            return response.data;
+            const data = response.data.data;
+            console.log("Fetched users data:", data);
+            // Convert raw API data to User model instances
+            return User.fromAPIArray(data);
         } catch (error) {
             console.error('Error fetching users:', error);
-            // Return mock data if API fails
-            return [
-                { id: 1, username: 'john_doe', email: 'john@example.com', role: 'user', status: 'active' },
-                { id: 2, username: 'jane_smith', email: 'jane@example.com', role: 'user', status: 'active' },
-                { id: 3, username: 'admin_user', email: 'admin@example.com', role: 'admin', status: 'active' }
-            ];
+            return [];
         }
+    },
+
+    createUser: async(userData) => {
+        // If userData is a User instance, convert to JSON
+        const payload = userData instanceof User ? userData.toJSON() : userData;
+        const response = await api.post('/api/admin/users', payload);
+        return User.fromAPI(response.data);
     },
 
     deleteUser: async(userId) => {
@@ -120,15 +135,17 @@ export const adminAPI = {
     },
 
     updateUser: async(userId, userData) => {
-        const response = await api.put(`/api/admin/users/${userId}`, userData);
-        return response.data;
+        // If userData is a User instance, convert to JSON
+        const payload = userData instanceof User ? userData.toJSON() : userData;
+        const response = await api.put(`/api/admin/users/${userId}`, payload);
+        return User.fromAPI(response.data);
     },
 
     // Projects Management
     getProjects: async() => {
         try {
             const response = await api.get('/api/admin/projects');
-            return response.data;
+            return Array.isArray(response.data) ? response.data : [];
         } catch (error) {
             console.error('Error fetching projects:', error);
             // Return mock data if API fails
@@ -170,7 +187,7 @@ export const adminAPI = {
     getChallenges: async() => {
         try {
             const response = await api.get('/api/admin/challenges');
-            return response.data;
+            return Array.isArray(response.data) ? response.data : [];
         } catch (error) {
             console.error('Error fetching challenges:', error);
             // Return mock data if API fails
