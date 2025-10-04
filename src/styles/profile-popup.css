@@ -13,7 +13,7 @@
   position: fixed;
   top: 70px;
   right: 20px;
-  width: 340px;
+  width: 420px;
   background: var(--surface);
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
@@ -152,7 +152,7 @@
 /* Quick Tiles - Android Style */
 .profile-popup-tiles {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding: 20px;
   background: var(--background);
@@ -247,6 +247,10 @@
   z-index: 1;
 }
 
+.profile-popup-tile-wide {
+  grid-column: span 2;
+}
+
 /* Logout Button */
 .profile-popup-logout {
   width: 100%;
@@ -284,7 +288,7 @@
     right: 10px;
     top: 60px;
     width: calc(100vw - 20px);
-    max-width: 340px;
+    max-width: 420px;
   }
 
   .profile-popup-header {

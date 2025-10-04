@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiSun, FiMoon, FiUser, FiLogOut, FiSettings, FiActivity } from 'react-icons/fi';
+import { FiSun, FiMoon, FiUser, FiLogOut, FiSettings, FiActivity, FiAward, FiTarget, FiZap } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import PropTypes from 'prop-types';
 
@@ -94,7 +94,7 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
           {/* Profile Tile */}
           <Link
             to="/profile"
-            className="profile-popup-tile"
+            className="profile-popup-tile profile-popup-tile-wide"
             onClick={onClose}
             title="View Profile"
           >
@@ -117,10 +117,49 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
             <span className="profile-popup-tile-label">Dashboard</span>
           </Link>
 
+          {/* Leaderboard Tile */}
+          <Link
+            to="/leaderboard"
+            className="profile-popup-tile"
+            onClick={onClose}
+            title="Leaderboard"
+          >
+            <div className="profile-popup-tile-icon">
+              <FiAward size={22} />
+            </div>
+            <span className="profile-popup-tile-label">Leaderboard</span>
+          </Link>
+
+          {/* Challenges Tile */}
+          <Link
+            to="/challenges"
+            className="profile-popup-tile"
+            onClick={onClose}
+            title="Challenges"
+          >
+            <div className="profile-popup-tile-icon">
+              <FiTarget size={22} />
+            </div>
+            <span className="profile-popup-tile-label">Challenges</span>
+          </Link>
+
+          {/* Games Tile */}
+          <Link
+            to="/games"
+            className="profile-popup-tile"
+            onClick={onClose}
+            title="Games"
+          >
+            <div className="profile-popup-tile-icon">
+              <FiZap size={22} />
+            </div>
+            <span className="profile-popup-tile-label">Games</span>
+          </Link>
+
           {/* Settings Tile */}
           <Link
             to="/settings"
-            className="profile-popup-tile"
+            className="profile-popup-tile profile-popup-tile-wide"
             onClick={onClose}
             title="Settings"
           >

@@ -18,6 +18,12 @@ import Dashboard from './components/Dashboard';
 import Leaderboard from './components/Leaderboard';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
+import SnakeGame from './components/games/SnakeGame';
+import TetrisGame from './components/games/TetrisGame';
+import PongGame from './components/games/PongGame';
+import BreakoutGame from './components/games/BreakoutGame';
+import MemoryGame from './components/games/MemoryGame';
+import SimonGame from './components/games/SimonGame';
 import './index.css';
 
 function App() {
@@ -102,6 +108,48 @@ function App() {
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <Games />
+                <Footer />
+              </>
+            } />
+            <Route path="/games/snake" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <SnakeGame />
+                <Footer />
+              </>
+            } />
+            <Route path="/games/tetris" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <TetrisGame />
+                <Footer />
+              </>
+            } />
+            <Route path="/games/pong" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <PongGame />
+                <Footer />
+              </>
+            } />
+            <Route path="/games/breakout" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <BreakoutGame />
+                <Footer />
+              </>
+            } />
+            <Route path="/games/memory" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <MemoryGame />
+                <Footer />
+              </>
+            } />
+            <Route path="/games/simon" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <SimonGame />
                 <Footer />
               </>
             } />

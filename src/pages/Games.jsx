@@ -1,236 +1,120 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/games.css';
 
-const GRID_SIZE = 20;
-const CELL_SIZE = 20;
-const INITIAL_SNAKE = [{ x: 10, y: 10 }];
-const INITIAL_DIRECTION = { x: 1, y: 0 };
-const INITIAL_SPEED = 150;
-
 const Games = () => {
-  const [snake, setSnake] = useState(INITIAL_SNAKE);
-  const [food, setFood] = useState({ x: 15, y: 15 });
-  const [direction, setDirection] = useState(INITIAL_DIRECTION);
-  const [gameOver, setGameOver] = useState(false);
-  const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(
-    parseInt(localStorage.getItem('snakeHighScore')) || 0
-  );
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [speed, setSpeed] = useState(INITIAL_SPEED);
-  const directionRef = useRef(direction);
-
-  useEffect(() => {
-    directionRef.current = direction;
-  }, [direction]);
-
-  const generateFood = useCallback(() => {
-    const newFood = {
-      x: Math.floor(Math.random() * GRID_SIZE),
-      y: Math.floor(Math.random() * GRID_SIZE),
-    };
-    return newFood;
-  }, []);
-
-  const resetGame = () => {
-    setSnake(INITIAL_SNAKE);
-    setFood(generateFood());
-    setDirection(INITIAL_DIRECTION);
-    directionRef.current = INITIAL_DIRECTION;
-    setGameOver(false);
-    setScore(0);
-    setIsPlaying(true);
-    setSpeed(INITIAL_SPEED);
-  };
-
-  const checkCollision = useCallback((head, snakeBody) => {
-    // Check wall collision
-    if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
-      return true;
+  const games = [
+    {
+      id: 'snake',
+      title: '🐍 Snake',
+      description: 'Classic Snake game - eat food, grow longer, and avoid hitting yourself!',
+      difficulty: 'Easy',
+      players: '1 Player',
+      year: '1976',
+      color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      path: '/games/snake'
+    },
+    {
+      id: 'tetris',
+      title: '🧱 Tetris',
+      description: 'Stack falling blocks to clear lines. A timeless puzzle classic!',
+      difficulty: 'Medium',
+      players: '1 Player',
+      year: '1984',
+      color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      path: '/games/tetris'
+    },
+    {
+      id: 'pong',
+      title: '🏓 Pong',
+      description: 'The original arcade game! Bounce the ball past your opponent.',
+      difficulty: 'Easy',
+      players: '1-2 Players',
+      year: '1972',
+      color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+      path: '/games/pong'
+    },
+    {
+      id: 'breakout',
+      title: '🎯 Breakout',
+      description: 'Break all the bricks with your paddle and ball. Addictive arcade fun!',
+      difficulty: 'Medium',
+      players: '1 Player',
+      year: '1976',
+      color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+      path: '/games/breakout'
+    },
+    {
+      id: 'memory',
+      title: '🧠 Memory Match',
+      description: 'Test your memory by matching pairs of cards. How fast can you clear the board?',
+      difficulty: 'Easy',
+      players: '1 Player',
+      year: '1959',
+      color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+      path: '/games/memory'
+    },
+    {
+      id: 'simon',
+      title: '🎵 Simon Says',
+      description: 'Remember and repeat the pattern of lights and sounds. Classic memory game!',
+      difficulty: 'Medium',
+      players: '1 Player',
+      year: '1978',
+      color: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+      path: '/games/simon'
     }
-    // Check self collision
-    return snakeBody.some((segment) => segment.x === head.x && segment.y === head.y);
-  }, []);
-
-  useEffect(() => {
-    if (!isPlaying || gameOver) return;
-
-    const moveSnake = () => {
-      setSnake((prevSnake) => {
-        const head = prevSnake[0];
-        const newHead = {
-          x: head.x + directionRef.current.x,
-          y: head.y + directionRef.current.y,
-        };
-
-        if (checkCollision(newHead, prevSnake)) {
-          setGameOver(true);
-          setIsPlaying(false);
-          if (score > highScore) {
-            setHighScore(score);
-            localStorage.setItem('snakeHighScore', score.toString());
-          }
-          return prevSnake;
-        }
-
-        const newSnake = [newHead, ...prevSnake];
-
-        // Check if food is eaten
-        if (newHead.x === food.x && newHead.y === food.y) {
-          setFood(generateFood());
-          setScore((prevScore) => prevScore + 10);
-          // Increase speed slightly
-          setSpeed((prevSpeed) => Math.max(50, prevSpeed - 2));
-          return newSnake;
-        }
-
-        // Remove tail if no food eaten
-        newSnake.pop();
-        return newSnake;
-      });
-    };
-
-    const gameLoop = setInterval(moveSnake, speed);
-    return () => clearInterval(gameLoop);
-  }, [isPlaying, gameOver, food, generateFood, checkCollision, score, highScore, speed]);
-
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (!isPlaying || gameOver) return;
-
-      const key = e.key;
-      const currentDir = directionRef.current;
-
-      switch (key) {
-        case 'ArrowUp':
-          if (currentDir.y === 0) {
-            setDirection({ x: 0, y: -1 });
-          }
-          e.preventDefault();
-          break;
-        case 'ArrowDown':
-          if (currentDir.y === 0) {
-            setDirection({ x: 0, y: 1 });
-          }
-          e.preventDefault();
-          break;
-        case 'ArrowLeft':
-          if (currentDir.x === 0) {
-            setDirection({ x: -1, y: 0 });
-          }
-          e.preventDefault();
-          break;
-        case 'ArrowRight':
-          if (currentDir.x === 0) {
-            setDirection({ x: 1, y: 0 });
-          }
-          e.preventDefault();
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isPlaying, gameOver]);
+  ];
 
   return (
     <div className="games-page">
-      <div className="games-container">
+      <div className="games-hub-container">
         <div className="games-header">
-          <h1 className="games-title">🎮 Snake Game</h1>
-          <p className="games-subtitle">Classic arcade fun! Use arrow keys to control the snake.</p>
+          <h1 className="games-title">🎮 Classic Arcade Games</h1>
+          <p className="games-subtitle">
+            Relive the golden age of gaming with these timeless classics!
+          </p>
         </div>
 
-        <div className="game-stats">
-          <div className="stat-card">
-            <span className="stat-label">Score</span>
-            <span className="stat-value">{score}</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-label">High Score</span>
-            <span className="stat-value">{highScore}</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-label">Length</span>
-            <span className="stat-value">{snake.length}</span>
-          </div>
-        </div>
-
-        <div className="game-board-container">
-          <div
-            className="game-board"
-            style={{
-              gridTemplateColumns: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
-              gridTemplateRows: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
-            }}
-          >
-            {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
-              const x = index % GRID_SIZE;
-              const y = Math.floor(index / GRID_SIZE);
-              const isSnake = snake.some((segment) => segment.x === x && segment.y === y);
-              const isHead = snake[0]?.x === x && snake[0]?.y === y;
-              const isFood = food.x === x && food.y === y;
-
-              return (
-                <div
-                  key={index}
-                  className={`cell ${isSnake ? 'snake' : ''} ${isHead ? 'snake-head' : ''} ${
-                    isFood ? 'food' : ''
-                  }`}
-                />
-              );
-            })}
-          </div>
-
-          {gameOver && (
-            <div className="game-over-overlay">
-              <div className="game-over-content">
-                <h2>Game Over!</h2>
-                <p>Final Score: {score}</p>
-                {score === highScore && score > 0 && (
-                  <p className="new-high-score">🎉 New High Score!</p>
-                )}
+        <div className="games-grid">
+          {games.map((game) => (
+            <Link to={game.path} key={game.id} className="game-card-link">
+              <div className="game-card" style={{ background: game.color }}>
+                <div className="game-card-content">
+                  <h2 className="game-card-title">{game.title}</h2>
+                  <p className="game-card-description">{game.description}</p>
+                  
+                  <div className="game-card-meta">
+                    <span className="game-meta-item">
+                      <span className="meta-icon">⚡</span>
+                      {game.difficulty}
+                    </span>
+                    <span className="game-meta-item">
+                      <span className="meta-icon">👥</span>
+                      {game.players}
+                    </span>
+                    <span className="game-meta-item">
+                      <span className="meta-icon">📅</span>
+                      {game.year}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="game-card-overlay">
+                  <span className="play-button">▶ Play Now</span>
+                </div>
               </div>
-            </div>
-          )}
+            </Link>
+          ))}
         </div>
 
-        <div className="game-controls">
-          {!isPlaying && !gameOver && (
-            <button className="game-btn primary" onClick={resetGame}>
-              Start Game
-            </button>
-          )}
-          {isPlaying && (
-            <button
-              className="game-btn secondary"
-              onClick={() => setIsPlaying(false)}
-            >
-              Pause
-            </button>
-          )}
-          {!isPlaying && gameOver && (
-            <button className="game-btn primary" onClick={resetGame}>
-              Play Again
-            </button>
-          )}
-          {!isPlaying && !gameOver && snake.length > 1 && (
-            <button className="game-btn primary" onClick={() => setIsPlaying(true)}>
-              Resume
-            </button>
-          )}
-        </div>
-
-        <div className="game-instructions">
-          <h3>How to Play</h3>
-          <ul>
-            <li>Use <strong>Arrow Keys</strong> to control the snake</li>
-            <li>Eat the red food to grow longer and score points</li>
-            <li>Don't hit the walls or yourself!</li>
-            <li>The game speeds up as you score more points</li>
-          </ul>
+        <div className="games-info">
+          <h3>🕹️ About These Games</h3>
+          <p>
+            These classic games have stood the test of time, entertaining generations of players
+            since the dawn of video gaming. Each game offers simple yet addictive gameplay that's
+            easy to learn but challenging to master. Whether you're looking for a quick break or
+            trying to beat your high score, these retro favorites never get old!
+          </p>
         </div>
       </div>
     </div>

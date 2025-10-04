@@ -8,166 +8,95 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const { isAuthenticated, user} = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const navItems = [
+    { path: '/', label: 'Home' },
+    { path: '#projects', label: 'Projects' },
+    { path: '#team', label: 'Team' },
+    { path: '#about', label: 'About' },
+    { path: '/events', label: 'Events' },
+    { path: '/resources', label: 'Resources' },
+    { path: '/users', label: 'Users' },
+  ];
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleResize = () => window.innerWidth > 768 && setIsMenuOpen(false);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Close menu when route changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location]);
+  useEffect(() => setIsMenuOpen(false), [location]);
 
-  const toggleProfilePopup = () => {
-    setShowProfilePopup(!showProfilePopup);
+  const closeMenu = () => setIsMenuOpen(false);
+  const isActive = (path) => location.pathname === path;
+
+  const handleHashClick = (hash) => {
+    navigate('/');
+    setTimeout(() => (window.location.hash = hash), 100);
+    closeMenu();
   };
 
-  const closeProfilePopup = () => {
-    setShowProfilePopup(false);
+  const renderNavLink = ({ path, label }) => {
+    const isHash = path.startsWith('#');
+    return (
+      <li key={path}>
+        {isHash ? (
+          <a href={path} className="nav-link" onClick={() => handleHashClick(path.substring(1))}>
+            {label}
+          </a>
+        ) : (
+          <Link to={path} className={`nav-link ${isActive(path) ? 'active' : ''}`} onClick={closeMenu}>
+            {label}
+          </Link>
+        )}
+      </li>
+    );
   };
-
-  const isActivePath = (path) => {
-    return location.pathname === path;
-  };
-
-  const navItems = [
-    { path: '/', label: 'Home', type: 'link' },
-    { path: '#projects', label: 'Projects', type: 'hash' },
-    { path: '#team', label: 'Team', type: 'hash' },
-    { path: '#about', label: 'About', type: 'hash' },
-    { path: '/events', label: 'Events', type: 'link' },
-    { path: '/challenges', label: 'Challenges', type: 'link' },
-    { path: '/resources', label: 'Resources', type: 'link' },
-    { path: '/games', label: 'Games', type: 'link' },
-    { path: '/users', label: 'Users', type: 'link' },
-  ];
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
-        <Link to="/" className="nav-logo" onClick={() => setIsMenuOpen(false)}>
+        <Link to="/" className="nav-logo" onClick={closeMenu}>
           <div className="logo-icon">E</div>
           <span className="logo-text">ESDC</span>
         </Link>
 
-        {/* Desktop Menu */}
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          {navItems.map((item) => (
-            <li key={item.path}>
-              {item.type === 'link' ? (
-                <Link
-                  to={item.path}
-                  className={`nav-link ${isActivePath(item.path) ? 'active' : ''}`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <a
-                  href={item.path}
-                  className="nav-link"
-                  onClick={() => {
-                    navigate('/');
-                    setTimeout(() => (window.location.hash = item.path.substring(1)), 100);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  {item.label}
-                </a>
-              )}
+          {navItems.map(renderNavLink)}
+          {isAuthenticated && user?.role === 'admin' && (
+            <li>
+              <Link to="/admin" className={`nav-link nav-link-admin ${isActive('/admin') ? 'active' : ''}`} onClick={closeMenu}>
+                Admin Panel
+              </Link>
             </li>
-          ))}
-          {isAuthenticated && (
-            <>
-              <li>
-                <Link
-                  to="/dashboard"
-                  className={`nav-link ${isActivePath('/dashboard') ? 'active' : ''}`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/leaderboard"
-                  className={`nav-link ${isActivePath('/leaderboard') ? 'active' : ''}`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Leaderboard
-                </Link>
-              </li>
-              {user?.role === 'admin' && (
-                <li>
-                  <Link
-                    to="/admin"
-                    className={`nav-link nav-link-admin ${isActivePath('/admin') ? 'active' : ''}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Admin Panel
-                  </Link>
-                </li>
-              )}
-            </>
           )}
           <li>
-            <a
-              href="#contact"
-              className="nav-link"
-              onClick={() => {
-                navigate('/');
-                setTimeout(() => (window.location.hash = 'contact'), 100);
-                setIsMenuOpen(false);
-              }}
-            >
+            <a href="#contact" className="nav-link" onClick={() => handleHashClick('contact')}>
               Contact
             </a>
           </li>
         </ul>
 
-        {/* Right side controls */}
         <div className="nav-controls">
-          {/* Auth Buttons */}
           <div className="nav-auth">
             {!isAuthenticated ? (
-              <Link to="/login" className="btn-login" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/login" className="btn-login" onClick={closeMenu}>
                 Login
               </Link>
             ) : (
-              <button
-                onClick={toggleProfilePopup}
-                className="btn-profile-trigger"
-                title="Open profile menu"
-              >
+              <button onClick={() => setShowProfilePopup(!showProfilePopup)} className="btn-profile-trigger" title="Open profile menu">
                 <div className="profile-avatar-small">
                   {user?.avatar_url || user?.avatarUrl || user?.avatar ? (
-                    <img 
-                      src={user.avatar_url || user.avatarUrl || user.avatar} 
-                      alt={user.name || 'Profile'} 
-                    />
+                    <img src={user.avatar_url || user.avatarUrl || user.avatar} alt={user.name || 'Profile'} />
                   ) : (
                     <FiUser />
                   )}
@@ -178,25 +107,14 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
             )}
           </div>
 
-          {/* Hamburger Menu */}
-          <button
-            className={`hamburger ${isMenuOpen ? 'active' : ''}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
+          <button className={`hamburger ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
             {isMenuOpen ? <FiX className="hamburger-icon" /> : <FiMenu className="hamburger-icon" />}
           </button>
         </div>
       </div>
 
-      {/* Profile Popup */}
       {isAuthenticated && showProfilePopup && (
-        <ProfilePopup
-          isDarkMode={isDarkMode}
-          toggleTheme={toggleTheme}
-          onClose={closeProfilePopup}
-        />
+        <ProfilePopup isDarkMode={isDarkMode} toggleTheme={toggleTheme} onClose={() => setShowProfilePopup(false)} />
       )}
     </nav>
   );

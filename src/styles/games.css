@@ -26,6 +26,53 @@
   color: #e0e0e0;
 }
 
+.games-hub-container {
+  max-width: 1200px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .games-hub-container {
+  background: rgba(30, 30, 46, 0.95);
+  color: #e0e0e0;
+}
+
+/* Back Button */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(102, 126, 234, 0.1);
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.back-button:hover {
+  background: #667eea;
+  color: white;
+  transform: translateX(-5px);
+}
+
+.dark-mode .back-button {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00d4ff;
+  color: #00d4ff;
+}
+
+.dark-mode .back-button:hover {
+  background: #00d4ff;
+  color: #1a1a2e;
+}
+
 .games-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -325,18 +372,437 @@
   color: #00d4ff;
 }
 
+/* Games Grid - Hub Page */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.game-card-link {
+  text-decoration: none;
+  display: block;
+}
+
+.game-card {
+  position: relative;
+  padding: 2rem;
+  border-radius: 15px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.game-card-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+
+.game-card-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-card-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+}
+
+.game-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.game-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.meta-icon {
+  font-size: 1rem;
+}
+
+.game-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover .game-card-overlay {
+  opacity: 1;
+}
+
+.play-button {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: pulse 2s infinite;
+}
+
+.games-info {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+  margin-top: 1rem;
+}
+
+.dark-mode .games-info {
+  background: rgba(0, 212, 255, 0.1);
+  border-left-color: #00d4ff;
+}
+
+.games-info h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #667eea;
+}
+
+.dark-mode .games-info h3 {
+  color: #00d4ff;
+}
+
+.games-info p {
+  margin: 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+.dark-mode .games-info p {
+  color: #aaa;
+}
+
+/* Tetris Specific Styles */
+.tetris-board {
+  background: #1a1a2e;
+  border: 3px solid #667eea;
+  border-radius: 8px;
+  padding: 2px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .tetris-board {
+  border-color: #00d4ff;
+}
+
+.tetris-row {
+  display: flex;
+}
+
+.tetris-cell {
+  width: 25px;
+  height: 25px;
+  box-sizing: border-box;
+}
+
+/* Pong Specific Styles */
+.pong-canvas {
+  position: relative;
+  background: #0a0a0a;
+  border: 3px solid #667eea;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+}
+
+.dark-mode .pong-canvas {
+  border-color: #00d4ff;
+}
+
+.pong-center-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.3) 0px,
+    rgba(255, 255, 255, 0.3) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+.pong-paddle {
+  position: absolute;
+  background: white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.pong-ball {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.pong-stats {
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+/* Breakout Specific Styles */
+.breakout-canvas {
+  position: relative;
+  background: #0a0a0a;
+  border: 3px solid #667eea;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+}
+
+.dark-mode .breakout-canvas {
+  border-color: #00d4ff;
+}
+
+.breakout-brick {
+  position: absolute;
+  border-radius: 4px;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.breakout-paddle {
+  position: absolute;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.8);
+}
+
+.dark-mode .breakout-paddle {
+  background: linear-gradient(135deg, #00d4ff 0%, #7b2ff7 100%);
+}
+
+.breakout-ball {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Memory Game Specific Styles */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 3rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.memory-card-front {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: bold;
+}
+
+.dark-mode .memory-card-front {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+
+.memory-card-back {
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+  transform: rotateY(180deg);
+}
+
+.memory-card.matched .memory-card-back {
+  background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+  animation: matchPulse 0.5s ease;
+}
+
+@keyframes matchPulse {
+  0%, 100% {
+    transform: rotateY(180deg) scale(1);
+  }
+  50% {
+    transform: rotateY(180deg) scale(1.1);
+  }
+}
+
+/* Simon Game Specific Styles */
+.simon-board {
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.simon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+  background: #1a1a1a;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.simon-button {
+  aspect-ratio: 1;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+  min-height: 150px;
+}
+
+.simon-button:nth-child(1) {
+  border-top-left-radius: 100%;
+}
+
+.simon-button:nth-child(2) {
+  border-top-right-radius: 100%;
+}
+
+.simon-button:nth-child(3) {
+  border-bottom-left-radius: 100%;
+}
+
+.simon-button:nth-child(4) {
+  border-bottom-right-radius: 100%;
+}
+
+.simon-button.active {
+  box-shadow: 0 0 30px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.5);
+  transform: scale(0.98);
+}
+
+.simon-button:not(.disabled):hover {
+  filter: brightness(1.1);
+}
+
+.simon-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.simon-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: #2d2d2d;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #1a1a1a;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.simon-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.simon-status {
+  font-size: 0.8rem;
+  color: #00ff00;
+  margin-top: 0.5rem;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.simon-stats {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .games-page {
     padding: 1rem;
   }
 
-  .games-container {
+  .games-container,
+  .games-hub-container {
     padding: 1.5rem;
   }
 
   .games-title {
     font-size: 2rem;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
   }
 
   .game-stats {
@@ -351,6 +817,25 @@
 
   .game-board {
     transform: scale(0.8);
+  }
+
+  .pong-canvas,
+  .breakout-canvas {
+    transform: scale(0.7);
+  }
+
+  .memory-grid {
+    gap: 0.5rem;
+    max-width: 350px;
+  }
+
+  .memory-card-front,
+  .memory-card-back {
+    font-size: 2rem;
+  }
+
+  .simon-button {
+    min-height: 100px;
   }
 
   .game-controls {
@@ -371,7 +856,42 @@
     transform: scale(0.6);
   }
 
+  .pong-canvas,
+  .breakout-canvas {
+    transform: scale(0.5);
+  }
+
   .stat-value {
     font-size: 1.5rem;
+  }
+
+  .game-card-title {
+    font-size: 1.5rem;
+  }
+
+  .game-card-description {
+    font-size: 0.85rem;
+  }
+
+  .memory-grid {
+    max-width: 280px;
+  }
+
+  .tetris-cell {
+    width: 18px;
+    height: 18px;
+  }
+
+  .simon-button {
+    min-height: 80px;
+  }
+
+  .simon-center {
+    width: 80px;
+    height: 80px;
+  }
+
+  .simon-logo {
+    font-size: 1rem;
   }
 }
