@@ -103,6 +103,15 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
               Resources
             </Link>
           </li>
+          <li>
+            <Link 
+              to="/users" 
+              className="nav-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Users
+            </Link>
+          </li>
           {isAuthenticated && (
             <>
               <li>

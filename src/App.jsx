@@ -9,6 +9,7 @@ import Challenges from './pages/Challenges';
 import Resources from './pages/Resources';
 import AdminPanel from './pages/AdminPanel';
 import ProfileCardDemo from './pages/ProfileCardDemo';
+import Users from './pages/Users';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserProfile from './components/UserProfile';
@@ -119,6 +120,13 @@ function App() {
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <ProfileCardDemo />
+                <Footer />
+              </>
+            } />
+            <Route path="/users" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Users />
                 <Footer />
               </>
             } />
