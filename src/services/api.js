@@ -1,7 +1,9 @@
 import axios from 'axios';
 import User from '../models/user';
 
-const API_BASE_URL = 'http://localhost:9999';
+// const API_BASE_URL = 'http://localhost:9999';
+
+const API_BASE_URL = 'https://esdc-backend.onrender.com';
 
 // Create axios instance with default config
 const api = axios.create({
