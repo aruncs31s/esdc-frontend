@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaTrophy, FaCode, FaComments } from 'react-icons/fa';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { useAuth } from '../contexts/AuthContext';
+import Navbar from './Navbar';
 
 const Login = ({ isDarkMode, toggleTheme }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -11,11 +12,6 @@ const Login = ({ isDarkMode, toggleTheme }) => {
   const [error, setError] = useState('');
   const { login, logout, isAuthenticated, user, loading } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -44,91 +40,9 @@ const Login = ({ isDarkMode, toggleTheme }) => {
       setIsLoading(false);
     }
   };
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerHeight = document.querySelector('.navbar')?.offsetHeight || 0;
-      const targetPosition = element.offsetTop - headerHeight;
-
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="login-page">
-        <nav className="navbar">
-          <div className="nav-container">
-            <div className="nav-logo">
-              <h2>ESDC</h2>
-            </div>
-            <ul className="nav-menu">
-              <li><a href="#home" className="nav-link" onClick={() => scrollToSection('home')}>Home</a></li>
-              <li><a href="#about" className="nav-link" onClick={() => scrollToSection('about')}>About</a></li>
-              <li><a href="#projects" className="nav-link" onClick={() => scrollToSection('projects')}>Projects</a></li>
-              <li><a href="#team" className="nav-link" onClick={() => scrollToSection('team')}>Team</a></li>
-              <li><a href="#contact" className="nav-link" onClick={() => scrollToSection('contact')}>Contact</a></li>
-            </ul>
-            <div className="theme-toggle">
-              <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
-                {isDarkMode ? <FiSun className="theme-icon" /> : <FiMoon className="theme-icon" />}
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        <section className="hero" style={{ minHeight: 'calc(100vh - 200px)', display: 'flex', alignItems: 'center' }}>
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-md-6 col-lg-5">
-                <div className="about-card" style={{ padding: '3rem', textAlign: 'center' }}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                  <p className="mt-3 text-muted">Checking authentication...</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
   return (
     <div className="login-page">
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-logo">
-            <h2>ESDC</h2>
-          </div>
-          <ul className="nav-menu">
-            <li><a href="#home" className="nav-link" onClick={() => scrollToSection('home')}>Home</a></li>
-            <li><a href="#about" className="nav-link" onClick={() => scrollToSection('about')}>About</a></li>
-            <li><a href="#projects" className="nav-link" onClick={() => scrollToSection('projects')}>Projects</a></li>
-            <li><a href="#team" className="nav-link" onClick={() => scrollToSection('team')}>Team</a></li>
-            <li><a href="#contact" className="nav-link" onClick={() => scrollToSection('contact')}>Contact</a></li>
-            {!isAuthenticated && (
-              <li><span className="nav-link active">Login</span></li>
-            )}
-            {isAuthenticated && (
-              <>
-                <li><a href="#profile" className="nav-link">Profile</a></li>
-                <li><button className="nav-link btn-link" onClick={handleLogout}>Logout</button></li>
-              </>
-            )}
-          </ul>
-          <div className="theme-toggle">
-            <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
-              {isDarkMode ? <FiSun className="theme-icon" /> : <FiMoon className="theme-icon" />}
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
 
       <section className="hero" style={{ minHeight: 'calc(100vh - 200px)', display: 'flex', alignItems: 'center' }}>
         <div className="container">
