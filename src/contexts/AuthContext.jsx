@@ -24,21 +24,30 @@ export const AuthProvider = ({ children }) => {
       const userData = localStorage.getItem('user_data');
       
       if (token && userData) {
-        setUser(JSON.parse(userData));
+        const parsedUserData = JSON.parse(userData);
+        setUser(parsedUserData);
         setIsAuthenticated(true);
         
-        // Verify token with backend
+        // Verify token with backend (optional - only clears if 401/403)
         try {
           const profile = await authAPI.getProfile();
-          setUser(profile.user);
+          if (profile.user) {
+            setUser(profile.user);
+            // Update stored user data with fresh data from backend
+            localStorage.setItem('user_data', JSON.stringify(profile.user));
+          }
         } catch (err) {
           console.error('Token verification failed:', err);
-          // Token invalid, clear auth
-          clearAuth();
+          // Only clear auth if it's an authentication error (401/403)
+          if (err.response?.status === 401 || err.response?.status === 403) {
+            clearAuth();
+          }
+          // For other errors (network issues, etc.), keep the user logged in locally
         }
       }
     } catch (err) {
       console.error('Auth check failed:', err);
+      clearAuth();
     } finally {
       setLoading(false);
     }
@@ -60,11 +69,16 @@ const login = async (credentials) => {
       // Decode the JWT to get claims
       const decoded = jwtDecode(token);
       console.log("Decoded JWT:", decoded);
-      setUser({
+      const userData = {
         email: decoded.sub,
         username: decoded.user,
         role: decoded.role
-      });
+      };
+      
+      // Store user data in localStorage for persistence
+      localStorage.setItem('user_data', JSON.stringify(userData));
+      
+      setUser(userData);
       setIsAuthenticated(true);
 
       return { success: true };

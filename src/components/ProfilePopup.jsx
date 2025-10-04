@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiSun, FiMoon, FiUser, FiLogOut, FiSettings, FiActivity, FiAward, FiTarget, FiZap } from 'react-icons/fi';
-import { FaGithub, FaExternalLinkAlt, FaStar, FaUsers, FaPlus } from 'react-icons/fa';
+import { FiSun, FiMoon, FiUser, FiLogOut, FiSettings, FiActivity, FiAward, FiTarget, FiZap, FiFolder, FiShoppingBag, FiGlobe } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import PropTypes from 'prop-types';
+import './ProfilePopup.css';
 
 /**
  * ProfilePopup Component
@@ -12,35 +12,7 @@ import PropTypes from 'prop-types';
 const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
   const { user, logout } = useAuth();
   const [imageError, setImageError] = useState(false);
-  const [projects, setProjects] = useState([]);
   const popupRef = useRef(null);
-
-  // Fetch projects
-  useEffect(() => {
-    setProjects([
-      {
-        id: 1,
-        title: 'Smart Home Automation',
-        description: 'IoT-based home automation system using ESP32',
-        technologies: ['ESP32', 'Arduino', 'MQTT'],
-        githubUrl: 'https://github.com/user/smart-home',
-        liveUrl: 'https://smarthome-demo.com',
-        stars: 24,
-        collaborators: 3,
-        status: 'completed'
-      },
-      {
-        id: 2,
-        title: 'LED Matrix Display',
-        description: 'Programmable LED matrix with animations',
-        technologies: ['Arduino', 'C++'],
-        githubUrl: 'https://github.com/user/led-matrix',
-        stars: 15,
-        collaborators: 1,
-        status: 'in-progress'
-      }
-    ]);
-  }, []);
 
   // Close popup when clicking outside
   useEffect(() => {
@@ -198,53 +170,33 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
           </Link>
         </div>
 
-        {/* My Projects Section */}
+        {/* Quick Links Section */}
         <div className="profile-popup-projects">
           <div className="profile-popup-projects-header">
-            <h4>My Projects</h4>
-            <button className="btn-add-project-small">
-              <FaPlus size={14} />
-            </button>
+            <h4>Quick Links</h4>
           </div>
-          <div className="profile-popup-projects-list">
-            {projects.map((project) => (
-              <div key={project.id} className="project-card-mini">
-                <div className="project-card-mini-header">
-                  <h5>{project.title}</h5>
-                  <span className={`project-status-mini ${project.status}`}>
-                    {project.status === 'completed' ? '✓' : '⏳'}
-                  </span>
-                </div>
-                <p className="project-card-mini-desc">{project.description}</p>
-                <div className="project-tech-mini">
-                  {project.technologies.slice(0, 3).map((tech, index) => (
-                    <span key={index} className="tech-tag-mini">{tech}</span>
-                  ))}
-                </div>
-                <div className="project-stats-mini">
-                  <div className="stat-item-mini">
-                    <FaStar size={12} />
-                    <span>{project.stars}</span>
-                  </div>
-                  <div className="stat-item-mini">
-                    <FaUsers size={12} />
-                    <span>{project.collaborators}</span>
-                  </div>
-                  <div className="project-links-mini">
-                    {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <FaGithub size={14} />
-                      </a>
-                    )}
-                    {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <FaExternalLinkAlt size={12} />
-                      </a>
-                    )}
-                  </div>
-                </div>
+          <div className="profile-popup-quick-links">
+            <Link to="/projects" className="quick-link-item" onClick={onClose}>
+              <div className="quick-link-icon"><FiFolder size={28} /></div>
+              <div className="quick-link-text">
+                <h5>My Projects</h5>
+                <p>View and manage your projects</p>
               </div>
-            ))}
+            </Link>
+            <Link to="/my-products" className="quick-link-item" onClick={onClose}>
+              <div className="quick-link-icon"><FiShoppingBag size={28} /></div>
+              <div className="quick-link-text">
+                <h5>My Products</h5>
+                <p>Manage your products and sales</p>
+              </div>
+            </Link>
+            <Link to="/community-projects" className="quick-link-item" onClick={onClose}>
+              <div className="quick-link-icon"><FiGlobe size={28} /></div>
+              <div className="quick-link-text">
+                <h5>Community Projects</h5>
+                <p>Explore community projects</p>
+              </div>
+            </Link>
           </div>
         </div>
 

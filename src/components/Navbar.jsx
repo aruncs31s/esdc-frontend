@@ -14,7 +14,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '#projects', label: 'Projects' },
+    { path: '/community-projects', label: 'Projects' },
     { path: '#team', label: 'Team' },
     { path: '#about', label: 'About' },
     { path: '/events', label: 'Events' },
@@ -23,11 +23,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
     { path: '/users', label: 'Users' },
   ];
 
-  const authNavItems = [
-    { path: '/projects', label: 'My Projects' },
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/leaderboard', label: 'Leaderboard' },
-  ];
+  const authNavItems = [];
 
   useEffect(() => {
     const handleResize = () => window.innerWidth > 768 && setIsMenuOpen(false);

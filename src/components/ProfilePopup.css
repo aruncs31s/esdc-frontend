@@ -1,0 +1,45 @@
+.profile-popup-quick-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quick-link-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid var(--surface0);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s ease;
+}
+
+.quick-link-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--blue);
+    transform: translateX(5px);
+}
+
+.quick-link-icon {
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+}
+
+.quick-link-text h5 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.quick-link-text p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--subtext0);
+}

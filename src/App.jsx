@@ -8,6 +8,8 @@ import Events from './pages/Events';
 import Challenges from './pages/Challenges';
 import Resources from './pages/Resources';
 import Products from './pages/Products';
+import Projects from './pages/Projects';
+import MyProducts from './pages/MyProducts';
 import Games from './pages/Games';
 import AdminPanel from './pages/AdminPanel';
 import ProfileCardPage from './pages/ProfileCardPage';
@@ -110,6 +112,20 @@ function App() {
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <Products />
+                <Footer />
+              </>
+            } />
+            <Route path="/my-products" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <MyProducts />
+                <Footer />
+              </>
+            } />
+            <Route path="/community-projects" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Projects />
                 <Footer />
               </>
             } />

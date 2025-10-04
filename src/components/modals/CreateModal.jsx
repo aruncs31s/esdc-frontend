@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { adminAPI } from '../../services/api';
 import { createUser, USER_ROLES, USER_STATUS } from '../../models/user';
 import { FaTimes, FaFileAlt, FaLink, FaBullseye, FaTrophy, FaBolt, FaCircle, FaHourglassHalf, FaPlus, FaUser, FaEnvelope, FaUserShield, FaToggleOn } from 'react-icons/fa';
+import { FiLock, FiShield, FiInfo, FiFileText } from 'react-icons/fi';
 
 const CreateModal = ({ type, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({});
@@ -211,7 +212,7 @@ const CreateModal = ({ type, onClose, onSuccess }) => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
                 <div>
                   <label style={labelStyle}>
-                    🔒 Password
+                    <FiLock style={{ marginRight: '0.5rem', color: 'var(--red)' }} /> Password
                   </label>
                   <input
                     type="password"
@@ -226,7 +227,7 @@ const CreateModal = ({ type, onClose, onSuccess }) => {
                 </div>
                 <div>
                   <label style={labelStyle}>
-                    🔐 Confirm Password
+                    <FiShield style={{ marginRight: '0.5rem', color: 'var(--red)' }} /> Confirm Password
                   </label>
                   <input
                     type="password"
@@ -332,17 +333,23 @@ const CreateModal = ({ type, onClose, onSuccess }) => {
                   margin: 0, 
                   fontSize: '0.85rem', 
                   color: 'var(--subtext0)',
-                  lineHeight: '1.5'
+                  lineHeight: '1.5',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
                 }}>
-                  💡 <strong>Password Requirements:</strong> Minimum 8 characters. Both password fields must match.
+                  <FiLock style={{ color: 'var(--blue)' }} /> <strong>Password Requirements:</strong> Minimum 8 characters. Both password fields must match.
                 </p>
                 <p style={{ 
                   margin: '0.5rem 0 0 0', 
                   fontSize: '0.85rem', 
                   color: 'var(--subtext0)',
-                  lineHeight: '1.5'
+                  lineHeight: '1.5',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
                 }}>
-                  📋 <strong>User Info:</strong> Username (min 3 chars), valid email format, and role/status selection.
+                  <FiInfo style={{ color: 'var(--blue)' }} /> <strong>User Info:</strong> Username (min 3 chars), valid email format, and role/status selection.
                 </p>
               </div>
             </>
@@ -363,7 +370,7 @@ const CreateModal = ({ type, onClose, onSuccess }) => {
                 />
               </div>
               <div style={{ marginBottom: '1.5rem' }}>
-                <label style={labelStyle}>📄 Description</label>
+                <label style={labelStyle}><FiFileText style={{ marginRight: '0.5rem', color: 'var(--mauve)' }} /> Description</label>
                 <textarea
                   required
                   rows={4}

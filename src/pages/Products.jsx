@@ -7,7 +7,7 @@ const Products = () => {
       id: 1,
       name: 'Arduino Starter Kit',
       price: 45.99,
-      image: '/products/arduino-kit.jpg',
+      image: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?w=400&h=300&fit=crop',
       description: 'Complete Arduino starter kit with sensors, LEDs, and components',
       category: 'Hardware'
     },
@@ -15,7 +15,7 @@ const Products = () => {
       id: 2,
       name: 'Raspberry Pi 4',
       price: 75.00,
-      image: '/products/raspberry-pi.jpg',
+      image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&h=300&fit=crop',
       description: 'Raspberry Pi 4 Model B with 4GB RAM',
       category: 'Hardware'
     },
@@ -23,7 +23,7 @@ const Products = () => {
       id: 3,
       name: 'ESP32 Development Board',
       price: 12.99,
-      image: '/products/esp32.jpg',
+      image: 'https://images.unsplash.com/photo-1608564697071-ddf911d81370?w=400&h=300&fit=crop',
       description: 'WiFi and Bluetooth enabled microcontroller',
       category: 'Hardware'
     },
@@ -31,7 +31,7 @@ const Products = () => {
       id: 4,
       name: 'Sensor Kit',
       price: 29.99,
-      image: '/products/sensor-kit.jpg',
+      image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop',
       description: '37-in-1 sensor module kit for Arduino',
       category: 'Components'
     },
@@ -39,7 +39,7 @@ const Products = () => {
       id: 5,
       name: 'Soldering Station',
       price: 89.99,
-      image: '/products/soldering.jpg',
+      image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop',
       description: 'Digital temperature controlled soldering station',
       category: 'Tools'
     },
@@ -47,7 +47,7 @@ const Products = () => {
       id: 6,
       name: 'Breadboard Set',
       price: 15.99,
-      image: '/products/breadboard.jpg',
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop',
       description: 'Solderless breadboard with jumper wires',
       category: 'Components'
     }
@@ -69,16 +69,11 @@ const Products = () => {
           {products.map((product) => (
             <div key={product.id} className="project-card">
               <div className="project-image">
-                <div style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  fontSize: '4rem'
-                }}>
-                  📦
-                </div>
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
               </div>
               <div className="project-content">
                 <h3>{product.name}</h3>
