@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { GiBreakingChain } from 'react-icons/gi';
+import { FaTrophy } from 'react-icons/fa';
 import '../../styles/games.css';
 
 const BreakoutGame = () => {
@@ -179,7 +181,7 @@ const BreakoutGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title">🎯 Breakout</h1>
+          <h1 className="games-title"><GiBreakingChain /> Breakout</h1>
           <p className="games-subtitle">Break all the bricks to win!</p>
         </div>
 
@@ -251,10 +253,10 @@ const BreakoutGame = () => {
             {gameOver && (
               <div className="game-over-overlay">
                 <div className="game-over-content">
-                  <h2>{won ? 'You Win! 🎉' : 'Game Over!'}</h2>
+                  <h2>{won ? <><FaTrophy /> You Win!</> : 'Game Over!'}</h2>
                   <p>Final Score: {score}</p>
                   {score === highScore && score > 0 && (
-                    <p className="new-high-score">🎉 New High Score!</p>
+                    <p className="new-high-score"><FaTrophy /> New High Score!</p>
                   )}
                 </div>
               </div>

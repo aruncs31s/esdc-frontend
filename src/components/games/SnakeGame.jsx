@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { GiSnake } from 'react-icons/gi';
+import { FaTrophy } from 'react-icons/fa';
 import '../../styles/games.css';
 
 const GRID_SIZE = 20;
@@ -139,7 +141,7 @@ const SnakeGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title">🐍 Snake Game</h1>
+          <h1 className="games-title"><GiSnake /> Snake Game</h1>
           <p className="games-subtitle">Classic arcade fun! Use arrow keys to control the snake.</p>
         </div>
 
@@ -190,7 +192,7 @@ const SnakeGame = () => {
                 <h2>Game Over!</h2>
                 <p>Final Score: {score}</p>
                 {score === highScore && score > 0 && (
-                  <p className="new-high-score">🎉 New High Score!</p>
+                  <p className="new-high-score"><FaTrophy /> New High Score!</p>
                 )}
               </div>
             </div>

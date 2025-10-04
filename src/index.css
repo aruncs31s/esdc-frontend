@@ -11,9 +11,11 @@
 @import "./styles/profile.css";
 @import "./styles/profile-popup.css";
 @import "./styles/dashboard.css";
+@import "./styles/user-projects.css";
 @import "./styles/leaderboard.css";
 @import "./styles/events.css";
 @import "./styles/resources.css";
+@import "./styles/products.css";
 @import "./styles/bootstrap-overrides.css";
 @import "./styles/responsive.css";
 @import "./styles/accessibility.css";

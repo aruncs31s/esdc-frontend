@@ -19,7 +19,14 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
     { path: '#about', label: 'About' },
     { path: '/events', label: 'Events' },
     { path: '/resources', label: 'Resources' },
+    { path: '/products', label: 'Products' },
     { path: '/users', label: 'Users' },
+  ];
+
+  const authNavItems = [
+    { path: '/projects', label: 'My Projects' },
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/leaderboard', label: 'Leaderboard' },
   ];
 
   useEffect(() => {
@@ -72,6 +79,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           {navItems.map(renderNavLink)}
+          {isAuthenticated && authNavItems.map(renderNavLink)}
           {isAuthenticated && user?.role === 'admin' && (
             <li>
               <Link to="/admin" className={`nav-link nav-link-admin ${isActive('/admin') ? 'active' : ''}`} onClick={closeMenu}>

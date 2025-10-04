@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { GiPingPongBat } from 'react-icons/gi';
 import '../../styles/games.css';
 
 const PongGame = () => {
@@ -149,7 +150,7 @@ const PongGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title">🏓 Pong</h1>
+          <h1 className="games-title"><GiPingPongBat /> Pong</h1>
           <p className="games-subtitle">The classic arcade game! First to {WINNING_SCORE} wins!</p>
         </div>
 

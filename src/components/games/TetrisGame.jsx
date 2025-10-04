@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { GiBrickWall } from 'react-icons/gi';
+import { FaTrophy } from 'react-icons/fa';
 import '../../styles/games.css';
 
 const ROWS = 20;
@@ -221,7 +223,7 @@ const TetrisGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title">🧱 Tetris</h1>
+          <h1 className="games-title"><GiBrickWall /> Tetris</h1>
           <p className="games-subtitle">Stack the blocks and clear lines!</p>
         </div>
 
@@ -269,7 +271,7 @@ const TetrisGame = () => {
                 <p>Final Score: {score}</p>
                 <p>Lines Cleared: {lines}</p>
                 {score === highScore && score > 0 && (
-                  <p className="new-high-score">🎉 New High Score!</p>
+                  <p className="new-high-score"><FaTrophy /> New High Score!</p>
                 )}
               </div>
             </div>

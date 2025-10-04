@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { GiGamepad, GiDart, GiDiceSixFacesFive, GiTrophy, GiPalette, GiTheaterCurtains, GiGuitar, GiGrandPiano } from 'react-icons/gi';
+import { GiBrain } from 'react-icons/gi';
+import { FaTrophy } from 'react-icons/fa';
 import '../../styles/games.css';
 
-const EMOJIS = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎸', '🎹'];
+const ICONS = [
+  <GiGamepad key="gamepad" />,
+  <GiDart key="dart" />,
+  <GiDiceSixFacesFive key="dice" />,
+  <GiTrophy key="trophy" />,
+  <GiPalette key="palette" />,
+  <GiTheaterCurtains key="theater" />,
+  <GiGuitar key="guitar" />,
+  <GiGrandPiano key="piano" />
+];
 
 const MemoryGame = () => {
   const [cards, setCards] = useState([]);
@@ -16,9 +28,9 @@ const MemoryGame = () => {
   const [bestMoves, setBestMoves] = useState(parseInt(localStorage.getItem('memoryBestMoves')) || 0);
 
   const initGame = () => {
-    const shuffled = [...EMOJIS, ...EMOJIS]
+    const shuffled = [...ICONS, ...ICONS]
       .sort(() => Math.random() - 0.5)
-      .map((emoji, index) => ({ id: index, emoji, flipped: false }));
+      .map((icon, index) => ({ id: index, icon, flipped: false }));
     setCards(shuffled);
     setFlipped([]);
     setMatched([]);
@@ -41,7 +53,7 @@ const MemoryGame = () => {
   useEffect(() => {
     if (flipped.length === 2) {
       const [first, second] = flipped;
-      if (cards[first].emoji === cards[second].emoji) {
+      if (cards[first].icon.key === cards[second].icon.key) {
         setMatched(prev => [...prev, first, second]);
         setFlipped([]);
         
@@ -92,7 +104,7 @@ const MemoryGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title">🧠 Memory Match</h1>
+          <h1 className="games-title"><GiBrain /> Memory Match</h1>
           <p className="games-subtitle">Find all matching pairs!</p>
         </div>
 
@@ -127,7 +139,7 @@ const MemoryGame = () => {
               >
                 <div className="memory-card-inner">
                   <div className="memory-card-front">?</div>
-                  <div className="memory-card-back">{card.emoji}</div>
+                  <div className="memory-card-back">{card.icon}</div>
                 </div>
               </div>
             ))}
@@ -136,11 +148,11 @@ const MemoryGame = () => {
           {gameOver && (
             <div className="game-over-overlay">
               <div className="game-over-content">
-                <h2>Congratulations! 🎉</h2>
+                <h2><FaTrophy /> Congratulations!</h2>
                 <p>Time: {formatTime(time)}</p>
                 <p>Moves: {moves}</p>
                 {(time === bestTime || moves === bestMoves) && (
-                  <p className="new-high-score">🏆 New Record!</p>
+                  <p className="new-high-score"><FaTrophy /> New Record!</p>
                 )}
               </div>
             </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FiSun, FiMoon, FiUser, FiLogOut, FiSettings, FiActivity, FiAward, FiTarget, FiZap } from 'react-icons/fi';
+import { FaGithub, FaExternalLinkAlt, FaStar, FaUsers, FaPlus } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,35 @@ import PropTypes from 'prop-types';
 const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
   const { user, logout } = useAuth();
   const [imageError, setImageError] = useState(false);
+  const [projects, setProjects] = useState([]);
   const popupRef = useRef(null);
+
+  // Fetch projects
+  useEffect(() => {
+    setProjects([
+      {
+        id: 1,
+        title: 'Smart Home Automation',
+        description: 'IoT-based home automation system using ESP32',
+        technologies: ['ESP32', 'Arduino', 'MQTT'],
+        githubUrl: 'https://github.com/user/smart-home',
+        liveUrl: 'https://smarthome-demo.com',
+        stars: 24,
+        collaborators: 3,
+        status: 'completed'
+      },
+      {
+        id: 2,
+        title: 'LED Matrix Display',
+        description: 'Programmable LED matrix with animations',
+        technologies: ['Arduino', 'C++'],
+        githubUrl: 'https://github.com/user/led-matrix',
+        stars: 15,
+        collaborators: 1,
+        status: 'in-progress'
+      }
+    ]);
+  }, []);
 
   // Close popup when clicking outside
   useEffect(() => {
@@ -21,7 +50,6 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
       }
     };
 
-    // Add event listener with a small delay to prevent immediate close
     const timer = setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
     }, 100);
@@ -168,6 +196,56 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
             </div>
             <span className="profile-popup-tile-label">Settings</span>
           </Link>
+        </div>
+
+        {/* My Projects Section */}
+        <div className="profile-popup-projects">
+          <div className="profile-popup-projects-header">
+            <h4>My Projects</h4>
+            <button className="btn-add-project-small">
+              <FaPlus size={14} />
+            </button>
+          </div>
+          <div className="profile-popup-projects-list">
+            {projects.map((project) => (
+              <div key={project.id} className="project-card-mini">
+                <div className="project-card-mini-header">
+                  <h5>{project.title}</h5>
+                  <span className={`project-status-mini ${project.status}`}>
+                    {project.status === 'completed' ? '✓' : '⏳'}
+                  </span>
+                </div>
+                <p className="project-card-mini-desc">{project.description}</p>
+                <div className="project-tech-mini">
+                  {project.technologies.slice(0, 3).map((tech, index) => (
+                    <span key={index} className="tech-tag-mini">{tech}</span>
+                  ))}
+                </div>
+                <div className="project-stats-mini">
+                  <div className="stat-item-mini">
+                    <FaStar size={12} />
+                    <span>{project.stars}</span>
+                  </div>
+                  <div className="stat-item-mini">
+                    <FaUsers size={12} />
+                    <span>{project.collaborators}</span>
+                  </div>
+                  <div className="project-links-mini">
+                    {project.githubUrl && (
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                        <FaGithub size={14} />
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                        <FaExternalLinkAlt size={12} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Logout Button */}

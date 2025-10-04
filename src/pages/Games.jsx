@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
+import { GiSnake, GiBrickWall, GiPingPongBat, GiBreakingChain, GiBrain, GiMusicalNotes, GiGamepad, GiJoystick } from 'react-icons/gi';
+import { IoFlash, IoPeople, IoCalendar } from 'react-icons/io5';
+import { FaTrophy } from 'react-icons/fa';
 import '../styles/games.css';
 
 const Games = () => {
   const games = [
     {
       id: 'snake',
-      title: '🐍 Snake',
+      title: <><GiSnake /> Snake</>,
       description: 'Classic Snake game - eat food, grow longer, and avoid hitting yourself!',
       difficulty: 'Easy',
       players: '1 Player',
@@ -15,7 +18,7 @@ const Games = () => {
     },
     {
       id: 'tetris',
-      title: '🧱 Tetris',
+      title: <><GiBrickWall /> Tetris</>,
       description: 'Stack falling blocks to clear lines. A timeless puzzle classic!',
       difficulty: 'Medium',
       players: '1 Player',
@@ -25,7 +28,7 @@ const Games = () => {
     },
     {
       id: 'pong',
-      title: '🏓 Pong',
+      title: <><GiPingPongBat /> Pong</>,
       description: 'The original arcade game! Bounce the ball past your opponent.',
       difficulty: 'Easy',
       players: '1-2 Players',
@@ -35,7 +38,7 @@ const Games = () => {
     },
     {
       id: 'breakout',
-      title: '🎯 Breakout',
+      title: <><GiBreakingChain /> Breakout</>,
       description: 'Break all the bricks with your paddle and ball. Addictive arcade fun!',
       difficulty: 'Medium',
       players: '1 Player',
@@ -45,7 +48,7 @@ const Games = () => {
     },
     {
       id: 'memory',
-      title: '🧠 Memory Match',
+      title: <><GiBrain /> Memory Match</>,
       description: 'Test your memory by matching pairs of cards. How fast can you clear the board?',
       difficulty: 'Easy',
       players: '1 Player',
@@ -55,7 +58,7 @@ const Games = () => {
     },
     {
       id: 'simon',
-      title: '🎵 Simon Says',
+      title: <><GiMusicalNotes /> Simon Says</>,
       description: 'Remember and repeat the pattern of lights and sounds. Classic memory game!',
       difficulty: 'Medium',
       players: '1 Player',
@@ -69,7 +72,7 @@ const Games = () => {
     <div className="games-page">
       <div className="games-hub-container">
         <div className="games-header">
-          <h1 className="games-title">🎮 Classic Arcade Games</h1>
+          <h1 className="games-title"><GiGamepad /> Classic Arcade Games</h1>
           <p className="games-subtitle">
             Relive the golden age of gaming with these timeless classics!
           </p>
@@ -85,15 +88,15 @@ const Games = () => {
                   
                   <div className="game-card-meta">
                     <span className="game-meta-item">
-                      <span className="meta-icon">⚡</span>
+                      <span className="meta-icon"><IoFlash /></span>
                       {game.difficulty}
                     </span>
                     <span className="game-meta-item">
-                      <span className="meta-icon">👥</span>
+                      <span className="meta-icon"><IoPeople /></span>
                       {game.players}
                     </span>
                     <span className="game-meta-item">
-                      <span className="meta-icon">📅</span>
+                      <span className="meta-icon"><IoCalendar /></span>
                       {game.year}
                     </span>
                   </div>
@@ -108,7 +111,7 @@ const Games = () => {
         </div>
 
         <div className="games-info">
-          <h3>🕹️ About These Games</h3>
+          <h3><GiJoystick /> About These Games</h3>
           <p>
             These classic games have stood the test of time, entertaining generations of players
             since the dawn of video gaming. Each game offers simple yet addictive gameplay that's

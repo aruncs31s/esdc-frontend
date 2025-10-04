@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { GiMusicalNotes } from 'react-icons/gi';
+import { FaTrophy } from 'react-icons/fa';
 import '../../styles/games.css';
 
 const COLORS = [
@@ -133,7 +135,7 @@ const SimonGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title">🎵 Simon Says</h1>
+          <h1 className="games-title"><GiMusicalNotes /> Simon Says</h1>
           <p className="games-subtitle">Remember and repeat the pattern!</p>
         </div>
 
@@ -190,7 +192,7 @@ const SimonGame = () => {
                 <p>Final Score: {score}</p>
                 <p>Sequence Length: {sequence.length}</p>
                 {score === highScore && score > 0 && (
-                  <p className="new-high-score">🎉 New High Score!</p>
+                  <p className="new-high-score"><FaTrophy /> New High Score!</p>
                 )}
               </div>
             </div>

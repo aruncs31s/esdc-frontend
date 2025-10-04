@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Events from './pages/Events';
 import Challenges from './pages/Challenges';
 import Resources from './pages/Resources';
+import Products from './pages/Products';
 import Games from './pages/Games';
 import AdminPanel from './pages/AdminPanel';
 import ProfileCardPage from './pages/ProfileCardPage';
@@ -16,6 +17,7 @@ import Register from './components/Register';
 import UserProfile from './components/UserProfile';
 import Dashboard from './components/Dashboard';
 import Leaderboard from './components/Leaderboard';
+import UserProjects from './pages/UserProjects';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import SnakeGame from './components/games/SnakeGame';
@@ -104,6 +106,13 @@ function App() {
                 <Footer />
               </>
             } />
+            <Route path="/products" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Products />
+                <Footer />
+              </>
+            } />
             <Route path="/games" element={
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
@@ -164,6 +173,13 @@ function App() {
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <Leaderboard />
+                <Footer />
+              </>
+            } />
+            <Route path="/projects" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <UserProjects />
                 <Footer />
               </>
             } />
