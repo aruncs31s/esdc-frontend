@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaRobot, FaTimes, FaPaperPlane, FaTrash } from 'react-icons/fa';
+import { FaComments, FaTimes, FaPaperPlane, FaTrash } from 'react-icons/fa';
 import '../styles/chatbot.css';
 
 const Chatbot = () => {
@@ -154,7 +154,7 @@ const Chatbot = () => {
         onClick={toggleChat}
         aria-label="Toggle chatbot"
       >
-        {isOpen ? <FaTimes /> : <FaRobot />}
+        {isOpen ? <FaTimes /> : <FaComments />}
       </button>
 
       {/* Chatbot Window */}
@@ -163,7 +163,7 @@ const Chatbot = () => {
           {/* Header */}
           <div className="chatbot-header">
             <div className="chatbot-header-content">
-              <FaRobot className="chatbot-header-icon" />
+              <FaComments className="chatbot-header-icon" />
               <div>
                 <h3>ESDC Assistant</h3>
                 <span className="chatbot-status">Online</span>

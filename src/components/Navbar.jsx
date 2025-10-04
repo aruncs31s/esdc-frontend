@@ -55,12 +55,13 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
   const navItems = [
     { path: '/', label: 'Home', type: 'link' },
-    { path: '#about', label: 'About', type: 'hash' },
     { path: '#projects', label: 'Projects', type: 'hash' },
     { path: '#team', label: 'Team', type: 'hash' },
+    { path: '#about', label: 'About', type: 'hash' },
     { path: '/events', label: 'Events', type: 'link' },
     { path: '/challenges', label: 'Challenges', type: 'link' },
     { path: '/resources', label: 'Resources', type: 'link' },
+    { path: '/games', label: 'Games', type: 'link' },
     { path: '/users', label: 'Users', type: 'link' },
   ];
 

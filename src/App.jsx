@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Events from './pages/Events';
 import Challenges from './pages/Challenges';
 import Resources from './pages/Resources';
+import Games from './pages/Games';
 import AdminPanel from './pages/AdminPanel';
 import ProfileCardPage from './pages/ProfileCardPage';
 import Users from './pages/Users';
@@ -94,6 +95,13 @@ function App() {
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <Resources />
+                <Footer />
+              </>
+            } />
+            <Route path="/games" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Games />
                 <Footer />
               </>
             } />
