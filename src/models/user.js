@@ -196,7 +196,7 @@ export class User {
    */
   update(updates) {
     Object.keys(updates).forEach(key => {
-      if (this.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(this, key)) {
         this[key] = updates[key];
       }
     });

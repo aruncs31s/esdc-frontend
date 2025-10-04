@@ -1,3 +1,5 @@
+
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
 import { jwtDecode } from 'jwt-decode';

@@ -4,7 +4,7 @@ import { adminAPI } from '../services/api';
 import ChallengesTable from '../components/table_views/ChallengeTable';
 import UsersTable from '../components/table_views/UserTable';
 import ProjectsTable from '../components/table_views/ProjectsTable';
-import User from '../models/user';
+import User from '../models/user.js';
 
 import CreateModal from '../components/modals/CreateModal';
 import { 

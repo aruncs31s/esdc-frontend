@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BsSearch, BsFilter, BsGrid3x3Gap, BsList, BsPersonPlus } from 'react-icons/bs';
+import { BsSearch, BsFilter, BsGrid, BsList, BsPersonPlus } from 'react-icons/bs';
 import ProfileCard from '../components/ProfileCard';
 import { adminAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
@@ -17,28 +17,6 @@ const Users = () => {
   const [filterRole, setFilterRole] = useState('all');
   const [sortBy, setSortBy] = useState('name');
   const { user: currentUser, isAuthenticated } = useAuth();
-
-  // Load users from API
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  const loadUsers = async () => {
-    setLoading(true);
-    try {
-      const fetchedUsers = await adminAPI.getUsers();
-      setUsers(fetchedUsers);
-      setFilteredUsers(fetchedUsers);
-    } catch (error) {
-      console.error('Error loading users:', error);
-      // Fallback to mock data if API fails
-      const mockUsers = generateMockUsers();
-      setUsers(mockUsers);
-      setFilteredUsers(mockUsers);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Generate mock users for demonstration
   const generateMockUsers = () => {
@@ -149,6 +127,28 @@ const Users = () => {
       }
     ];
   };
+
+  // Load users from API
+  useEffect(() => {
+    const loadUsers = async () => {
+      setLoading(true);
+      try {
+        const fetchedUsers = await adminAPI.getUsers();
+        setUsers(fetchedUsers);
+        setFilteredUsers(fetchedUsers);
+      } catch (error) {
+        console.error('Error loading users:', error);
+        // Fallback to mock data if API fails
+        const mockUsers = generateMockUsers();
+        setUsers(mockUsers);
+        setFilteredUsers(mockUsers);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUsers();
+  }, []);
 
   // Filter and search logic
   useEffect(() => {
@@ -315,7 +315,7 @@ const Users = () => {
                       className={`btn ${viewMode === 'grid' ? 'btn-primary' : 'btn-outline-primary'}`}
                       onClick={() => setViewMode('grid')}
                     >
-                      <BsGrid3x3Gap />
+                      <BsGrid />
                     </button>
                     <button
                       type="button"
