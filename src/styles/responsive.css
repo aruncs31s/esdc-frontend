@@ -1,0 +1,141 @@
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: var(--base);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px var(--shadow);
+        border-top: 1px solid var(--surface0);
+        padding: 2rem 0;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .projects-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-grid,
+    .projects-grid,
+    .team-members {
+        grid-template-columns: 1fr;
+    }
+    
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .profile-card {
+        max-width: 100%;
+        border-radius: 15px;
+    }
+
+    .profile-card-header {
+        height: 100px;
+    }
+
+    .profile-card-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-card-avatar-wrapper {
+        margin-top: -50px;
+    }
+
+    .profile-card-name {
+        font-size: 1.5rem;
+    }
+
+    .profile-card-stats {
+        gap: 15px;
+    }
+
+    .profile-card-stat {
+        gap: 8px;
+    }
+
+    .profile-card-stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .profile-card-stat-value {
+        font-size: 1.3rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    section {
+        padding: 3rem 0;
+    }
+
+    .profile-card-content {
+        padding: 15px 20px 20px;
+    }
+
+    .profile-card-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .profile-card-stat-divider {
+        display: none;
+    }
+
+    .profile-card-stat {
+        width: 100%;
+        justify-content: center;
+    }
+}

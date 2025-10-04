@@ -1,0 +1,46 @@
+/* Bootstrap Component Overrides */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-item a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--text);
+}
+
+.table {
+    color: var(--text);
+    background-color: var(--base);
+}
+
+.table-light {
+    background-color: var(--surface0);
+    color: var(--text);
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--surface0);
+}
+
+.table-success {
+    background-color: rgba(166, 227, 161, 0.1);
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.progress {
+    background-color: var(--surface0);
+}
+
+.progress-bar {
+    background-color: var(--green) !important;
+}
