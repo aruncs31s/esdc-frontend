@@ -10,6 +10,8 @@ import Resources from './pages/Resources';
 import Products from './pages/Products';
 import Projects from './pages/Projects';
 import MyProducts from './pages/MyProducts';
+import ThreeLanding from './pages/ThreeLanding';
+import VehicleExplorer from './pages/VehicleExplorer';
 import Games from './pages/Games';
 import AdminPanel from './pages/AdminPanel';
 import ProfileCardPage from './pages/ProfileCardPage';
@@ -20,6 +22,7 @@ import UserProfile from './components/UserProfile';
 import Dashboard from './components/Dashboard';
 import Leaderboard from './components/Leaderboard';
 import UserProjects from './pages/UserProjects';
+import ElectronicsLab from './pages/ElectronicsLab';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import SnakeGame from './components/games/SnakeGame';
@@ -74,6 +77,8 @@ function App() {
         <div className="App">
           <Chatbot />
           <Routes>
+            <Route path="/3d" element={<ThreeLanding />} />
+            <Route path="/explore" element={<VehicleExplorer />} />
             <Route path="/" element={
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
@@ -217,6 +222,13 @@ function App() {
               <>
                 <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
                 <Users />
+                <Footer />
+              </>
+            } />
+            <Route path="/lab" element={
+              <>
+                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <ElectronicsLab />
                 <Footer />
               </>
             } />

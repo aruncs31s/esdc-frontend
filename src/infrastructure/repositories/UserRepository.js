@@ -1,0 +1,155 @@
+import { IUserRepository } from '../../domain/repositories/IUserRepository.js';
+import { User } from '../../domain/entities/User.js';
+import apiClient from '../api/ApiClient.js';
+
+/**
+ * User Repository Implementation
+ * Handles user data persistence via API
+ */
+export class UserRepository extends IUserRepository {
+  constructor(client = apiClient) {
+    super();
+    this.api = client;
+  }
+
+  /**
+   * Find all users with optional filters
+   */
+  async findAll(filters = {}) {
+    try {
+      const params = new URLSearchParams(filters);
+      const response = await this.api.get(`/api/admin/users?${params}`);
+      const data = response.data?.data || response.data || [];
+      return User.fromAPIArray(data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Find user by ID
+   */
+  async findById(id) {
+    try {
+      const response = await this.api.get(`/api/admin/users/${id}`);
+      const data = response.data?.data || response.data;
+      return User.fromAPI(data);
+    } catch (error) {
+      console.error(`Error fetching user ${id}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Find user by email
+   */
+  async findByEmail(email) {
+    try {
+      const response = await this.api.get(`/api/admin/users?email=${email}`);
+      const data = response.data?.data || response.data || [];
+      const users = User.fromAPIArray(data);
+      return users.length > 0 ? users[0] : null;
+    } catch (error) {
+      console.error(`Error fetching user by email ${email}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Find user by username
+   */
+  async findByUsername(username) {
+    try {
+      const response = await this.api.get(`/api/admin/users?username=${username}`);
+      const data = response.data?.data || response.data || [];
+      const users = User.fromAPIArray(data);
+      return users.length > 0 ? users[0] : null;
+    } catch (error) {
+      console.error(`Error fetching user by username ${username}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Save user (create or update)
+   */
+  async save(user) {
+    try {
+      if (user.id) {
+        // Update existing user
+        const response = await this.api.put(
+          `/api/admin/users/${user.id}`,
+          user.toJSON()
+        );
+        const data = response.data?.data || response.data;
+        return User.fromAPI(data);
+      } else {
+        // Create new user
+        const response = await this.api.post('/api/admin/users', user.toJSON());
+        const data = response.data?.data || response.data;
+        return User.fromAPI(data);
+      }
+    } catch (error) {
+      console.error('Error saving user:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete user by ID
+   */
+  async delete(id) {
+    try {
+      await this.api.delete(`/api/admin/users/${id}`);
+      return true;
+    } catch (error) {
+      console.error(`Error deleting user ${id}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Check if email exists
+   */
+  async existsByEmail(email) {
+    try {
+      const user = await this.findByEmail(email);
+      return user !== null;
+    } catch (error) {
+      console.error(`Error checking email existence:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Check if username exists
+   */
+  async existsByUsername(username) {
+    try {
+      const user = await this.findByUsername(username);
+      return user !== null;
+    } catch (error) {
+      console.error(`Error checking username existence:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Count total users
+   */
+  async count() {
+    try {
+      const users = await this.findAll();
+      return users.length;
+    } catch (error) {
+      console.error('Error counting users:', error);
+      return 0;
+    }
+  }
+}
+
+// Singleton instance
+const userRepository = new UserRepository();
+
+export default userRepository;

@@ -1,0 +1,102 @@
+.electronics-lab-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 100%);
+    padding-top: 80px;
+}
+
+.lab-header {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding: 2rem;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lab-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.lab-header p {
+    font-size: 1rem;
+    color: var(--subtext0);
+}
+
+.lab-canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
+
+.lab-info {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    max-width: 1200px;
+    width: 90%;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    transition: all 0.4s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
+}
+
+.info-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+.info-card p {
+    color: var(--subtext0);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .lab-header h1 {
+        font-size: 2rem;
+    }
+    
+    .lab-canvas-container {
+        height: 50vh;
+        min-height: 400px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
