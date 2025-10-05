@@ -219,7 +219,6 @@ function Scene({ mouse, onCPUClick }) {
 
 // Main Component
 const ThreeLanding = () => {
-  const [stats] = useState({ members: 150, projects: 45, events: 28 });
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [cpuActive, setCpuActive] = useState(false);
   const [performance, setPerformance] = useState({ temp: 45, speed: 3.6, cores: 8 });
@@ -259,7 +258,7 @@ const ThreeLanding = () => {
           animation: 'fadeInUp 0.5s ease-out',
           pointerEvents: 'none'
         }}>
-          <h3 style={{ color: '#89b4fa', marginBottom: '1rem', fontSize: '1.2rem' }}>CPU Status</h3>
+          <h3 style={{ color: '#89b4fa', marginBottom: '1rem', fontSize: '1.2rem' }}>CPU </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
             <div style={{ color: '#cdd6f4' }}>
               <span style={{ color: '#bac2de' }}>Temperature:</span>{' '}
@@ -313,20 +312,7 @@ const ThreeLanding = () => {
           </div>
         </div>
 
-        <div className="three-landing-stats">
-          {[
-            { label: 'Members', value: stats.members, color: '#89b4fa' },
-            { label: 'Projects', value: stats.projects, color: '#a6e3a1' },
-            { label: 'Events', value: stats.events, color: '#fab387' }
-          ].map((stat, i) => (
-            <div key={i} className="three-landing-stat">
-              <div className="three-landing-stat-value" style={{ color: stat.color }}>
-                {stat.value}
-              </div>
-              <div className="three-landing-stat-label">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
     </div>
   );
