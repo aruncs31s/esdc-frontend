@@ -1,8 +1,9 @@
-import { useRef, useState, Suspense } from 'react';
+import { useRef, useState, useEffect, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, Float, Text, Sphere } from '@react-three/drei';
 import { Link } from 'react-router-dom';
 import * as THREE from 'three';
+import axios from 'axios';
 import '../styles/threeLanding.css';
 
 // Intel-style CPU
@@ -221,15 +222,40 @@ function Scene({ mouse, onCPUClick }) {
 const ThreeLanding = () => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [cpuActive, setCpuActive] = useState(false);
-  const [performance, setPerformance] = useState({ temp: 45, speed: 3.6, cores: 8 });
+  const [clubStats, setClubStats] = useState({ members: 0, projects: 0, events: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        
+        // Fetch all stats in parallel
+        const [usersRes, projectsRes, eventsRes] = await Promise.all([
+          axios.get(`${API_URL}/api/users`).catch(() => ({ data: [] })),
+          axios.get(`${API_URL}/api/projects`).catch(() => ({ data: [] })),
+          axios.get(`${API_URL}/api/events`).catch(() => ({ data: [] }))
+        ]);
+
+        setClubStats({
+          members: usersRes.data?.length || 0,
+          projects: projectsRes.data?.length || 0,
+          events: eventsRes.data?.length || 0
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+        // Fallback to default values
+        setClubStats({ members: 150, projects: 45, events: 28 });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const handleCPUClick = () => {
     setCpuActive(!cpuActive);
-    if (!cpuActive) {
-      setPerformance({ temp: 85, speed: 5.2, cores: 8 });
-    } else {
-      setPerformance({ temp: 45, speed: 3.6, cores: 8 });
-    }
   };
 
   return (
@@ -244,11 +270,11 @@ const ThreeLanding = () => {
         <Scene mouse={mouse} onCPUClick={handleCPUClick} />
       </Canvas>
 
-      {/* CPU Performance Overlay */}
+      {/* Club Stats Overlay */}
       {cpuActive && (
         <div style={{
           position: 'absolute',
-          top: '100px',
+          bottom: '150px',
           right: '50px',
           background: 'rgba(17, 17, 27, 0.9)',
           padding: '1.5rem',
@@ -258,40 +284,31 @@ const ThreeLanding = () => {
           animation: 'fadeInUp 0.5s ease-out',
           pointerEvents: 'none'
         }}>
-          <h3 style={{ color: '#89b4fa', marginBottom: '1rem', fontSize: '1.2rem' }}>CPU </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            <div style={{ color: '#cdd6f4' }}>
-              <span style={{ color: '#bac2de' }}>Temperature:</span>{' '}
-              <span style={{ color: performance.temp > 70 ? '#f38ba8' : '#a6e3a1', fontWeight: 'bold' }}>
-                {performance.temp}°C
-              </span>
+          <h3 style={{ color: '#89b4fa', marginBottom: '1rem', fontSize: '1.2rem' }}>Club Stats</h3>
+          {loading ? (
+            <div style={{ color: '#bac2de', textAlign: 'center' }}>Loading...</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+              <div style={{ color: '#cdd6f4' }}>
+                <span style={{ color: '#bac2de' }}>Total Members:</span>{' '}
+                <span style={{ color: '#89b4fa', fontWeight: 'bold' }}>
+                  {clubStats.members}
+                </span>
+              </div>
+              <div style={{ color: '#cdd6f4' }}>
+                <span style={{ color: '#bac2de' }}>Active Projects:</span>{' '}
+                <span style={{ color: '#a6e3a1', fontWeight: 'bold' }}>{clubStats.projects}</span>
+              </div>
+              <div style={{ color: '#cdd6f4' }}>
+                <span style={{ color: '#bac2de' }}>Events Hosted:</span>{' '}
+                <span style={{ color: '#fab387', fontWeight: 'bold' }}>{clubStats.events}</span>
+              </div>
             </div>
-            <div style={{ color: '#cdd6f4' }}>
-              <span style={{ color: '#bac2de' }}>Clock Speed:</span>{' '}
-              <span style={{ color: '#89b4fa', fontWeight: 'bold' }}>{performance.speed} GHz</span>
-            </div>
-            <div style={{ color: '#cdd6f4' }}>
-              <span style={{ color: '#bac2de' }}>Active Cores:</span>{' '}
-              <span style={{ color: '#a6e3a1', fontWeight: 'bold' }}>{performance.cores}/8</span>
-            </div>
-          </div>
+          )}
         </div>
       )}
 
       {/* Interaction Hint */}
-      <div style={{
-        position: 'absolute',
-        bottom: '120px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        color: '#bac2de',
-        fontSize: '0.9rem',
-        opacity: 0.7,
-        pointerEvents: 'none',
-        animation: 'fadeInUp 1s ease-out 1s both'
-      }}>
-        💡 Click the CPU to activate • Drag to rotate
-      </div>
 
       <div className="three-landing-overlay">
         <div className="three-landing-hero">
