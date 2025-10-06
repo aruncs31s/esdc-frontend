@@ -3,9 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaTrophy, FaCode, FaComments } from 'react-icons/fa';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
-import Navbar from './Navbar';
+import { useTheme } from '../contexts/ThemeContext';
+import Header from './Navbar';
 
-const Login = ({ isDarkMode, toggleTheme }) => {
+const Login = () => {
+  const { theme } = useTheme();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +43,11 @@ const Login = ({ isDarkMode, toggleTheme }) => {
       setIsLoading(false);
     }
   };
+  const isDarkMode = theme === 'dark';
+  
   return (
     <div className="login-page">
-      <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+      <Header />
 
       <section className="hero" style={{ minHeight: 'calc(100vh - 200px)', display: 'flex', alignItems: 'center' }}>
         <div className="container">

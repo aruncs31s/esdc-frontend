@@ -3,8 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGithub } from 'react-icons/fa';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../contexts/ThemeContext';
 
-const Register = ({ isDarkMode, toggleTheme }) => {
+const Register = () => {
+  const { theme, toggleTheme } = useTheme();
+  const isDarkMode = theme === 'dark';
   const [formData, setFormData] = useState({
     name: '',
     email: '',

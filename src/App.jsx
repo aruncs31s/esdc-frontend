@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import Navbar from './components/Navbar';
+import Header from './components/Navbar';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Challenges from './pages/Challenges';
@@ -34,46 +34,10 @@ import SimonGame from './components/games/SimonGame';
 import './index.css';
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Initialize theme
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const storedTheme = localStorage.getItem('theme');
-    
-    if (storedTheme === 'dark') {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-      document.body.classList.add('dark-mode');
-    } else if (storedTheme === 'light') {
-      setIsDarkMode(false);
-      document.documentElement.classList.remove('dark');
-      document.body.classList.remove('dark-mode');
-    } else if (prefersDark) {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-      document.body.classList.add('dark-mode');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    
-    if (newTheme) {
-      document.documentElement.classList.add('dark');
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light');
-    }
-  };
-
   return (
     <AuthProvider>
-      <Router>
+      <ThemeProvider>
+        <Router>
         <div className="App">
           <Chatbot />
           <Routes>
@@ -81,153 +45,153 @@ function App() {
             <Route path="/explore" element={<VehicleExplorer />} />
             <Route path="/" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Home />
                 <Footer />
               </>
             } />
             <Route path="/login" element={
-              <Login isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+              <Login />
             } />
             <Route path="/register" element={
-              <Register isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+              <Register />
             } />
             <Route path="/events" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Events />
                 <Footer />
               </>
             } />
             <Route path="/challenges" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Challenges />
                 <Footer />
               </>
             } />
             <Route path="/resources" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Resources />
                 <Footer />
               </>
             } />
             <Route path="/products" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Products />
                 <Footer />
               </>
             } />
             <Route path="/my-products" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <MyProducts />
                 <Footer />
               </>
             } />
             <Route path="/community-projects" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Projects />
                 <Footer />
               </>
             } />
             <Route path="/games" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Games />
                 <Footer />
               </>
             } />
             <Route path="/games/snake" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <SnakeGame />
                 <Footer />
               </>
             } />
             <Route path="/games/tetris" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <TetrisGame />
                 <Footer />
               </>
             } />
             <Route path="/games/pong" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <PongGame />
                 <Footer />
               </>
             } />
             <Route path="/games/breakout" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <BreakoutGame />
                 <Footer />
               </>
             } />
             <Route path="/games/memory" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <MemoryGame />
                 <Footer />
               </>
             } />
             <Route path="/games/simon" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <SimonGame />
                 <Footer />
               </>
             } />
             <Route path="/dashboard" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Dashboard />
                 <Footer />
               </>
             } />
             <Route path="/leaderboard" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Leaderboard />
                 <Footer />
               </>
             } />
             <Route path="/projects" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <UserProjects />
                 <Footer />
               </>
             } />
             <Route path="/profile" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-                <UserProfile isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
+                <UserProfile />
                 <Footer />
               </>
             } />
             <Route path="/profile-card-demo" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <ProfileCardPage />
                 <Footer />
               </>
             } />
             <Route path="/users" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <Users />
                 <Footer />
               </>
             } />
             <Route path="/lab" element={
               <>
-                <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                <Header />
                 <ElectronicsLab />
                 <Footer />
               </>
@@ -235,7 +199,7 @@ function App() {
             <Route path="/admin" element={
               <ProtectedRoute requiredRole="admin">
                 <>
-                  <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+                  <Header />
                   <AdminPanel />
                   <Footer />
                 </>
@@ -244,6 +208,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

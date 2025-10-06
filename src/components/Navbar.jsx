@@ -1,127 +1,69 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiMenu, FiX, FiUser, FiChevronDown } from 'react-icons/fi';
+// Presentation: Header Component
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { MdLightMode, MdDarkMode } from 'react-icons/md';
+import { FiUser, FiShield } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../contexts/ThemeContext';
 import ProfilePopup from './ProfilePopup';
+import './Header.css';
 
-const Navbar = ({ isDarkMode, toggleTheme }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+export function Header() {
+  const { user, isAuthenticated } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const { isAuthenticated, user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/community-projects', label: 'Projects' },
-    { path: '#team', label: 'Team' },
-    { path: '#about', label: 'About' },
-    { path: '/events', label: 'Events' },
-    { path: '/resources', label: 'Resources' },
-    { path: '/products', label: 'Products' },
-    { path: '/users', label: 'Users' },
-  ];
-
-  const authNavItems = [];
-
-  useEffect(() => {
-    const handleResize = () => window.innerWidth > 768 && setIsMenuOpen(false);
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => setIsMenuOpen(false), [location]);
-
-  const closeMenu = () => setIsMenuOpen(false);
-  const isActive = (path) => location.pathname === path;
-
-  const handleHashClick = (hash) => {
-    navigate('/');
-    setTimeout(() => (window.location.hash = hash), 100);
-    closeMenu();
-  };
-
-  const renderNavLink = ({ path, label }) => {
-    const isHash = path.startsWith('#');
-    return (
-      <li key={path}>
-        {isHash ? (
-          <a href={path} className="nav-link" onClick={() => handleHashClick(path.substring(1))}>
-            {label}
-          </a>
-        ) : (
-          <Link to={path} className={`nav-link ${isActive(path) ? 'active' : ''}`} onClick={closeMenu}>
-            {label}
-          </Link>
-        )}
-      </li>
-    );
-  };
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-container">
-        <Link to="/" className="nav-logo" onClick={closeMenu}>
-          <div className="logo-icon">E</div>
-          <span className="logo-text">ESDC</span>
-        </Link>
-
-        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          {navItems.map(renderNavLink)}
-          {isAuthenticated && authNavItems.map(renderNavLink)}
-          {isAuthenticated && user?.role === 'admin' && (
-            <li>
-              <Link to="/admin" className={`nav-link nav-link-admin ${isActive('/admin') ? 'active' : ''}`} onClick={closeMenu}>
-                Admin Panel
+    <>
+      <header className="header">
+        <div className="header-container">
+          <Link to="/" className="logo">
+            <h1>Jyothis Electronics Lab</h1>
+          </Link>
+          <nav className="nav">
+            <Link to="/classes">Classes</Link>
+            <Link to="/projects">Projects</Link>
+            <Link to="/products">Products</Link>
+            
+            {/* Show Admin link only for admin users */}
+            {isAuthenticated && user?.role === 'admin' && (
+              <Link to="/admin" className="admin-link">
+                <FiShield size={16} />
+                <span>Admin</span>
               </Link>
-            </li>
-          )}
-          <li>
-            <a href="#contact" className="nav-link" onClick={() => handleHashClick('contact')}>
-              Contact
-            </a>
-          </li>
-        </ul>
-
-        <div className="nav-controls">
-          <div className="nav-auth">
-            {!isAuthenticated ? (
-              <Link to="/login" className="btn-login" onClick={closeMenu}>
+            )}
+            
+            <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
+              {theme === 'light' ? <MdDarkMode size={20} /> : <MdLightMode size={20} />}
+            </button>
+            
+            {isAuthenticated ? (
+              <button 
+                onClick={() => setShowProfilePopup(true)} 
+                className="profile-button"
+                aria-label="Open profile menu"
+              >
+                <FiUser size={20} />
+                <span>{user?.name || 'User'}</span>
+              </button>
+            ) : (
+              <Link to="/login" className="btn-login">
                 Login
               </Link>
-            ) : (
-              <button onClick={() => setShowProfilePopup(!showProfilePopup)} className="btn-profile-trigger" title="Open profile menu">
-                <div className="profile-avatar-small">
-                  {user?.avatar_url || user?.avatarUrl || user?.avatar ? (
-                    <img src={user.avatar_url || user.avatarUrl || user.avatar} alt={user.name || 'Profile'} />
-                  ) : (
-                    <FiUser />
-                  )}
-                </div>
-                <span className="profile-name">{user?.name || 'Profile'}</span>
-                <FiChevronDown className={`profile-chevron ${showProfilePopup ? 'open' : ''}`} />
-              </button>
             )}
-          </div>
-
-          <button className={`hamburger ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
-            {isMenuOpen ? <FiX className="hamburger-icon" /> : <FiMenu className="hamburger-icon" />}
-          </button>
+          </nav>
         </div>
-      </div>
-
-      {isAuthenticated && showProfilePopup && (
-        <ProfilePopup isDarkMode={isDarkMode} toggleTheme={toggleTheme} onClose={() => setShowProfilePopup(false)} />
+      </header>
+      
+      {showProfilePopup && (
+        <ProfilePopup
+          isDarkMode={theme === 'dark'}
+          toggleTheme={toggleTheme}
+          onClose={() => setShowProfilePopup(false)}
+        />
       )}
-    </nav>
+    </>
   );
-};
+}
 
-export default Navbar;
+export default Header;
