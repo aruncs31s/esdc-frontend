@@ -1,12 +1,14 @@
 import { UserCreatedEvent, UserActivatedEvent, UserSuspendedEvent } from '../events/DomainEvents.js';
 import eventBus from '../events/EventBus.js';
+import { IUserRepository } from '../index.js';
 
 /**
  * User Registration Service
  * Handles complex user registration business logic
  */
 export class UserRegistrationService {
-  constructor(userRepository) {
+  private userRepository: IUserRepository;
+  constructor(userRepository: IUserRepository) {
     this.userRepository = userRepository;
   }
 

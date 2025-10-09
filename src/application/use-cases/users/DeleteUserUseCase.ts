@@ -3,7 +3,9 @@
  * Application service for deleting a user
  */
 export class DeleteUserUseCase {
-  constructor(userRepository) {
+  private userRepository: any;
+
+  constructor(userRepository: any) {
     this.userRepository = userRepository;
   }
 

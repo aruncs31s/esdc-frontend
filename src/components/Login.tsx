@@ -45,7 +45,7 @@ const Login = () => {
   
   return (
     <div className="login-page">
-      <Header />
+      {/* <Header /> */}
       <div className="login-background">
         <div className="login-gradient-orb login-orb-1"></div>
         <div className="login-gradient-orb login-orb-2"></div>

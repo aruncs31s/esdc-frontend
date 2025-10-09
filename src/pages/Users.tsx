@@ -65,7 +65,7 @@ const Users = () => {
         case 'challenges':
           return (b.completedChallenges || 0) - (a.completedChallenges || 0);
         case 'recent':
-          return new Date(b.joinedDate || 0) - new Date(a.joinedDate || 0);
+          return new Date(b.joinedDate || 0).getTime() - new Date(a.joinedDate || 0).getTime();
         default:
           return 0;
       }
@@ -258,6 +258,7 @@ const Users = () => {
               >
                 <ProfileCard
                   user={user}
+                  onEdit={() => {}}
                   showStats={true}
                   stats={{
                     points: user.points,

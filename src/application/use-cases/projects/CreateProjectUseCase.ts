@@ -3,7 +3,10 @@
  * Application service for creating a new project
  */
 export class CreateProjectUseCase {
-  constructor(projectRepository, userRepository) {
+  private projectRepository: any;
+  private userRepository: any;
+
+  constructor(projectRepository: any, userRepository: any) {
     this.projectRepository = projectRepository;
     this.userRepository = userRepository;
   }

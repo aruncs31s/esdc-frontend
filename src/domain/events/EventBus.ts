@@ -3,6 +3,7 @@
  * Implements the Observer pattern for event handling
  */
 class EventBus {
+  handlers: Map<string, Function[]>;
   constructor() {
     this.handlers = new Map();
   }

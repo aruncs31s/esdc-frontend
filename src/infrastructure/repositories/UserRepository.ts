@@ -1,12 +1,14 @@
 import { IUserRepository } from '../../domain/repositories/IUserRepository.js';
 import { User } from '../../domain/entities/User.js';
 import apiClient from '../api/ApiClient.js';
-
+// import api from '../../services/api';
 /**
  * User Repository Implementation
  * Handles user data persistence via API
  */
 export class UserRepository extends IUserRepository {
+  private api: typeof apiClient;
+
   constructor(client = apiClient) {
     super();
     this.api = client;

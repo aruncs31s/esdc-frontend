@@ -25,7 +25,23 @@ export const UserStatus = {
  * Represents a user in the ESDC system with business logic
  */
 export class User {
-  constructor(data = {}) {
+  id: string | null;
+  username: string;
+  email: Email;
+  role: string;
+  status: string;
+  githubUsername: string;
+  points: Points;
+  completedChallenges: number;
+  avatar: string | null;
+  bio: string;
+  joinedDate: string;
+  lastActive: string | null;
+  createdAt: string;
+  updatedAt: string;
+  suspensionReason: string | null;
+
+  constructor(data: any = {}) {
     this.id = data.id || null;
     this.username = data.username || '';
     this.email = data.email instanceof Email ? data.email : new Email(data.email || 'temp@example.com');
@@ -40,6 +56,7 @@ export class User {
     this.lastActive = data.lastActive || data.last_active || null;
     this.createdAt = data.createdAt || data.created_at || new Date().toISOString();
     this.updatedAt = data.updatedAt || data.updated_at || new Date().toISOString();
+    this.suspensionReason = data.suspensionReason || data.suspension_reason || null;
   }
 
   // Business Logic Methods

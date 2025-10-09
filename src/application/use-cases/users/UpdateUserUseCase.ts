@@ -3,7 +3,9 @@
  * Application service for updating a user
  */
 export class UpdateUserUseCase {
-  constructor(userRepository) {
+  private userRepository: any;
+
+  constructor(userRepository: any) {
     this.userRepository = userRepository;
   }
 

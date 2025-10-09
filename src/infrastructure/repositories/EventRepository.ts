@@ -7,6 +7,8 @@ import apiClient from '../api/ApiClient.js';
  * Handles event data persistence via API
  */
 export class EventRepository extends IEventRepository {
+  private api: typeof apiClient;
+
   constructor(client = apiClient) {
     super();
     this.api = client;

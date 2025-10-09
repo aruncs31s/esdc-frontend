@@ -1,10 +1,11 @@
 const Hero = () => {
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerHeight = document.querySelector('.navbar').offsetHeight;
+      const header = document.querySelector('.navbar') as HTMLElement | null;
+      const headerHeight = header ? header.offsetHeight : 0;
       const targetPosition = element.offsetTop - headerHeight;
-      
+
       window.scrollTo({
         top: targetPosition,
         behavior: 'smooth'

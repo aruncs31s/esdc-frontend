@@ -3,6 +3,7 @@
  * Encapsulates email validation logic and ensures email immutability
  */
 export class Email {
+  _value;
   constructor(value) {
     if (!value) {
       throw new Error('Email cannot be empty');

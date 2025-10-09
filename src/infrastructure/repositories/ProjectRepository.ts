@@ -7,6 +7,8 @@ import apiClient from '../api/ApiClient.js';
  * Handles project data persistence via API
  */
 export class ProjectRepository extends IProjectRepository {
+  private api: typeof apiClient;
+
   constructor(client = apiClient) {
     super();
     this.api = client;

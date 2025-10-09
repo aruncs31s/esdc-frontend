@@ -25,7 +25,7 @@ const SimonGame = () => {
 
   useEffect(() => {
     // Initialize Web Audio API
-    audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    audioContextRef.current = new (window.AudioContext || window.AudioContext)();
     return () => {
       if (audioContextRef.current) {
         audioContextRef.current.close();

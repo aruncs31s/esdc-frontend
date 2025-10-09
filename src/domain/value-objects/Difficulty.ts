@@ -10,6 +10,7 @@ export const DifficultyLevel = {
 };
 
 export class Difficulty {
+  _level;
   constructor(level) {
     if (!Object.values(DifficultyLevel).includes(level)) {
       throw new Error(`Invalid difficulty level: ${level}`);

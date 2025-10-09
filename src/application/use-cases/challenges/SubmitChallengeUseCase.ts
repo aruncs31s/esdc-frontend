@@ -3,7 +3,9 @@
  * Application service for submitting a challenge solution
  */
 export class SubmitChallengeUseCase {
-  constructor(challengeEvaluationService) {
+  private challengeEvaluationService: any;
+
+  constructor(challengeEvaluationService: any) {
     this.challengeEvaluationService = challengeEvaluationService;
   }
 

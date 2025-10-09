@@ -3,7 +3,9 @@
  * Application service for retrieving all users
  */
 export class GetAllUsersUseCase {
-  constructor(userRepository) {
+  private userRepository: any;
+
+  constructor(userRepository: any) {
     this.userRepository = userRepository;
   }
 

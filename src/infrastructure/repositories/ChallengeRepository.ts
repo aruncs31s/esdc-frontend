@@ -7,6 +7,7 @@ import apiClient from '../api/ApiClient.js';
  * Handles challenge data persistence via API
  */
 export class ChallengeRepository extends IChallengeRepository {
+  private api: typeof apiClient;
   constructor(client = apiClient) {
     super();
     this.api = client;

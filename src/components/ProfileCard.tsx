@@ -15,13 +15,25 @@ import PropTypes from 'prop-types';
  * @param {Object} props.stats - Statistics object with user metrics
  * @param {string} props.className - Additional CSS classes
  */
+interface ProfileCardStats {
+  points?: number;
+  completedChallenges?: number;
+}
+
 const ProfileCard = ({ 
   user, 
   editable = false, 
   onEdit, 
   showStats = true,
-  stats = {},
+  stats = {} as ProfileCardStats,
   className = ''
+}: {
+  user: any;
+  editable?: boolean;
+  onEdit?: () => void;
+  showStats?: boolean;
+  stats?: ProfileCardStats;
+  className?: string;
 }) => {
   const [imageError, setImageError] = useState(false);
 

@@ -2,10 +2,22 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { FaTrophy, FaCalendar, FaCode, FaUsers } from 'react-icons/fa';
 
+interface Stats {
+  totalPoints: number;
+  completedChallenges: number;
+  upcomingEvents: number;
+  rank: number;
+}
+
 const Dashboard = () => {
   const { user } = useAuth();
-  const [stats, setStats] = useState({});
-  const [recentActivity, setRecentActivity] = useState([]);
+  const [stats, setStats] = useState<Stats>({
+    totalPoints: 0,
+    completedChallenges: 0,
+    upcomingEvents: 0,
+    rank: 0
+  });
+  const [recentActivity, setRecentActivity] = useState<any[]>([]);
 
   useEffect(() => {
     fetchDashboardData();

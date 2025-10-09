@@ -2,6 +2,10 @@
  * Base Domain Event
  */
 export class DomainEvent {
+  eventType;
+  timestamp;
+  eventId;
+  data;
   constructor(eventType, data) {
     this.eventType = eventType;
     this.timestamp = new Date().toISOString();
@@ -27,6 +31,9 @@ export class DomainEvent {
  * User Created Event
  */
 export class UserCreatedEvent extends DomainEvent {
+  userId;
+  email;
+  username;
   constructor(userId, email, username) {
     super('UserCreated', { userId, email, username });
     this.userId = userId;
@@ -39,7 +46,8 @@ export class UserCreatedEvent extends DomainEvent {
  * User Activated Event
  */
 export class UserActivatedEvent extends DomainEvent {
-  constructor(userId) {
+  userId: string;
+  constructor(userId: string) {
     super('UserActivated', { userId });
     this.userId = userId;
   }
@@ -49,7 +57,9 @@ export class UserActivatedEvent extends DomainEvent {
  * User Suspended Event
  */
 export class UserSuspendedEvent extends DomainEvent {
-  constructor(userId, reason) {
+  userId: string;
+  reason: string;
+  constructor(userId: string, reason: string) {
     super('UserSuspended', { userId, reason });
     this.userId = userId;
     this.reason = reason;
@@ -60,7 +70,10 @@ export class UserSuspendedEvent extends DomainEvent {
  * Challenge Completed Event
  */
 export class ChallengeCompletedEvent extends DomainEvent {
-  constructor(userId, challengeId, points) {
+  userId: string;
+  challengeId: string;
+  points: number;
+  constructor(userId: string, challengeId: string, points: number) {
     super('ChallengeCompleted', { userId, challengeId, points });
     this.userId = userId;
     this.challengeId = challengeId;
@@ -72,7 +85,10 @@ export class ChallengeCompletedEvent extends DomainEvent {
  * Challenge Published Event
  */
 export class ChallengePublishedEvent extends DomainEvent {
-  constructor(challengeId, title, difficulty) {
+  challengeId: string;
+  title: string;
+  difficulty: string;
+  constructor(challengeId: string, title: string, difficulty: string) {
     super('ChallengePublished', { challengeId, title, difficulty });
     this.challengeId = challengeId;
     this.title = title;
@@ -84,7 +100,10 @@ export class ChallengePublishedEvent extends DomainEvent {
  * Project Created Event
  */
 export class ProjectCreatedEvent extends DomainEvent {
-  constructor(projectId, userId, title) {
+  projectId: string;
+  userId: string;
+  title: string;
+  constructor(projectId: string, userId: string, title: string) {
     super('ProjectCreated', { projectId, userId, title });
     this.projectId = projectId;
     this.userId = userId;
@@ -96,7 +115,9 @@ export class ProjectCreatedEvent extends DomainEvent {
  * Project Completed Event
  */
 export class ProjectCompletedEvent extends DomainEvent {
-  constructor(projectId, userId) {
+  projectId: string;
+  userId: string;
+  constructor(projectId: string, userId: string) {
     super('ProjectCompleted', { projectId, userId });
     this.projectId = projectId;
     this.userId = userId;
@@ -107,7 +128,9 @@ export class ProjectCompletedEvent extends DomainEvent {
  * Event Published Event
  */
 export class EventPublishedEvent extends DomainEvent {
-  constructor(eventId, title, startDate) {
+  title: string;
+  startDate: string;
+  constructor(eventId: string, title: string, startDate: string) {
     super('EventPublished', { eventId, title, startDate });
     this.eventId = eventId;
     this.title = title;
@@ -119,7 +142,8 @@ export class EventPublishedEvent extends DomainEvent {
  * Event Registration Event
  */
 export class EventRegistrationEvent extends DomainEvent {
-  constructor(eventId, userId) {
+  userId: string;
+  constructor(eventId: string, userId: string) {
     super('EventRegistration', { eventId, userId });
     this.eventId = eventId;
     this.userId = userId;
@@ -130,7 +154,10 @@ export class EventRegistrationEvent extends DomainEvent {
  * Points Awarded Event
  */
 export class PointsAwardedEvent extends DomainEvent {
-  constructor(userId, points, reason) {
+  userId: string;
+  points: number;
+  reason: string;
+  constructor(userId: string, points: number, reason: string) {
     super('PointsAwarded', { userId, points, reason });
     this.userId = userId;
     this.points = points;

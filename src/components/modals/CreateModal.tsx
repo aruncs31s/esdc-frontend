@@ -5,8 +5,19 @@ import { createUser, USER_ROLES, USER_STATUS } from '../../models/user';
 import { FaTimes, FaFileAlt, FaLink, FaBullseye, FaTrophy, FaBolt, FaCircle, FaHourglassHalf, FaPlus, FaUser, FaEnvelope, FaUserShield, FaToggleOn } from 'react-icons/fa';
 import { FiLock, FiShield, FiInfo, FiFileText } from 'react-icons/fi';
 
-const CreateModal = ({ type, onClose, onSuccess }) => {
-  const [formData, setFormData] = useState({});
+interface FormData {
+  username?: string;
+  email?: string;
+  role?: string;
+  status?: string;
+  password?: string;
+  confirmPassword?: string;
+  githubUsername?: string;
+  [key: string]: any;
+}
+
+const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () => void; onSuccess: () => void }) => {
+  const [formData, setFormData] = useState<FormData>({});
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -33,8 +44,8 @@ const CreateModal = ({ type, onClose, onSuccess }) => {
         const newUser = createUser({
           username: formData.username,
           email: formData.email,
-          role: formData.role || USER_ROLES.USER,
-          status: formData.status || USER_STATUS.ACTIVE,
+          role: (formData.role || USER_ROLES.USER) as any,
+          status: (formData.status || USER_STATUS.ACTIVE) as any,
           github_username: formData.githubUsername || '',
         });
 

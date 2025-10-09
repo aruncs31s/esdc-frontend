@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { AxiosInstance } from 'axios';
 
+// Base URL for the API
 const API_BASE_URL = 'https://esdc-backend.onrender.com';
 
 /**
@@ -7,8 +9,9 @@ const API_BASE_URL = 'https://esdc-backend.onrender.com';
  * Central HTTP client with interceptors for authentication
  */
 class ApiClient {
+  private client: AxiosInstance;
   constructor(baseURL = API_BASE_URL) {
-    this.client = axios.create({
+  this.client = axios.create({
       baseURL,
       headers: {
         'Content-Type': 'application/json',

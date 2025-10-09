@@ -6,6 +6,8 @@ import eventBus from '../events/EventBus.js';
  * Handles challenge submission and evaluation business logic
  */
 export class ChallengeEvaluationService {
+  private challengeRepository: any;
+  private userRepository: any;
   constructor(challengeRepository, userRepository) {
     this.challengeRepository = challengeRepository;
     this.userRepository = userRepository;

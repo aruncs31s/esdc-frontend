@@ -3,39 +3,39 @@
  * Defines the contract for user data access
  */
 export class IUserRepository {
-  async findAll(_filters = {}) {
+  async findAll(_filters = {}): Promise<any[]> {
     throw new Error('Method not implemented');
   }
 
-  async findById(_id: string) {
+  async findById(_id: string): Promise<any> {
     throw new Error('Method not implemented');
   }
 
-  async findByEmail(_email: string) {
+  async findByEmail(_email: string): Promise<any> {
     throw new Error('Method not implemented');
   }
 
-  async findByUsername(_username: string) {
+  async findByUsername(_username: string): Promise<any> {
     throw new Error('Method not implemented');
   }
 
-  async save(_user: any) {
+  async save(_user: any): Promise<any> {
     throw new Error('Method not implemented');
   }
 
-  async delete(_id: string) {
+  async delete(_id: string): Promise<boolean> {
     throw new Error('Method not implemented');
   }
 
-  async existsByEmail(_email: string) {
+  async existsByEmail(_email: string): Promise<boolean> {
     throw new Error('Method not implemented');
   }
 
-  async existsByUsername(_username: string) {
+  async existsByUsername(_username: string): Promise<boolean> {
     throw new Error('Method not implemented');
   }
 
-  async count() {
+  async count(): Promise<number> {
     throw new Error('Method not implemented');
   }
 }

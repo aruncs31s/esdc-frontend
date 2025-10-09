@@ -3,6 +3,8 @@
  * Encapsulates date range logic for events
  */
 export class DateRange {
+  _startDate;
+  _endDate;
   constructor(startDate, endDate) {
     this._startDate = startDate instanceof Date ? startDate : new Date(startDate);
     this._endDate = endDate instanceof Date ? endDate : new Date(endDate);

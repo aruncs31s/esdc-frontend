@@ -3,6 +3,7 @@
  * Encapsulates points logic and ensures points validity
  */
 export class Points {
+  _value;
   constructor(value = 0) {
     if (typeof value !== 'number') {
       throw new Error('Points must be a number');

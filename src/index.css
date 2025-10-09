@@ -21,6 +21,15 @@
 @import "./styles/responsive.css";
 @import "./styles/accessibility.css";
 
+@media (max-width: 1000px) {
+  .nav-menu {
+    display: none;
+  }
+  .mobile-menu {
+    display: block;
+  }
+}
+
 /* Apply animations with stagger effect */
 .about-card,
 .project-card,

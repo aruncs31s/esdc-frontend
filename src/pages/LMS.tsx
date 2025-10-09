@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FiBook, FiClock, FiUsers, FiStar, FiPlay, FiSearch } from 'react-icons/fi';
 import { mockCourses } from '../data/mockCourses';
 
+
 const LMS = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('All');

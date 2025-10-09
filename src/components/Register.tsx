@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGithub } from 'react-icons/fa';
-import { FiSun, FiMoon } from 'react-icons/fi';
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGithub, FaTrophy, FaCode, FaComments } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
-import { useTheme } from '../contexts/ThemeContext';
 import { RegisterRequest } from '../types';
+import Header from './Navbar';
+import './Login.css';
+
 const Register = () => {
-  const { theme, toggleTheme } = useTheme();
-  const isDarkMode = theme === 'dark';
   const [formData, setFormData] = useState<RegisterRequest>({
     name: '',
     username: '',
@@ -20,36 +19,35 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [focusedField, setFocusedField] = useState('');
   
   const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/profile');
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
-    setSuccess('');
   };
 
-  const validateForm = () => {
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return false;
-    }
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return false;
-    }
-    return true;
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
     
     setIsLoading(true);
     setError('');
@@ -63,12 +61,7 @@ const Register = () => {
         github_username: formData.github_username
       });
       
-      if (result.success) {
-        setSuccess('Registration successful! Please check your email to verify your account.');
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
-      } else {
+      if (!result.success) {
         setError(result.message);
       }
     } catch (err) {
@@ -79,202 +72,210 @@ const Register = () => {
     }
   };
 
-  if (isAuthenticated) {
-    navigate('/profile');
-    return null;
-  }
-
   return (
-    <div className="register-page">
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-logo">
-            <h2>ESDC</h2>
-          </div>
-          <ul className="nav-menu">
-            <li><Link to="/" className="nav-link">Home</Link></li>
-            <li><Link to="/login" className="nav-link">Login</Link></li>
-          </ul>
-          <div className="theme-toggle">
-            <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
-              {isDarkMode ? <FiSun className="theme-icon" /> : <FiMoon className="theme-icon" />}
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className="login-page">
+      <div className="login-background">
+        <div className="login-gradient-orb login-orb-1"></div>
+        <div className="login-gradient-orb login-orb-2"></div>
+        <div className="login-gradient-orb login-orb-3"></div>
+      </div>
 
-      <section className="hero" style={{ minHeight: 'calc(100vh - 200px)', display: 'flex', alignItems: 'center' }}>
+      <section className="login-hero">
         <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-5">
-              <div className="about-card" style={{ padding: '3rem' }}>
-                <div className="text-center mb-4">
-                  <img src="/icons/logo.png" alt="ESDC Logo" width="80" height="80" className="mb-3" />
-                  <h2 className="fw-bold">Join ESDC</h2>
-                  <p className="text-muted">Create your account to access challenges and track your progress</p>
-                </div>
+          <div className="row justify-content-center align-items-center">
+            <div className="col-md-10 col-lg-9">
+              <div className="login-container">
+                <div className="login-card">
+                  <div className="login-header">
+                    <div className="login-logo-wrapper">
+                      <img src="/icons/logo.png" alt="ESDC Logo" className="login-logo" />
+                    </div>
+                    <h1 className="login-title">Join ESDC</h1>
+                    <p className="login-subtitle">Create your account to start your journey</p>
+                  </div>
 
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Full Name</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaUser />
-                      </span>
+                  <form onSubmit={handleSubmit} className="login-form">
+                    <div className={`login-input-group ${focusedField === 'name' || formData.name ? 'focused' : ''}`}>
+                      <FaUser className="login-input-icon" />
                       <input
                         type="text"
-                        className="form-control"
+                        className="login-input"
                         id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
+                        onFocus={() => setFocusedField('name')}
+                        onBlur={() => setFocusedField('')}
                         required
-                        placeholder="Enter your full name"
+                        placeholder=" "
                       />
+                      <label htmlFor="name" className="login-label">Full Name</label>
                     </div>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Username</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaUser />
-                      </span>
+
+                    <div className={`login-input-group ${focusedField === 'username' || formData.username ? 'focused' : ''}`}>
+                      <FaUser className="login-input-icon" />
                       <input
                         type="text"
-                        className="form-control"
+                        className="login-input"
                         id="username"
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
+                        onFocus={() => setFocusedField('username')}
+                        onBlur={() => setFocusedField('')}
                         required
-                        placeholder="Enter your username"
+                        placeholder=" "
                       />
+                      <label htmlFor="username" className="login-label">Username</label>
                     </div>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaEnvelope />
-                      </span>
+
+                    <div className={`login-input-group ${focusedField === 'email' || formData.email ? 'focused' : ''}`}>
+                      <FaEnvelope className="login-input-icon" />
                       <input
                         type="email"
-                        className="form-control"
+                        className="login-input"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
+                        onFocus={() => setFocusedField('email')}
+                        onBlur={() => setFocusedField('')}
                         required
-                        placeholder="Enter your email"
+                        placeholder=" "
                       />
+                      <label htmlFor="email" className="login-label">Email Address</label>
                     </div>
-                  </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="github_username" className="form-label">GitHub Username (Optional)</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaGithub />
-                      </span>
+                    <div className={`login-input-group ${focusedField === 'github_username' || formData.github_username ? 'focused' : ''}`}>
+                      <FaGithub className="login-input-icon" />
                       <input
                         type="text"
-                        className="form-control"
+                        className="login-input"
                         id="github_username"
                         name="github_username"
                         value={formData.github_username}
                         onChange={handleChange}
-                        placeholder="Enter your GitHub username"
+                        onFocus={() => setFocusedField('github_username')}
+                        onBlur={() => setFocusedField('')}
+                        placeholder=" "
                       />
+                      <label htmlFor="github_username" className="login-label">GitHub Username (Optional)</label>
                     </div>
-                  </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaLock />
-                      </span>
+                    <div className={`login-input-group ${focusedField === 'password' || formData.password ? 'focused' : ''}`}>
+                      <FaLock className="login-input-icon" />
                       <input
                         type={showPassword ? 'text' : 'password'}
-                        className="form-control"
+                        className="login-input"
                         id="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
+                        onFocus={() => setFocusedField('password')}
+                        onBlur={() => setFocusedField('')}
                         required
-                        placeholder="Enter your password"
+                        placeholder=" "
                       />
+                      <label htmlFor="password" className="login-label">Password</label>
                       <button
                         type="button"
-                        className="btn btn-outline-secondary"
+                        className="login-toggle-password"
                         onClick={() => setShowPassword(!showPassword)}
+                        tabIndex={-1}
                       >
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
-                  </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <FaLock />
-                      </span>
+                    <div className={`login-input-group ${focusedField === 'confirmPassword' || formData.confirmPassword ? 'focused' : ''}`}>
+                      <FaLock className="login-input-icon" />
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
-                        className="form-control"
+                        className="login-input"
                         id="confirmPassword"
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
+                        onFocus={() => setFocusedField('confirmPassword')}
+                        onBlur={() => setFocusedField('')}
                         required
-                        placeholder="Confirm your password"
+                        placeholder=" "
                       />
+                      <label htmlFor="confirmPassword" className="login-label">Confirm Password</label>
                       <button
                         type="button"
-                        className="btn btn-outline-secondary"
+                        className="login-toggle-password"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        tabIndex={-1}
                       >
                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
-                  </div>
 
-                  {error && (
-                    <div className="alert alert-danger">
-                      {error}
-                    </div>
-                  )}
+                    {error && (
+                      <div className="login-error">
+                        <span>⚠</span> {error}
+                      </div>
+                    )}
 
-                  {success && (
-                    <div className="alert alert-success">
-                      {success}
-                    </div>
-                  )}
-
-                  <div className="d-grid gap-2">
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-lg"
-                      disabled={isLoading}
-                    >
+                    <button type="submit" className="login-submit-btn" disabled={isLoading}>
                       {isLoading ? (
                         <>
-                          <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                          <span className="login-spinner"></span>
                           Creating Account...
                         </>
                       ) : (
                         'Create Account'
                       )}
                     </button>
-                  </div>
 
-                  <div className="text-center mt-3">
-                    <small className="text-muted">
-                      Already have an account? <Link to="/login" className="text-decoration-none">Sign in here</Link>
-                    </small>
+                    <div className="login-footer-text">
+                      Already have an account? <Link to="/login" className="login-link">Sign in</Link>
+                    </div>
+                  </form>
+                </div>
+
+                <div className="login-features">
+                  <h3 className="login-features-title">Member Benefits</h3>
+                  <div className="login-features-grid">
+                    <div className="login-feature-item">
+                      <div className="login-feature-icon">
+                        <FaUser />
+                      </div>
+                      <div className="login-feature-content">
+                        <h4>Personal Profile</h4>
+                        <p>Showcase your achievements</p>
+                      </div>
+                    </div>
+                    <div className="login-feature-item">
+                      <div className="login-feature-icon">
+                        <FaTrophy />
+                      </div>
+                      <div className="login-feature-content">
+                        <h4>Track Progress</h4>
+                        <p>Monitor your learning journey</p>
+                      </div>
+                    </div>
+                    <div className="login-feature-item">
+                      <div className="login-feature-icon">
+                        <FaCode />
+                      </div>
+                      <div className="login-feature-content">
+                        <h4>Coding Challenges</h4>
+                        <p>Solve real-world problems</p>
+                      </div>
+                    </div>
+                    <div className="login-feature-item">
+                      <div className="login-feature-icon">
+                        <FaComments />
+                      </div>
+                      <div className="login-feature-content">
+                        <h4>Community Access</h4>
+                        <p>Connect with fellow developers</p>
+                      </div>
+                    </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
