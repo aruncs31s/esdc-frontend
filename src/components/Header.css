@@ -106,7 +106,8 @@
   transform: scale(1.1);
 }
 
-.profile-button {
+.profile-button,
+.chat-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -120,7 +121,8 @@
   font-weight: 500;
 }
 
-.profile-button:hover {
+.profile-button:hover,
+.chat-button:hover {
   background: var(--ctp-surface1);
   border-color: var(--ctp-blue);
   transform: translateY(-2px);

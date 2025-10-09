@@ -12,6 +12,8 @@
     position: relative;
     overflow: hidden;
     letter-spacing: 0.3px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* Improves touch responsiveness */
 }
 
 .btn::before {
@@ -282,7 +284,7 @@
 
 .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
     gap: 2rem;
     margin-top: 3rem;
 }
@@ -413,7 +415,7 @@
 
 .challenges-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
     gap: 2rem;
     margin-top: 3rem;
 }

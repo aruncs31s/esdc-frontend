@@ -1,0 +1,196 @@
+
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useState, useEffect, ReactNode } from 'react';
+import { authAPI } from '../services/api';
+import { jwtDecode } from 'jwt-decode';
+
+interface UserData {
+  email: string;
+  username: string;
+  role: string;
+}
+
+interface DecodedToken {
+  sub: string;
+  user: string;
+  role: string;
+}
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+interface RegisterData {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  github_username?: string;
+}
+
+interface AuthResponse {
+  success: boolean;
+  message?: string;
+}
+
+interface AuthContextType {
+  user: UserData | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  login: (credentials: LoginCredentials) => Promise<AuthResponse>;
+  register: (userData: RegisterData) => Promise<AuthResponse>;
+  logout: () => Promise<void>;
+  checkAuthStatus: () => Promise<void>;
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<UserData | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const clearAuth = () => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
+  const isTokenExpired = (token: string): boolean => {
+    try {
+      const decoded = jwtDecode<DecodedToken & { exp?: number }>(token);
+      if (!decoded.exp) return false; // No expiration set
+      
+      // Check if token is expired (exp is in seconds, Date.now() is in milliseconds)
+      const currentTime = Date.now() / 1000;
+      return decoded.exp < currentTime;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true; // Treat invalid tokens as expired
+    }
+  };
+
+  const checkAuthStatus = async () => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const userData = localStorage.getItem('user_data');
+      
+      if (token && userData) {
+        // Check if token is expired
+        if (isTokenExpired(token)) {
+          console.log('Token expired, clearing authentication');
+          clearAuth();
+          return;
+        }
+
+        try {
+          const parsedUserData = JSON.parse(userData);
+          setUser(parsedUserData);
+          setIsAuthenticated(true);
+        } catch (parseError) {
+          console.error('Error parsing user data:', parseError);
+          clearAuth();
+        }
+      } else {
+        // No token or user data found
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    } catch (err) {
+      console.error('Auth check failed:', err);
+      clearAuth();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthStatus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+ 
+const login = async (credentials) => {
+  try {
+    const response = await authAPI.login(credentials);
+    if (response.status && response.data.token) {
+      const token = response.data.token;
+      localStorage.setItem('auth_token', token);
+
+      // Decode the JWT to get claims
+      const decoded = jwtDecode<DecodedToken>(token);
+      console.log("Decoded JWT:", decoded);
+      const userData: UserData = {
+        email: decoded.sub,
+        username: decoded.user,
+        role: decoded.role
+      };
+      
+      // Store user data in localStorage for persistence
+      localStorage.setItem('user_data', JSON.stringify(userData));
+      
+      setUser(userData);
+      setIsAuthenticated(true);
+
+      return { success: true };
+    } else {
+      return { success: false, message: response.message || 'Login failed' };
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    return { 
+      success: false, 
+      message: error.response?.data?.message || 'Login failed' 
+    };
+  }
+};
+
+  const register = async (userData) => {
+    try {
+      const response = await authAPI.register(userData);
+      
+      if (response.success) {
+        return { success: true, message: response.message };
+      } else {
+        return { success: false, message: response.message || 'Registration failed' };
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      return { 
+        success: false, 
+        message: error.response?.data?.message || 'Registration failed' 
+      };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user_data');
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  };
+
+  const value = {
+    user,
+    isAuthenticated,
+    loading,
+    login,
+    register,
+    logout,
+    checkAuthStatus
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
