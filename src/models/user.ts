@@ -23,6 +23,7 @@ export type UserStatus = typeof USER_STATUS[keyof typeof USER_STATUS];
 
 export interface UserData {
   id?: string | null;
+  name?: string;
   username?: string;
   email?: string;
   role?: UserRole;
@@ -54,6 +55,7 @@ export interface ValidationResult {
  */
 export class User {
   id: string | null;
+  name: string;
   username: string;
   email: string;
   role: UserRole;
@@ -70,6 +72,7 @@ export class User {
 
   constructor(data: UserData = {}) {
     this.id = data.id || null;
+    this.name = data.name || '';
     this.username = data.username || '';
     this.email = data.email || '';
     this.role = data.role || USER_ROLES.USER;
@@ -153,6 +156,7 @@ export class User {
   toJSON(): Record<string, any> {
     return {
       id: this.id,
+      name: this.name,
       username: this.username,
       email: this.email,
       role: this.role,

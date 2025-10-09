@@ -3,6 +3,8 @@
  * Provides a simplified interface to the application layer
  * This acts as the main entry point for UI components
  */
+import { Project } from '../domain/index.js';
+import { ProjectDTO } from '../dto/project_dto.js';
 import container from './Container.js';
 
 class ApplicationService {
@@ -81,7 +83,7 @@ class ApplicationService {
     return await useCase.execute({ userId, ...projectData });
   }
 
-  async getAllProjects(filters: any = {}): Promise<any> {
+  async getAllProjects(filters: any = {}): Promise<Project[] > {
     const repository = this.container.get('projectRepository');
     return await repository.findAll(filters);
   }

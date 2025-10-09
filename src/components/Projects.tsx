@@ -1,3 +1,5 @@
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+
 const Projects = () => {
   const projects = [
     {

@@ -15,8 +15,8 @@ interface RegisterData {
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
-    // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:9090'
-    baseURL: import.meta.env.VITE_API_URL || 'https://esdc-backend.onrender.com',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:9090',
+    // baseURL: import.meta.env.VITE_API_URL || 'https://esdc-backend.onrender.com',
     timeout: 10000, // 10 seconds timeout
     headers: {
         'Content-Type': 'application/json',

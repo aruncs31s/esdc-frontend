@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGithub, FaTrophy, FaCode, FaComments } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import { RegisterRequest } from '../types';
-import Header from './Navbar';
 import './Login.css';
 
 const Register = () => {

@@ -51,5 +51,7 @@ export interface RegisterRequest {
     github_username: string;
     password: string;
     confirmPassword?: string;
+    role?: string;
+    status?: string;
 }
   

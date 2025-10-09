@@ -1,6 +1,7 @@
 import { IProjectRepository } from '../../domain/repositories/IProjectRepository.js';
 import { Project } from '../../domain/entities/Project.js';
 import apiClient from '../api/ApiClient.js';
+import { ProjectDTO } from '../../dto/project_dto.js';
 
 /**
  * Project Repository Implementation
@@ -17,12 +18,14 @@ export class ProjectRepository extends IProjectRepository {
   /**
    * Find all projects with optional filters
    */
-  async findAll(filters = {}) {
+  async findAll(filters = {}): Promise<ProjectDTO[]> {
     try {
       const params = new URLSearchParams(filters);
-      const response = await this.api.get(`/api/admin/projects?${params}`);
+      const response = await this.api.get(`/api/projects?${params.toString()}`);
       const data = response.data?.data || response.data || [];
-      return Project.fromAPIArray(data);
+      const formatedData =  Project.fromAPIArray(data);
+      console.log('Projects fetched from API:', formatedData);
+      return formatedData;
     } catch (error) {
       console.error('Error fetching projects:', error);
       return [];

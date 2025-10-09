@@ -15,10 +15,10 @@ interface ProjectData {
   category?: string;
   tags?: string[];
   githubUrl?: string;
-  github_url?: string;
+  github_link?: string;
   liveUrl?: string;
   live_url?: string;
-  imageUrl?: string;
+  image?: string;
   image_url?: string;
   technologies?: string[];
   features?: string[];
@@ -32,6 +32,8 @@ interface ProjectData {
   updated_at?: string;
   completedAt?: string | null;
   completed_at?: string | null;
+  contributors?: string[];
+  cost ?: number;
 }
 
 interface ValidationResult {
@@ -57,6 +59,9 @@ export class Project {
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
+  cost: number;
+  contributors?: string[];
+
 
   constructor(data: ProjectData = {}) {
     this.id = data.id || null;
@@ -65,9 +70,9 @@ export class Project {
     this.status = data.status || ProjectStatus.DRAFT;
     this.category = data.category || '';
     this.tags = data.tags || [];
-    this.githubUrl = data.githubUrl || data.github_url || '';
+    this.githubUrl = data.githubUrl || data.github_link || '';
     this.liveUrl = data.liveUrl || data.live_url || '';
-    this.imageUrl = data.imageUrl || data.image_url || '';
+    this.imageUrl = data.image || data.image || '';
     this.technologies = data.technologies || [];
     this.features = data.features || [];
     this.userId = data.userId || data.user_id || null;
@@ -76,6 +81,8 @@ export class Project {
     this.createdAt = data.createdAt || data.created_at || new Date().toISOString();
     this.updatedAt = data.updatedAt || data.updated_at || new Date().toISOString();
     this.completedAt = data.completedAt || data.completed_at || null;
+    this.cost = data.cost || 0;
+    this.contributors = data.contributors || [];
   }
 
   start(): void {

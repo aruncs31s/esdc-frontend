@@ -2,22 +2,14 @@
 import { useState } from 'react';
 import { adminAPI } from '../../services/api';
 import { createUser, USER_ROLES, USER_STATUS } from '../../models/user';
-import { FaTimes, FaFileAlt, FaLink, FaBullseye, FaTrophy, FaBolt, FaCircle, FaHourglassHalf, FaPlus, FaUser, FaEnvelope, FaUserShield, FaToggleOn } from 'react-icons/fa';
+import { FaTimes, FaFileAlt, FaLink, FaBullseye, FaTrophy, FaBolt, FaHourglassHalf, FaPlus, FaUser, FaEnvelope, FaUserShield, FaToggleOn } from 'react-icons/fa';
 import { FiLock, FiShield, FiInfo, FiFileText } from 'react-icons/fi';
+import { RegisterRequest } from '../../types';
 
-interface FormData {
-  username?: string;
-  email?: string;
-  role?: string;
-  status?: string;
-  password?: string;
-  confirmPassword?: string;
-  githubUsername?: string;
-  [key: string]: any;
-}
+
 
 const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () => void; onSuccess: () => void }) => {
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<RegisterRequest>({});
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -42,12 +34,15 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
 
         // Create user with User model
         const newUser = createUser({
+          name: formData.name,
           username: formData.username,
           email: formData.email,
           role: (formData.role || USER_ROLES.USER) as any,
           status: (formData.status || USER_STATUS.ACTIVE) as any,
-          github_username: formData.githubUsername || '',
+          github_username: formData.github_username || '',
+          
         });
+        console.log(newUser);
 
         // Validate user data
         const { valid, errors } = newUser.validate();
@@ -84,12 +79,14 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
     padding: '0.875rem 1rem',
     borderRadius: '12px',
     border: '2px solid var(--surface0)',
-    background: 'var(--mantle)',
-    color: 'var(--text)',
+    background: 'var(--mantle) !important',
+    color: 'var(--text) !important',
     fontSize: '0.95rem',
     transition: 'all 0.3s ease',
-    outline: 'none'
-  };
+    outline: 'none',
+    WebkitBoxShadow: '0 0 0 1000px var(--mantle) inset !important',
+    WebkitTextFillColor: 'var(--text) !important'
+  } as React.CSSProperties;
 
   const labelStyle = {
     display: 'block',
@@ -101,24 +98,35 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
   };
 
   return (
-    <div 
-      className="modal-overlay" 
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'rgba(0, 0, 0, 0.75)',
-        backdropFilter: 'blur(8px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1000,
-        animation: 'fadeIn 0.3s ease'
-      }}
-      onClick={onClose}
-    >
+    <>
+      <style>{`
+        .modal-content input:-webkit-autofill,
+        .modal-content input:-webkit-autofill:hover,
+        .modal-content input:-webkit-autofill:focus,
+        .modal-content input:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 1000px var(--mantle) inset !important;
+          -webkit-text-fill-color: var(--text) !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+      `}</style>
+      <div 
+        className="modal-overlay" 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          animation: 'fadeIn 0.3s ease'
+        }}
+        onClick={onClose}
+      >
       <div 
         className="modal-content glass-card" 
         style={{
@@ -188,33 +196,39 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
           {type === 'users' && (
             <>
               <div style={{ marginBottom: '1.5rem' }}>
-                <label style={labelStyle}>
-                  <FaUser style={{ marginRight: '0.5rem', color: 'var(--blue)' }} /> 
-                  Username
-                </label>
+                <div className='flex flex-row items-center '> <FaUser style={{ marginRight: '0.5rem', color: 'var(--blue)', fontSize: '1.2rem' } } /> <span>Name</span></div>
+                <input
+                  type="text"
+                  required
+                  minLength={3}
+                  placeholder="Enter Name (min 3 characters)"
+                  onChange={(e) => setFormData({ ...formData,   name: e.target.value })}
+                  style={{...inputStyle}}
+                  onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                />
+              </div>
+              <div style={{ marginBottom: '1.5rem' }}>
+                <div className='flex flex-row items-center '> <FaUser style={{ marginRight: '0.5rem', color: 'var(--blue)', fontSize: '1.2rem' } } /> <span>Username</span></div>
                 <input
                   type="text"
                   required
                   minLength={3}
                   placeholder="Enter username (min 3 characters)"
                   onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                  style={inputStyle}
+                  style={{...inputStyle}}
                   onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                   onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
                 />
-              </div>
-              
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={labelStyle}>
-                  <FaEnvelope style={{ marginRight: '0.5rem', color: 'var(--green)' }} /> 
-                  Email
-                </label>
+              </div>              <div style={{ marginBottom: '1.5rem' }}>
+                <div className='flex flex-row items-center'> <FaEnvelope style={{ marginRight: '0.5rem', color: 'var(--green)', fontSize: '1.2rem' }} /> <span>Email</span></div>
+
                 <input
                   type="email"
                   required
                   placeholder="user@example.com"
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  style={inputStyle}
+                  style={{...inputStyle}}
                   onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                   onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
                 />
@@ -222,8 +236,11 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
                 <div>
+                  <div className='flex flex-row items-center'>
+                    <FiLock style={{ marginRight: '0.5rem', color: 'var(--red)' , fontSize: '1.2rem'}} /> Password
+                  </div>
                   <label style={labelStyle}>
-                    <FiLock style={{ marginRight: '0.5rem', color: 'var(--red)' }} /> Password
+                 
                   </label>
                   <input
                     type="password"
@@ -231,15 +248,15 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     minLength={8}
                     placeholder="Min 8 characters"
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    style={inputStyle}
+                    style={{...inputStyle}}
                     onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                     onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
                   />
                 </div>
                 <div>
-                  <label style={labelStyle}>
-                    <FiShield style={{ marginRight: '0.5rem', color: 'var(--red)' }} /> Confirm Password
-                  </label>
+                  <div className='flex flex-row items-center'>
+                    <FiShield style={{ marginRight: '0.5rem', color: 'var(--red)' , fontSize: '1.2rem'}} /> Confirm Password
+                  </div>
                   <input
                     type="password"
                     required
@@ -273,26 +290,22 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
               </div>
 
               <div style={{ marginBottom: '1.5rem' }}>
-                <label style={labelStyle}>
-                  <FaLink style={{ marginRight: '0.5rem', color: 'var(--mauve)' }} /> 
-                  GitHub Username (Optional)
-                </label>
+                <div className="flex"> <FaLink  style={{ marginRight: '0.5rem', color: 'var(--mauve)', fontSize: '1.2rem' }} /> GitHub Username (Optional)</div>
                 <input
                   type="text"
                   placeholder="github-username"
-                  onChange={(e) => setFormData({ ...formData, githubUsername: e.target.value })}
-                  style={inputStyle}
+                  onChange={(e) => setFormData({ ...formData, github_username: e.target.value })}
+                  style={{...inputStyle}}
                   onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                   onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+             <div className='grid grid-cols-2 gap-4 mb-6 '>
                 <div>
-                  <label style={labelStyle}>
-                    <FaUserShield style={{ marginRight: '0.5rem', color: 'var(--red)' }} /> 
-                    Role
-                  </label>
+                  <div className="flex">
+                  <FaUserShield style={{ marginRight: '0.5rem', color: 'var(--red)', fontSize: '1.2rem' }} />   <span>Role</span> 
+                  </div>
                   <select
                     required
                     defaultValue={USER_ROLES.USER}
@@ -311,10 +324,10 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                 </div>
                 
                 <div>
-                  <label style={labelStyle}>
-                    <FaToggleOn style={{ marginRight: '0.5rem', color: 'var(--green)' }} /> 
-                    Status
-                  </label>
+                  <div className='flex flex-row items-center'>
+                    <FaToggleOn style={{ marginRight: '0.5rem', color: 'var(--green)', fontSize: '1.2rem' }} /> 
+                    <span>Status</span>
+                  </div>
                   <select
                     required
                     defaultValue={USER_STATUS.ACTIVE}
@@ -334,35 +347,6 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                 </div>
               </div>
 
-              <div style={{ 
-                padding: '1rem', 
-                background: 'var(--surface0)', 
-                borderRadius: '12px',
-                marginBottom: '1rem'
-              }}>
-                <p style={{ 
-                  margin: 0, 
-                  fontSize: '0.85rem', 
-                  color: 'var(--subtext0)',
-                  lineHeight: '1.5',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  <FiLock style={{ color: 'var(--blue)' }} /> <strong>Password Requirements:</strong> Minimum 8 characters. Both password fields must match.
-                </p>
-                <p style={{ 
-                  margin: '0.5rem 0 0 0', 
-                  fontSize: '0.85rem', 
-                  color: 'var(--subtext0)',
-                  lineHeight: '1.5',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  <FiInfo style={{ color: 'var(--blue)' }} /> <strong>User Info:</strong> Username (min 3 chars), valid email format, and role/status selection.
-                </p>
-              </div>
             </>
           )}
 
@@ -556,6 +540,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
         </form>
       </div>
     </div>
+    </>
   );
 };
 
