@@ -2,15 +2,16 @@ import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { Project } from '../domain';
 
 interface ProjectCardProps {
-  project: any;
+  project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  return (
+  const link = project.live_url || project.github_link;
+  const cardContent = (
     <div className="project-card">
       <div className="project-image">
         <img
-          src={project.image || project.imageUrl || "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0"}
+          src={project.image || "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0"}
           alt={project.title}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -30,9 +31,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           paddingTop: '1rem',
           borderTop: '1px solid var(--surface0)'
         }}>
-          {project.githubUrl && (
+          {project.github_link && (
             <a
-              href={project.githubUrl}
+              href={project.github_link}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-secondary"
@@ -48,9 +49,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               <FaGithub /> GitHub
             </a>
           )}
-          {project.liveUrl && (
+          {project.live_url && (
             <a
-              href={project.liveUrl}
+              href={project.live_url}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"
@@ -69,6 +70,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
       </div>
     </div>
+  );
+  return link ? (
+    <a href={link} target="_blank" rel="noopener noreferrer" className="project-card-link">
+      {cardContent}
+    </a>
+  ) : (
+    cardContent
   );
 };
 
