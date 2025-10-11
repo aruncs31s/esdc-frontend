@@ -4,7 +4,6 @@
  * This acts as the main entry point for UI components
  */
 import { Project } from '../domain/index.js';
-import { ProjectDTO } from '../dto/project_dto.js';
 import container from './Container.js';
 
 class ApplicationService {

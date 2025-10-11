@@ -399,7 +399,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
             </>
           )}
 
-          {type === 'challenges' && (
+          {/* {type === 'challenges' && (
             <>
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={labelStyle}><FaBullseye style={{ marginRight: '0.5rem', color: 'var(--blue)' }} /> Title</label>
@@ -419,7 +419,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   required
                   rows={4}
                   placeholder="Describe the challenge"
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) => setProjectData({ ...projectData, description: e.target.value })}
                   style={{
                     ...inputStyle,
                     resize: 'vertical',
@@ -435,7 +435,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   <label style={labelStyle}><FaBolt style={{ marginRight: '0.5rem', color: 'var(--yellow)' }} /> Difficulty</label>
                   <select
                     required
-                    onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
+                    onChange={(e) => setProjectData({ ...projectData, difficulty: e.target.value })}
                     style={{
                       ...inputStyle,
                       cursor: 'pointer'
@@ -464,7 +464,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                 </div>
               </div>
             </>
-          )}
+          )} */}
 
           <div style={{ display: 'flex', gap: '1rem', marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--surface0)' }}>
             <button
