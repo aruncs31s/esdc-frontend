@@ -4,7 +4,7 @@ import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGithub, FaTrophy, FaCo
 import { useAuth } from '../hooks/useAuth';
 import { RegisterRequest } from '../types';
 import './Login.css';
-
+import { AuthResponse } from '../types/auth';
 const Register = () => {
   const [formData, setFormData] = useState<RegisterRequest>({
     name: '',
@@ -25,18 +25,18 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/profile');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
   };
 
 
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -52,7 +52,7 @@ const Register = () => {
     setError('');
 
     try {
-      const result = await register({
+      const result: AuthResponse = await register({
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -60,7 +60,7 @@ const Register = () => {
         github_username: formData.github_username
       });
       
-      if (!result.success) {
+      if (!result.success || !result.status) {
         setError(result.message);
       }
     } catch (err) {
