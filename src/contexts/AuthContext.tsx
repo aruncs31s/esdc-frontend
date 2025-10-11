@@ -3,61 +3,10 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { authAPI } from '../services/api';
 import { jwtDecode } from 'jwt-decode';
-
-interface UserData {
-  id?: string;
-  email: string;
-  username: string;
-  role: string;
-  name?: string;
-  login?: string;
-  avatar?: string;
-  avatar_url?: string;
-  avatarUrl?: string;
-  bio?: string;
-  html_url?: string;
-  created_at?: string;
-  createdAt?: string;
-  location?: string;
-  company?: string;
-  blog?: string;
-  github_username?: string;
-}
-
-interface DecodedToken {
-  sub: string;
-  user: string;
-  role: string;
-}
-
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-interface RegisterData {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  github_username?: string;
-}
-
-interface AuthResponse {
-  success: boolean;
-  message?: string;
-}
-
-interface AuthContextType {
-  user: UserData | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  login: (credentials: LoginCredentials) => Promise<AuthResponse>;
-  register: (userData: RegisterData) => Promise<AuthResponse>;
-  logout: () => Promise<void>;
-  checkAuthStatus: () => Promise<void>;
-}
-
+import { RegisterRequest } from '../types';
+import { UserData, LoginCredentials } from '../types/user';
+import { AuthResponse, DecodedToken, AuthResult } from '../types/auth';
+import { AuthContextType } from './AuthContextTypes';
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -82,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return decoded.exp < currentTime;
     } catch (error) {
       console.error('Error decoding token:', error);
-      return true; // Treat invalid tokens as expired
+      return true; 
     }
   };
 
@@ -126,11 +75,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
  
-const login = async (credentials) => {
+const login = async (credentials: LoginCredentials): Promise<AuthResult> =>  {
   try {
-    const response = await authAPI.login(credentials);
-    if (response.status && response.data.token) {
-      const token = response.data.token;
+    const response: AuthResponse = await authAPI.login(credentials);
+    if (response.status || response.success && response.data.token) {
+      // TODO: Standardize this.
+      const token = response.data.token || response.token;
       localStorage.setItem('auth_token', token);
 
       // Decode the JWT to get claims
@@ -138,9 +88,11 @@ const login = async (credentials) => {
       console.log("Decoded JWT:", decoded);
       const userData: UserData = {
         email: decoded.sub,
-        username: decoded.user,
-        role: decoded.role
+        username: decoded.username,
+        role: decoded.role,
+        name: decoded.name
       };
+      console.log("User Data:", userData);
       
       // Store user data in localStorage for persistence
       localStorage.setItem('user_data', JSON.stringify(userData));
@@ -161,11 +113,11 @@ const login = async (credentials) => {
   }
 };
 
-  const register = async (userData) => {
+  const register = async (userData: RegisterRequest): Promise<AuthResult> => {
     try {
       const response = await authAPI.register(userData);
-      
-      if (response.success) {
+
+      if (response.success || response.status) {
         return { success: true, message: response.message };
       } else {
         return { success: false, message: response.message || 'Registration failed' };

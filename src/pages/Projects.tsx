@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import applicationService from '../application/ApplicationService';
 import { mockProjects } from '../data/mockProjects';
 import { Project } from '../domain';
-import ProjectCard from '../components/ProjectCard';
+import ProjectCard from '../components/ProjectCard'; 
 const Projects = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -21,6 +22,7 @@ const Projects = () => {
       } catch (error) {
         console.error('Error fetching projects:', error);
         // Fallback to mock data on error
+        // Remove this in production
         setProjects(mockProjects);
       } finally {
         setLoading(false);
@@ -52,7 +54,7 @@ const Projects = () => {
         </div>
 
         <div className="projects-grid">
-          {projects.map((project: any) => (
+          {projects.map((project: Project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>

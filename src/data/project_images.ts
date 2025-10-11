@@ -1,0 +1,1 @@
+export const DEFAULT_PROJECT_IMAGE = '/public/imgs/main_project_image.avif';

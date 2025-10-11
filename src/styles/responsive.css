@@ -405,7 +405,7 @@
     /* Remove hover effects on touch devices */
     .btn:hover::before,
     .about-card:hover::before,
-    .project-card:hover::after,
+    .project-card-link:hover .project-card::after,
     .event-card:hover::before,
     .challenge-card:hover::before {
         display: none;

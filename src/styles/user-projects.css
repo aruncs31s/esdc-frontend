@@ -72,6 +72,12 @@
     position: relative;
 }
 
+.project-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .project-card::before {
     content: '';
     position: absolute;
@@ -85,13 +91,13 @@
     pointer-events: none;
 }
 
-.project-card:hover {
+.project-card-link:hover .project-card {
     transform: translateY(-8px);
     box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-.project-card:hover::before {
+.project-card-link:hover .project-card::before {
     left: 100%;
 }
 

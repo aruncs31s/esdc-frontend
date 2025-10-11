@@ -45,7 +45,7 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-	  name: string;
+    name: string;
     username: string;
     email: string;
     github_username: string;
@@ -54,4 +54,3 @@ export interface RegisterRequest {
     role?: string;
     status?: string;
 }
-  

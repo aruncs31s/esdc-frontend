@@ -1,28 +1,37 @@
-export interface ProjectDTO {
-  id?: string | null;
-  title?: string;
+export interface ProjectResponseDTO {
+  id: string ;
+  title: string;
   description?: string;
-  status?: string;
-  category?: string;
-  tags?: string[];
-  githubUrl?: string;
-  github_link?: string;
-  liveUrl?: string;
-  live_url?: string;
   image?: string;
-  image_url?: string;
-  technologies?: string[];
-  features?: string[];
-  userId?: string | null;
+  status: string;
+  category: string;
+  tags?: string[];
+  github_link?: string;
+  live_url?: string;
   user_id?: string | null;
   likes?: number;
   views?: number;
-  createdAt?: string;
   created_at?: string;
-  updatedAt?: string;
   updated_at?: string;
-  completedAt?: string | null;
   completed_at?: string | null;
-  contributors?: string[];
+  contributors?: ContributorDetails[];
+  tagsDetails?: TagDetails[];
+  technologyDetails?: TechnologyDetails[];
+  created_by?: string;
+  modified_by?: string;
   cost?: number;
+}
+
+interface ContributorDetails {
+  id: number;
+  name: string;
+  email: string;
+}
+interface TagDetails {
+  id: number;
+  name: string;
+}
+interface TechnologyDetails {
+  id: number;
+  name: string;
 }

@@ -5,11 +5,15 @@ import { createUser, USER_ROLES, USER_STATUS } from '../../models/user';
 import { FaTimes, FaFileAlt, FaLink, FaBullseye, FaTrophy, FaBolt, FaHourglassHalf, FaPlus, FaUser, FaEnvelope, FaUserShield, FaToggleOn } from 'react-icons/fa';
 import { FiLock, FiShield, FiInfo, FiFileText } from 'react-icons/fi';
 import { RegisterRequest } from '../../types';
+import { Project } from '../../models/projects';
+import { ProjectData } from '../../models/projects';
 
+// TODO: aruncs31s , fix this projects creation part
 
 
 const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () => void; onSuccess: () => void }) => {
-  const [formData, setFormData] = useState<RegisterRequest>({});
+  const [formData, setFormData] = useState<RegisterRequest>({ } as RegisterRequest);
+  const [projectData, setProjectData] = useState<ProjectData | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -358,7 +362,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   type="text"
                   required
                   placeholder="Enter project title"
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) => setProjectData({ ...projectData, title: e.target.value })}
                   style={inputStyle}
                   onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                   onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
@@ -370,7 +374,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   required
                   rows={4}
                   placeholder="Describe your project"
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) => setProjectData({ ...projectData, description: e.target.value })}
                   style={{
                     ...inputStyle,
                     resize: 'vertical',
@@ -386,7 +390,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                 <input
                   type="url"
                   placeholder="https://github.com/username/repo"
-                  onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
+                  onChange={(e) => setProjectData({ ...projectData, github_link: e.target.value })}
                   style={inputStyle}
                   onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                   onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
@@ -403,7 +407,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   type="text"
                   required
                   placeholder="Enter challenge title"
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) => setProjectData({ ...projectData, title: e.target.value })}
                   style={inputStyle}
                   onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
                   onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}

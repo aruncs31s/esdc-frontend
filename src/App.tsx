@@ -14,6 +14,7 @@ import Shop from './pages/Shop';
 import ShopCart from './pages/ShopCart';
 import LMS from './pages/LMS';
 import Projects from './pages/Projects';
+import ProjectDetail from './pages/ProjectDetail';
 import MyProducts from './pages/MyProducts';
 // import ThreeLanding from './pages/ThreeLanding';
 // import VehicleExplorer from './pages/VehicleExplorer';
@@ -144,13 +145,22 @@ const AppRoutes = () => {
                   } />
                 )}
                 {isFeatureEnabled('projects') && (
-                  <Route path="/community-projects" element={
-                    <>
-                      <Header />
-                      <Projects />
-                      <Footer />
-                    </>
-                  } />
+                  <>
+                    <Route path="/community-projects" element={
+                      <>
+                        <Header />
+                        <Projects />
+                        <Footer />
+                      </>
+                    } />
+                    <Route path="/projects/:id" element={
+                      <>
+                        <Header />
+                        <ProjectDetail />
+                        <Footer />
+                      </>
+                    } />
+                  </>
                 )}
                 {isFeatureEnabled('games') && (
                   <>
@@ -225,7 +235,8 @@ const AppRoutes = () => {
                   <Route path="/projects" element={
                     <>
                       <Header />
-                      <UserProjects />
+                      <Projects />
+                      {/* <UserProjects /> */}
                       <Footer />
                     </>
                   } />
