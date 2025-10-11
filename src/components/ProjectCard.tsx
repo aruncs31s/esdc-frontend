@@ -1,14 +1,28 @@
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { Project } from '../domain';
 
 interface ProjectCardProps {
   project: Project;
 }
 
+// FUTURE NOTE: This card is using only less amount of data from the Project entity.
+// Consider creating a lighter interface or DTO for project listings if performance becomes an issue.
+
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  const link = project.live_url || project.github_link;
+  const navigate = useNavigate();
+  
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't navigate if clicking on external links
+    const target = e.target as HTMLElement;
+    if (target.closest('a[target="_blank"]')) {
+      return;
+    }
+    navigate(`/projects/${project.id}`);
+  };
+
   const cardContent = (
-    <div className="project-card">
+    <div className="project-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       <div className="project-image">
         <img
           src={project.image || "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0"}
@@ -20,8 +34,8 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <h3>{project.title}</h3>
         <p>{project.description}</p>
         <div className="project-tags">
-          {project.technologies.map((tech, index) => (
-            <span key={index} className="tag">{tech}</span>
+          {project.technologies?.map((tech, index) => (
+            <span key={index} className="tag">{tech.name}</span>
           ))}
         </div>
         <div style={{
@@ -37,6 +51,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-secondary"
+              onClick={(e) => e.stopPropagation()}
               style={{
                 padding: '8px 16px',
                 fontSize: '0.85rem',
@@ -55,6 +70,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"
+              onClick={(e) => e.stopPropagation()}
               style={{
                 padding: '8px 16px',
                 fontSize: '0.85rem',
@@ -71,13 +87,8 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </div>
     </div>
   );
-  return link ? (
-    <a href={link} target="_blank" rel="noopener noreferrer" className="project-card-link">
-      {cardContent}
-    </a>
-  ) : (
-    cardContent
-  );
+  
+  return cardContent;
 };
 
 export default ProjectCard;
