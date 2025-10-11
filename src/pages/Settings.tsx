@@ -13,7 +13,12 @@ import {
   FaProjectDiagram, 
   FaGraduationCap, 
   FaBell, 
-  FaBox 
+  FaBox, 
+  FaInfo,
+  FaUndo,
+  FaKorvue,
+  FaRedo,
+  FaApplePay
 } from 'react-icons/fa';
 
 // Interface for feature item
@@ -334,7 +339,7 @@ const Settings = () => {
               fontWeight: '600'
             }}
           >
-            🔄 Reset to Defaults
+            <div><FaUndo /></div> Reset to Defaults
           </button>
           <button
             onClick={() => window.location.reload()}
@@ -370,7 +375,10 @@ const Settings = () => {
             color: 'var(--blue)',
             marginBottom: '0.75rem'
           }}>
-            ℹ️ About Settings
+            <div className='flex items-center gap-2'>
+            <FaInfo /> About Settings
+
+            </div>
           </h3>
           <p style={{ 
             fontSize: '0.9rem',
