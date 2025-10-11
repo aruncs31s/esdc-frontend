@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaTrophy, FaCode, FaComments } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
-import Header from './Navbar';
 import './Login.css';
 
 const Login = () => {
@@ -16,7 +15,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/profile');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
