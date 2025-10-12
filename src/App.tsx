@@ -20,6 +20,7 @@ import MyProducts from './pages/MyProducts';
 // import VehicleExplorer from './pages/VehicleExplorer';
 import Games from './pages/Games';
 import AdminPanel from './pages/AdminPanel';
+import Analytics from './pages/Analytics';
 import ProfileCardPage from './pages/ProfileCardPage';
 import Users from './pages/Users';
 import Login from './components/Login';
@@ -298,6 +299,15 @@ const AppRoutes = () => {
                     <>
                       <Header />
                       <AdminPanel />
+                      <Footer />
+                    </>
+                  </ProtectedRoute>
+                } />
+                <Route path="/analytics" element={
+                  <ProtectedRoute>
+                    <>
+                      <Header />
+                      <Analytics />
                       <Footer />
                     </>
                   </ProtectedRoute>
