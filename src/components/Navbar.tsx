@@ -1,15 +1,14 @@
-// Presentation: Header Component
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
-import { FiUser, FiShield, FiMenu, FiX, FiShoppingCart, FiMessageSquare, FiBell, FiSearch, FiSettings } from 'react-icons/fi';
+import { FiUser, FiShield, FiMenu, FiX, FiShoppingCart, FiMessageSquare, FiBell, FiSearch } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../contexts/ThemeContext';
 import { useShop } from '../contexts/ShopContext';
 import { useSettings } from '../contexts/SettingsContext';
 import ProfilePopup from './ProfilePopup';
 import Chatroom from './Chatroom';
-import './Header.css';
+import './navbar.css';
 
 export function Header() {
   const { user, isAuthenticated } = useAuth();
@@ -28,19 +27,11 @@ export function Header() {
     <>
       <header className="header">
         <div className="header-container">
-          <Link to="/" className="logo">
-            <h1>Jyothis Electronics Lab</h1>
-          </Link>
-
-          <button
-            className="mobile-menu-toggle"
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
+          <div className="hamburger" onClick={toggleMobileMenu}>
             {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+          </div>
 
-          <nav className={`nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+          <nav className={mobileMenuOpen ? 'nav-menu active' : 'nav-menu'}>
             {isFeatureEnabled('lms') && (
               <Link to="/lms" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
             )}
@@ -66,6 +57,7 @@ export function Header() {
                 }}
                 className="chat-button"
                 aria-label="Open chatroom"
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
               >
                 <FiMessageSquare size={20} />
                 <span>Chat</span>
@@ -102,10 +94,7 @@ export function Header() {
                 )}
               </Link>
             )}
-            
 
-
-            {/* Show Admin link only for admin users */}
             {isAuthenticated && user?.role === 'admin' && (
               <Link to="/admin" className="admin-link" onClick={() => setMobileMenuOpen(false)}>
                 <FiShield size={16} />
@@ -116,7 +105,9 @@ export function Header() {
             <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
               {theme === 'light' ? <MdDarkMode size={20} /> : <MdLightMode size={20} />}
             </button>
+          </nav>
 
+          <div className={`header-actions ${mobileMenuOpen ? 'hidden' : ''}`}>
             {isAuthenticated ? (
               <button
                 onClick={() => {
@@ -127,14 +118,14 @@ export function Header() {
                 aria-label="Open profile menu"
               >
                 <FiUser size={20} />
-                <span>{user?.name || 'User'}</span>
+                <span className="desktop-only">{user?.name || 'User'}</span>
               </button>
             ) : (
-              <Link to="/login" className="btn-login" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/login" className="btn-login">
                 Login
               </Link>
             )}
-          </nav>
+          </div>
         </div>
       </header>
 
