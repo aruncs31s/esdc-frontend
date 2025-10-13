@@ -11,6 +11,7 @@
 @import "./styles/profile.css";
 @import "./styles/profile-popup.css";
 @import "./styles/dashboard.css";
+@import "./styles/admin-panel.css";
 @import "./styles/user-projects.css";
 @import "./styles/leaderboard.css";
 @import "./styles/events.css";
@@ -53,3 +54,7 @@
 .team-card:nth-child(2) { animation-delay: 0.2s; }
 .team-card:nth-child(3) { animation-delay: 0.3s; }
 .team-card:nth-child(4) { animation-delay: 0.4s; }
+
+:root {
+  --primary-color: white;
+}

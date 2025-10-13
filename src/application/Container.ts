@@ -1,21 +1,21 @@
 import userRepository from '../infrastructure/repositories/UserRepository.js';
-import challengeRepository from '../infrastructure/repositories/ChallengeRepository.js';
 import projectRepository from '../infrastructure/repositories/ProjectRepository.js';
 import eventRepository from '../infrastructure/repositories/EventRepository.js';
+import chatbotRepository from '../infrastructure/repositories/ChatbotRepository.js';
 
 import { UserRegistrationService } from '../domain/services/UserRegistrationService.js';
-import { ChallengeEvaluationService } from '../domain/services/ChallengeEvaluationService.js';
 import { LeaderboardService } from '../domain/services/LeaderboardService.js';
+import { ChatbotService } from '../domain/services/ChatbotService.js';
 
 import { CreateUserUseCase } from '../application/use-cases/users/CreateUserUseCase.js';
 import { UpdateUserUseCase } from '../application/use-cases/users/UpdateUserUseCase.js';
 import { DeleteUserUseCase } from '../application/use-cases/users/DeleteUserUseCase.js';
 import { GetAllUsersUseCase } from '../application/use-cases/users/GetAllUsersUseCase.js';
 
-import { SubmitChallengeUseCase } from '../application/use-cases/challenges/SubmitChallengeUseCase.js';
-import { CompleteChallengeUseCase } from '../application/use-cases/challenges/CompleteChallengeUseCase.js';
 
 import { CreateProjectUseCase } from '../application/use-cases/projects/CreateProjectUseCase.js';
+import { AskChatbotUseCase } from '../application/use-cases/AskChatbotUseCase.js';
+import { adminRepository } from '@/infrastructure/index.js';
 
 /**
  * Dependency Injection Container
@@ -40,38 +40,31 @@ class Container {
 
     // Repositories
     this.services.set('userRepository', userRepository);
-    this.services.set('challengeRepository', challengeRepository);
     this.services.set('projectRepository', projectRepository);
     this.services.set('eventRepository', eventRepository);
-
+    this.services.set('chatbotRepository', chatbotRepository);
+    this.services.set('adminRepository', adminRepository)
     // Domain Services
     const userRegistrationService = new UserRegistrationService(userRepository);
-    const challengeEvaluationService = new ChallengeEvaluationService(
-      challengeRepository,
-      userRepository
-    );
+
     const leaderboardService = new LeaderboardService(userRepository);
+    const chatbotService = new ChatbotService(chatbotRepository);
 
     this.services.set('userRegistrationService', userRegistrationService);
-    this.services.set('challengeEvaluationService', challengeEvaluationService);
     this.services.set('leaderboardService', leaderboardService);
+    this.services.set('chatbotService', chatbotService);
 
     // Use Cases - Users
     this.services.set('createUserUseCase', new CreateUserUseCase(
       userRepository,
-      userRegistrationService
     ));
     this.services.set('updateUserUseCase', new UpdateUserUseCase(userRepository));
     this.services.set('deleteUserUseCase', new DeleteUserUseCase(userRepository));
     this.services.set('getAllUsersUseCase', new GetAllUsersUseCase(userRepository));
 
     // Use Cases - Challenges
-    this.services.set('submitChallengeUseCase', new SubmitChallengeUseCase(
-      challengeEvaluationService
-    ));
-    this.services.set('completeChallengeUseCase', new CompleteChallengeUseCase(
-      challengeEvaluationService
-    ));
+    ``
+
 
     // Use Cases - Projects
     this.services.set('createProjectUseCase', new CreateProjectUseCase(
@@ -79,13 +72,16 @@ class Container {
       userRepository
     ));
 
+    // Use Cases - Chatbot
+    this.services.set('askChatbotUseCase', new AskChatbotUseCase(chatbotService));
+
     this.initialized = true;
   }
 
   /**
    * Get a service by name
    */
-  get(serviceName) {
+  get(serviceName: string) {
     if (!this.initialized) {
       this.initialize();
     }
@@ -100,7 +96,7 @@ class Container {
   /**
    * Check if service exists
    */
-  has(serviceName) {
+  has(serviceName: string) {
     return this.services.has(serviceName);
   }
 

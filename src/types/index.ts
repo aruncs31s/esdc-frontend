@@ -1,56 +1,14 @@
 // Response types matching backend DTOs
 
 // API Response Wrappers
-export interface ApiSuccessResponse<T> {
-  status: true;
-  data: T;
-  meta: string;
-}
 
-export interface ApiErrorResponse {
-  status: false;
-  error: {
-    code: number;
-    status: string;
-    message: string;
-    details: string;
-  };
-}
+export type { ApiMessageResponse, ApiErrorResponse, ApiSuccessResponse } from './api';
 
-export interface ApiMessageResponse {
-  message: string;
-}
+export type { UserData, LoginCredentials, UserRegisterData, UserRegisterDataByAdmin, UserDataForAdmin } from './user';
+
+export type { DecodedToken, AuthResponse, AuthResult } from './auth';
 
 
-export interface User {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    role: string;
-    verified?: boolean | null;
-    status?: string;
-    createdAt?: number;
-    updatedAt?: number;
-}
+export type { ProjectData, ContributorDetails, ProjectStatusType, TechnologyDetails, TagDetails } from './project';
 
-export default User;
-
-
-
-export interface LoginRequest {
-    email: string;
-    password: string;
-}
-
-export interface RegisterRequest {
-    name: string;
-    username: string;
-    email: string;
-    github_username: string;
-    password: string;
-    confirmPassword?: string;
-    role?: string;
-    status?: string;
-}
+export type { statsForAdmin } from './forAdmin';

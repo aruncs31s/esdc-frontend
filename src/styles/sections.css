@@ -107,6 +107,27 @@ section {
     animation: fadeInUp 1s ease-out 0.2s both;
     background-size: 200% auto;
     animation: fadeInUp 1s ease-out 0.2s both, gradient-shift 5s ease infinite;
+    min-height: 5rem;
+}
+
+.typewriter-cursor {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: blink 1s step-end infinite;
+    font-weight: 100;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
 }
 
 .hero-subtitle {

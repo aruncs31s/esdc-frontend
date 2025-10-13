@@ -32,7 +32,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Find user by ID
    */
-  async findById(id) {
+  async findById(id: string) {
     try {
       const response = await this.api.get(`/api/admin/users/${id}`);
       const data = response.data?.data || response.data;
@@ -46,7 +46,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Find user by email
    */
-  async findByEmail(email) {
+  async findByEmail(email: string) {
     try {
       const response = await this.api.get(`/api/admin/users?email=${email}`);
       const data = response.data?.data || response.data || [];
@@ -61,7 +61,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Find user by username
    */
-  async findByUsername(username) {
+  async findByUsername(username: string) {
     try {
       const response = await this.api.get(`/api/admin/users?username=${username}`);
       const data = response.data?.data || response.data || [];
@@ -76,7 +76,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Save user (create or update)
    */
-  async save(user) {
+  async save(user: any) {
     try {
       if (user.id) {
         // Update existing user
@@ -101,7 +101,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Delete user by ID
    */
-  async delete(id) {
+  async delete(id: string) {
     try {
       await this.api.delete(`/api/admin/users/${id}`);
       return true;
@@ -114,7 +114,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Check if email exists
    */
-  async existsByEmail(email) {
+  async existsByEmail(email: string) {
     try {
       const user = await this.findByEmail(email);
       return user !== null;
@@ -127,7 +127,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Check if username exists
    */
-  async existsByUsername(username) {
+  async existsByUsername(username: string) {
     try {
       const user = await this.findByUsername(username);
       return user !== null;

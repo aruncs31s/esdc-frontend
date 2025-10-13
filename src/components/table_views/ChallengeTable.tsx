@@ -1,6 +1,11 @@
 import { FaEdit, FaTrash, FaClipboardList } from 'react-icons/fa';
 
-const ChallengesTable = ({ challenges, onDelete }) => {
+interface ChallengesTableProps {
+  challenges: any[];
+  onDelete: (challengeId: number) => void;
+}
+
+const ChallengesTable = ({ challenges, onDelete }: ChallengesTableProps) => {
   return (
     <div style={{ 
       background: 'var(--surface0)', 

@@ -3,14 +3,54 @@ import { useSearchParams } from 'react-router-dom';
 import { FiSearch, FiUser, FiPackage, FiFileText, FiFolder, FiX } from 'react-icons/fi';
 import './Search.css';
 
+interface user {
+  id: number;
+  name: string;
+  username: string;
+  avatar: string;
+  role: string;
+  website?: string;
+}
+
+interface product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+  stock: number;
+}
+
+interface blog {
+  id: number;
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+}
+
+interface project {
+  id: number;
+  title: string;
+  description: string;
+  author: string;
+  stars: number;
+}
+
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [category, setCategory] = useState(searchParams.get('category') || 'all');
-  const [results, setResults] = useState({ users: [], products: [], blogs: [], projects: [] });
+  const [results, setResults] = useState<{ users: user[]; products: product[]; blogs: blog[]; projects: project[] }>({
+    users: [],
+    products: [],
+    blogs: [],
+    projects: []
+  });
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
 
+  
   const categories = [
     { id: 'all', label: 'All', icon: FiSearch },
     { id: 'users', label: 'Users', icon: FiUser },
@@ -30,7 +70,7 @@ const Search = () => {
     }
   }, [searchParams]);
 
-  const performSearch = async (searchQuery, searchCategory) => {
+  const performSearch = async (searchQuery: string, searchCategory: string) => {
     if (!searchQuery.trim()) return;
 
     setLoading(true);
@@ -65,7 +105,7 @@ const Search = () => {
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (query.trim()) {
       setSearchParams({ q: query, category });
@@ -126,7 +166,7 @@ const Search = () => {
               <div className="category-tabs">
                 {categories.map(cat => {
                   const Icon = cat.icon;
-                  const count = cat.id === 'all' ? getTotalResults() : results[cat.id]?.length || 0;
+                  const count = cat.id === 'all' ? getTotalResults() : results[cat.id as keyof typeof results]?.length || 0;
                   return (
                     <button
                       key={cat.id}

@@ -1,24 +1,21 @@
 import { useState, ReactElement } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
-import { 
-  FaRobot, 
-  FaComments, 
-  FaGamepad, 
-  FaShoppingCart, 
-  FaBlog, 
-  FaCalendarAlt, 
-  FaTrophy, 
-  FaBook, 
-  FaChartLine, 
-  FaProjectDiagram, 
-  FaGraduationCap, 
-  FaBell, 
-  FaBox, 
+import {
+  FaRobot,
+  FaComments,
+  FaGamepad,
+  FaShoppingCart,
+  FaBlog,
+  FaCalendarAlt,
+  FaTrophy,
+  FaBook,
+  FaChartLine,
+  FaProjectDiagram,
+  FaGraduationCap,
+  FaBell,
+  FaBox,
   FaInfo,
   FaUndo,
-  FaKorvue,
-  FaRedo,
-  FaApplePay
 } from 'react-icons/fa';
 
 // Interface for feature item
@@ -147,8 +144,8 @@ const Settings = () => {
   ];
 
   // Filter features by category
-  const filteredFeatures = activeTab === 'all' 
-    ? features 
+  const filteredFeatures = activeTab === 'all'
+    ? features
     : features.filter(f => f.category === activeTab);
 
   // Handle toggle
@@ -182,12 +179,12 @@ const Settings = () => {
         </div>
 
         {/* Category Tabs */}
-        <div style={{ 
-          marginBottom: '2rem', 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          justifyContent: 'center', 
-          gap: '0.75rem' 
+        <div style={{
+          marginBottom: '2rem',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '0.75rem'
         }}>
           {categories.map(cat => (
             <button
@@ -222,8 +219,8 @@ const Settings = () => {
                 transition: 'all 0.3s ease'
               }}
             >
-              <div className="project-image" style={{ 
-                background: settings[feature.key] 
+              <div className="project-image" style={{
+                background: settings[feature.key]
                   ? 'linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%)'
                   : 'linear-gradient(135deg, var(--surface0) 0%, var(--surface1) 100%)',
                 display: 'flex',
@@ -231,7 +228,7 @@ const Settings = () => {
                 justifyContent: 'center',
                 minHeight: '200px'
               }}>
-                <div style={{ 
+                <div style={{
                   fontSize: '4rem',
                   color: settings[feature.key] ? 'var(--crust)' : 'var(--overlay0)',
                   transition: 'all 0.3s ease'
@@ -240,15 +237,15 @@ const Settings = () => {
                 </div>
               </div>
               <div className="project-content">
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: '0.75rem' 
+                  marginBottom: '0.75rem'
                 }}>
                   <div>
                     <h3 style={{ marginBottom: '0.25rem' }}>{feature.label}</h3>
-                    <span className="tag" style={{ 
+                    <span className="tag" style={{
                       fontSize: '0.75rem',
                       textTransform: 'capitalize'
                     }}>
@@ -286,7 +283,7 @@ const Settings = () => {
                     />
                   </button>
                 </div>
-                <p style={{ 
+                <p style={{
                   fontSize: '0.9rem',
                   color: 'var(--subtext0)',
                   marginBottom: '1rem',
@@ -294,9 +291,9 @@ const Settings = () => {
                 }}>
                   {feature.description}
                 </p>
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   paddingTop: '1rem',
                   borderTop: '1px solid var(--surface0)'
@@ -318,9 +315,9 @@ const Settings = () => {
         </div>
 
         {/* Action Buttons */}
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
           gap: '1rem',
           marginTop: '3rem',
           flexWrap: 'wrap'
@@ -369,24 +366,24 @@ const Settings = () => {
           maxWidth: '800px',
           margin: '3rem auto 0'
         }}>
-          <h3 style={{ 
+          <h3 style={{
             fontSize: '1.1rem',
             fontWeight: '600',
             color: 'var(--blue)',
             marginBottom: '0.75rem'
           }}>
             <div className='flex items-center gap-2'>
-            <FaInfo /> About Settings
+              <FaInfo /> About Settings
 
             </div>
           </h3>
-          <p style={{ 
+          <p style={{
             fontSize: '0.9rem',
             color: 'var(--subtext0)',
             lineHeight: '1.6'
           }}>
-            Your settings are automatically saved to your browser's local storage. 
-            Disabling features will hide them from navigation and prevent access to those pages. 
+            Your settings are automatically saved to your browser's local storage.
+            Disabling features will hide them from navigation and prevent access to those pages.
             Some features may require a page reload to take effect.
           </p>
         </div>

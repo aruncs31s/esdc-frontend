@@ -1,53 +1,10 @@
-export const ProjectStatus = {
-  DRAFT: 'draft',
-  IN_PROGRESS: 'in_progress',
-  COMPLETED: 'completed',
-  ARCHIVED: 'archived'
-} as const;
+import { ProjectStatusType } from "@/types";
+import { ProjectStatus, TagDetails, ContributorDetails, TechnologyDetails, ProjectData } from "@/types/project";
+import { ValidationResult } from "@/types/validation_errors";
 
-export type ProjectStatusType = typeof ProjectStatus[keyof typeof ProjectStatus];
-
-// This one is the Create DTO not sure about the update.
-interface ProjectData {
-  id?: string | null;
-  title?: string;
-  description?: string;
-  status?: ProjectStatusType;
-  category?: string;
-  tags?: TagDetails[];
-  github_link?: string;
-  live_url?: string;
-  image?: string;
-  technologies?: TechnologyDetails[];
-  user_id?: string | null;
-  likes?: number;
-  views?: number;
-  created_at?: string;
-  updated_at?: string;
-  completed_at?: string | null;
-  contributors?: ContributorDetails[];
-  cost?: number;
-}
-interface ContributorDetails {
-  id: number;
-  name: string;
-  email: string;
-}
-interface TagDetails {
-  id: number;
-  name: string;
-}
-interface TechnologyDetails {
-  id: number;
-  name: string;
-}
-interface ValidationResult {
-  valid: boolean;
-  errors: string[];
-}
 
 export class Project {
-  id: string;
+  id?: string;
   title: string;
   description?: string;
   image?: string;
@@ -57,9 +14,9 @@ export class Project {
   github_link?: string;
   live_url?: string;
   user_id?: string | null;
-  likes?: number;
-  views?: number;
-  created_at?: string;
+  likes: number;
+  views: number;
+  created_at: string;
   updated_at?: string;
   completed_at?: string | null;
   contributors?: ContributorDetails[];
@@ -69,13 +26,13 @@ export class Project {
   cost?: number;
 
   constructor(data: ProjectData = {}) {
-    this.id = data.id || null;
+    this.id = data.id;
     this.title = data.title || '';
     this.description = data.description || '';
     this.status = data.status || ProjectStatus.DRAFT;
     this.category = data.category || '';
     this.tags = data.tags || [];
-    this.github_link =   data.github_link || '';
+    this.github_link = data.github_link || '';
     this.live_url = data.live_url || '';
     this.image = data.image || '';
     this.technologies = data.technologies || [];
@@ -127,12 +84,12 @@ export class Project {
     this.views++;
   }
 
-  addTechnology(technology: string): void {
-    if (!this.technologies.some(t => t.name === technology)) {
-      this.technologies.push({ id: this.technologies.length + 1, name: technology });
-      this.updated_at = new Date().toISOString();
-    }
-  }
+  // addTechnology(technology: string): void {
+  //   if (!this.technologies.some(t => t.name === technology)) {
+  //     this.technologies.push({ id: this.technologies.length + 1, name: technology });
+  //     this.updated_at = new Date().toISOString();
+  //   }
+  // }
 
   // addFeature(feature: string): void {
   //   this..push(feature);
@@ -218,25 +175,8 @@ export class Project {
     };
   }
 
-  static fromAPI(data: any): Project {2
-    // Map API response fields to Project entity fields
-    console.log('🔍 Raw API data:', data);
-    console.log('🏷️ Tags from API:', {
-      tags_details: data.tags_details,
-      tags: data.tags,
-      result: data.tags_details || data.tags || []
-    });
-    console.log('🔧 Technologies from API:', {
-      technology_details: data.technology_details,
-      technologies: data.technologies,
-      result: data.technology_details || data.technologies || []
-    });
-    console.log('👥 Contributors from API:', {
-      contributors_details: data.contributors_details,
-      contributors: data.contributors,
-      result: data.contributors_details || data.contributors || []
-    });
-    
+  static fromAPI(data: any): Project {
+
     const mappedData = {
       id: data.id?.toString() || null,
       title: data.title,
@@ -257,7 +197,7 @@ export class Project {
       contributors: data.contributors_details || data.contributors || [],
       cost: data.cost
     };
-    
+
     console.log('✅ Mapped project data:', mappedData);
     return new Project(mappedData);
   }

@@ -19,16 +19,26 @@ const SHAPES = [
 
 const COLORS = ['#00f5ff', '#ffd700', '#da70d6', '#ff8c00', '#1e90ff', '#00ff00', '#ff0000'];
 
+interface Piece {
+  shape: number[][];
+  color: number;
+}
+
+interface Position {
+  x: number;
+  y: number;
+}
+
 const TetrisGame = () => {
   const [board, setBoard] = useState(Array(ROWS).fill(null).map(() => Array(COLS).fill(0)));
-  const [currentPiece, setCurrentPiece] = useState(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [currentPiece, setCurrentPiece] = useState<Piece | null>(null);
+  const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [lines, setLines] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [highScore, setHighScore] = useState(parseInt(localStorage.getItem('tetrisHighScore')) || 0);
+  const [highScore, setHighScore] = useState(parseInt(localStorage.getItem('tetrisHighScore') || '0') || 0);
 
   const createPiece = useCallback(() => {
     const shapeIndex = Math.floor(Math.random() * SHAPES.length);
@@ -38,7 +48,7 @@ const TetrisGame = () => {
     };
   }, []);
 
-  const checkCollision = useCallback((piece, pos, newBoard = board) => {
+  const checkCollision = useCallback((piece: Piece, pos: Position, newBoard = board) => {
     for (let y = 0; y < piece.shape.length; y++) {
       for (let x = 0; x < piece.shape[y].length; x++) {
         if (piece.shape[y][x]) {
@@ -54,9 +64,10 @@ const TetrisGame = () => {
   }, [board]);
 
   const mergePiece = useCallback(() => {
+    if (!currentPiece) return;
     const newBoard = board.map(row => [...row]);
-    currentPiece.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
+    currentPiece.shape.forEach((row: number[], y: number) => {
+      row.forEach((value: number, x: number) => {
         if (value) {
           const boardY = position.y + y;
           const boardX = position.x + x;
@@ -102,7 +113,7 @@ const TetrisGame = () => {
     }
   }, [board, currentPiece, position, score, level, lines, createPiece, checkCollision, highScore]);
 
-  const movePiece = useCallback((dx, dy) => {
+  const movePiece = useCallback((dx: number, dy: number) => {
     if (!currentPiece || gameOver || !isPlaying) return;
 
     const newPos = { x: position.x + dx, y: position.y + dy };
@@ -117,11 +128,11 @@ const TetrisGame = () => {
   const rotatePiece = useCallback(() => {
     if (!currentPiece || gameOver || !isPlaying) return;
 
-    const rotated = currentPiece.shape[0].map((_, i) =>
-      currentPiece.shape.map(row => row[i]).reverse()
+    const rotated = currentPiece.shape[0].map((_: number, i: number) =>
+      currentPiece.shape.map((row: number[]) => row[i]).reverse()
     );
 
-    const rotatedPiece = { ...currentPiece, shape: rotated };
+    const rotatedPiece: Piece = { ...currentPiece, shape: rotated };
 
     if (!checkCollision(rotatedPiece, position)) {
       setCurrentPiece(rotatedPiece);
@@ -162,7 +173,7 @@ const TetrisGame = () => {
   }, [isPlaying, gameOver, level, movePiece]);
 
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying || gameOver) return;
 
       switch (e.key) {
@@ -199,8 +210,8 @@ const TetrisGame = () => {
     const displayBoard = board.map(row => [...row]);
 
     if (currentPiece && !gameOver) {
-      currentPiece.shape.forEach((row, y) => {
-        row.forEach((value, x) => {
+      currentPiece.shape.forEach((row: number[], y: number) => {
+        row.forEach((value: number, x: number) => {
           if (value) {
             const boardY = position.y + y;
             const boardX = position.x + x;

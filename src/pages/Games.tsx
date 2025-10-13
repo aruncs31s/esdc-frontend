@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { GiSnake, GiBrickWall, GiPingPongBat, GiBreakingChain, GiBrain, GiMusicalNotes, GiGamepad, GiJoystick } from 'react-icons/gi';
 import { IoFlash, IoPeople, IoCalendar } from 'react-icons/io5';
-import { FaTrophy } from 'react-icons/fa';
 import '../styles/games.css';
 
 const Games = () => {
@@ -85,7 +84,7 @@ const Games = () => {
                 <div className="game-card-content">
                   <h2 className="game-card-title">{game.title}</h2>
                   <p className="game-card-description">{game.description}</p>
-                  
+
                   <div className="game-card-meta">
                     <span className="game-meta-item">
                       <span className="meta-icon"><IoFlash /></span>
@@ -101,7 +100,7 @@ const Games = () => {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="game-card-overlay">
                   <span className="play-button">▶ Play Now</span>
                 </div>

@@ -18,12 +18,12 @@ export class ProjectRepository extends IProjectRepository {
   /**
    * Find all projects with optional filters
    */
-  async findAll(filters = {}): Promise<Project[]> {
+  async findAll(_filters = {}): Promise<Project[]> {
     try {
       // const params = new URLSearchParams(filters);
       const response = await this.api.get(`/api/projects`);
       const data = response.data?.data || response.data || [];
-      const formatedData =  Project.fromAPIArray(data);
+      const formatedData = Project.fromAPIArray(data);
       console.log('Projects fetched from API:', formatedData);
       return formatedData;
     } catch (error) {
@@ -38,7 +38,7 @@ export class ProjectRepository extends IProjectRepository {
   async findById(id: string): Promise<Project | null> {
     try {
       const response = await this.api.get(`/api/projects/${id}`);
-      
+
       const data = response.data?.data || response.data;
       console.log(`Project ${id} fetched from API:`, data);
       return Project.fromAPI(data);
@@ -51,7 +51,7 @@ export class ProjectRepository extends IProjectRepository {
   /**
    * Find projects by user ID
    */
-  async findByUserId(userId) {
+  async findByUserId(userId: string) {
     try {
       const response = await this.api.get(`/api/admin/projects?user_id=${userId}`);
       const data = response.data?.data || response.data || [];
@@ -65,7 +65,7 @@ export class ProjectRepository extends IProjectRepository {
   /**
    * Find projects by status
    */
-  async findByStatus(status) {
+  async findByStatus(status: string) {
     try {
       const response = await this.api.get(`/api/admin/projects?status=${status}`);
       const data = response.data?.data || response.data || [];
@@ -79,7 +79,7 @@ export class ProjectRepository extends IProjectRepository {
   /**
    * Save project (create or update)
    */
-  async save(project) {
+  async save(project: any) {
     try {
       if (project.id) {
         // Update existing project
@@ -104,7 +104,7 @@ export class ProjectRepository extends IProjectRepository {
   /**
    * Delete project by ID
    */
-  async delete(id) {
+  async delete(id: string) {
     try {
       await this.api.delete(`/api/admin/projects/${id}`);
       return true;
@@ -129,6 +129,6 @@ export class ProjectRepository extends IProjectRepository {
 }
 
 // Singleton instance
-const projectRepository = new ProjectRepository();
+const projectRepository: ProjectRepository = new ProjectRepository();
 
 export default projectRepository;

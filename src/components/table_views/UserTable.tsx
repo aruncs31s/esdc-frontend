@@ -1,31 +1,39 @@
 
+import { UserDataForAdmin } from '@/types';
 import { FaEdit, FaTrash, FaUsers } from 'react-icons/fa';
 
+interface UsersTableProps {
+  users: UserDataForAdmin[];
+  onDelete: (userId: number) => void;
+}
 
-
-const UsersTable = ({ users, onDelete }) => {
-  console.log(users);
+const UsersTable = ({ users, onDelete }: UsersTableProps) => {
+  console.log('UsersTable received users:', users, 'isArray:', Array.isArray(users));
+  
+  // Ensure users is always an array
+  const usersList = Array.isArray(users) ? users : [];
+  
   return (
-    <div style={{ 
-      background: 'var(--surface0)', 
-      borderRadius: '16px', 
+    <div style={{
+      background: 'var(--surface0)',
+      borderRadius: '16px',
       overflow: 'hidden',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
     }}>
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ 
-          width: '100%', 
+        <table style={{
+          width: '100%',
           borderCollapse: 'separate',
           borderSpacing: 0
         }}>
           <thead>
-            <tr style={{ 
+            <tr style={{
               background: 'linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%)',
             }}>
-              <th style={{ 
-                padding: '1.25rem 1.5rem', 
-                textAlign: 'left', 
-                color: 'var(--crust)', 
+              <th style={{
+                padding: '1.25rem 1.5rem',
+                textAlign: 'left',
+                color: 'var(--crust)',
                 fontWeight: '700',
                 fontSize: '0.875rem',
                 textTransform: 'uppercase',
@@ -33,10 +41,10 @@ const UsersTable = ({ users, onDelete }) => {
               }}>
                 Username
               </th>
-              <th style={{ 
-                padding: '1.25rem 1.5rem', 
-                textAlign: 'left', 
-                color: 'var(--crust)', 
+              <th style={{
+                padding: '1.25rem 1.5rem',
+                textAlign: 'left',
+                color: 'var(--crust)',
                 fontWeight: '700',
                 fontSize: '0.875rem',
                 textTransform: 'uppercase',
@@ -44,10 +52,10 @@ const UsersTable = ({ users, onDelete }) => {
               }}>
                 Email
               </th>
-              <th style={{ 
-                padding: '1.25rem 1.5rem', 
-                textAlign: 'left', 
-                color: 'var(--crust)', 
+              <th style={{
+                padding: '1.25rem 1.5rem',
+                textAlign: 'left',
+                color: 'var(--crust)',
                 fontWeight: '700',
                 fontSize: '0.875rem',
                 textTransform: 'uppercase',
@@ -55,10 +63,10 @@ const UsersTable = ({ users, onDelete }) => {
               }}>
                 Role
               </th>
-              <th style={{ 
-                padding: '1.25rem 1.5rem', 
-                textAlign: 'left', 
-                color: 'var(--crust)', 
+              <th style={{
+                padding: '1.25rem 1.5rem',
+                textAlign: 'left',
+                color: 'var(--crust)',
                 fontWeight: '700',
                 fontSize: '0.875rem',
                 textTransform: 'uppercase',
@@ -66,10 +74,10 @@ const UsersTable = ({ users, onDelete }) => {
               }}>
                 Status
               </th>
-              <th style={{ 
-                padding: '1.25rem 1.5rem', 
-                textAlign: 'center', 
-                color: 'var(--crust)', 
+              <th style={{
+                padding: '1.25rem 1.5rem',
+                textAlign: 'center',
+                color: 'var(--crust)',
                 fontWeight: '700',
                 fontSize: '0.875rem',
                 textTransform: 'uppercase',
@@ -80,10 +88,10 @@ const UsersTable = ({ users, onDelete }) => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr 
-                key={user.id} 
-                style={{ 
+            {usersList.map((user, index) => (
+              <tr
+                key={user.id}
+                style={{
                   background: index % 2 === 0 ? 'var(--base)' : 'var(--mantle)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer'
@@ -97,35 +105,35 @@ const UsersTable = ({ users, onDelete }) => {
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                <td style={{ 
-                  padding: '1.25rem 1.5rem', 
-                  color: 'var(--text)', 
+                <td style={{
+                  padding: '1.25rem 1.5rem',
+                  color: 'var(--text)',
                   fontWeight: '600',
                   fontSize: '0.95rem',
                   borderBottom: '1px solid var(--surface0)'
                 }}>
                   {user.username}
                 </td>
-                <td style={{ 
-                  padding: '1.25rem 1.5rem', 
+                <td style={{
+                  padding: '1.25rem 1.5rem',
                   color: 'var(--subtext1)',
                   fontSize: '0.9rem',
                   borderBottom: '1px solid var(--surface0)'
                 }}>
                   {user.email}
                 </td>
-                <td style={{ 
+                <td style={{
                   padding: '1.25rem 1.5rem',
                   borderBottom: '1px solid var(--surface0)'
                 }}>
-                  <span style={{ 
+                  <span style={{
                     padding: '0.4rem 1rem',
                     borderRadius: '24px',
                     fontSize: '0.85rem',
                     fontWeight: '600',
                     display: 'inline-block',
-                    background: user.role === 'admin' 
-                      ? 'rgba(243, 139, 168, 0.15)' 
+                    background: user.role === 'admin'
+                      ? 'rgba(243, 139, 168, 0.15)'
                       : 'rgba(137, 180, 250, 0.15)',
                     color: user.role === 'admin' ? 'var(--red)' : 'var(--blue)',
                     border: `1px solid ${user.role === 'admin' ? 'var(--red)' : 'var(--blue)'}`,
@@ -134,18 +142,18 @@ const UsersTable = ({ users, onDelete }) => {
                     {user.role}
                   </span>
                 </td>
-                <td style={{ 
+                <td style={{
                   padding: '1.25rem 1.5rem',
                   borderBottom: '1px solid var(--surface0)'
                 }}>
-                  <span style={{ 
+                  <span style={{
                     padding: '0.4rem 1rem',
                     borderRadius: '24px',
                     fontSize: '0.85rem',
                     fontWeight: '600',
                     display: 'inline-block',
-                    background: user.status === 'active' 
-                      ? 'rgba(166, 227, 161, 0.15)' 
+                    background: user.status === 'active'
+                      ? 'rgba(166, 227, 161, 0.15)'
                       : 'rgba(249, 226, 175, 0.15)',
                     color: user.status === 'active' ? 'var(--green)' : 'var(--yellow)',
                     border: `1px solid ${user.status === 'active' ? 'var(--green)' : 'var(--yellow)'}`,
@@ -154,12 +162,12 @@ const UsersTable = ({ users, onDelete }) => {
                     {user.status}
                   </span>
                 </td>
-                <td style={{ 
+                <td style={{
                   padding: '1.25rem 1.5rem',
                   borderBottom: '1px solid var(--surface0)'
                 }}>
-                  <div style={{ 
-                    display: 'flex', 
+                  <div style={{
+                    display: 'flex',
                     gap: '0.75rem',
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -227,15 +235,15 @@ const UsersTable = ({ users, onDelete }) => {
         </table>
       </div>
       {users.length === 0 && (
-        <div style={{ 
-          textAlign: 'center', 
-          padding: '3rem 2rem', 
+        <div style={{
+          textAlign: 'center',
+          padding: '3rem 2rem',
           color: 'var(--subtext0)',
           fontSize: '1.1rem',
           fontWeight: '500'
         }}>
-          <div style={{ 
-            fontSize: '3rem', 
+          <div style={{
+            fontSize: '3rem',
             marginBottom: '1rem',
             opacity: 0.5,
             color: 'var(--blue)'

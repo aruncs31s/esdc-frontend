@@ -1,10 +1,15 @@
-/**
+/*
  * Application Facade
  * Provides a simplified interface to the application layer
- * This acts as the main entry point for UI components
- */
-import { Project } from '../domain/index.js';
-import container from './Container.js';
+* This acts as the main entry point for UI components
+*/
+
+import { Project } from '../domain/index';
+import container from './Container';
+import { ProjectData, ProjectDataForAdmin } from '@/types/project';
+import { AdminRepository } from '@/infrastructure/repositories/AdminRepository';
+import { statsForAdmin } from '@/types';
+import { UserDataForAdmin, UserRegisterDataByAdmin } from '@/types/user';
 
 class ApplicationService {
   private container: typeof container;
@@ -13,6 +18,28 @@ class ApplicationService {
     this.container = container;
   }
 
+  async getAllProjectForAdmin(filters: any = {}): Promise<ProjectDataForAdmin[]> {
+    const adminRepo = this.container.get('adminRepository') as AdminRepository;
+    return await adminRepo.findAllProjects(filters);
+  }
+  // Stats Operations
+  async getAdminStats(): Promise<statsForAdmin> {
+    const adminRepo = this.container.get('adminRepository') as AdminRepository;
+    return await adminRepo.getAdminStats();
+  }
+  async getAllUsersForAdmin(filters: any = {}): Promise<UserDataForAdmin[]> {
+    const adminRepo = this.container.get('adminRepository') as AdminRepository;
+    return await adminRepo.findAllUsers(filters);
+  }
+  async createUserByAdmin(userData: UserRegisterDataByAdmin): Promise<UserRegisterDataByAdmin> {
+    const adminRepo = this.container.get('adminRepository') as AdminRepository;
+    return await adminRepo.createUser(userData);
+  }
+  // Project Operations
+  async createProjectByAdmin(userId: string, projectData: ProjectData): Promise<any> {
+    const adminRepo = this.container.get('adminRepository') as AdminRepository;
+    return await adminRepo.createProject(userId, projectData);
+  }
   // User Operations
   async createUser(userData: any): Promise<any> {
     const useCase = this.container.get('createUserUseCase');
@@ -29,52 +56,13 @@ class ApplicationService {
     return await useCase.execute(userId);
   }
 
-  async getAllUsers(filters: any = {}): Promise<any> {
-    const useCase = this.container.get('getAllUsersUseCase');
-    return await useCase.execute(filters);
-  }
+
 
   async getUserById(userId: string): Promise<any> {
     const repository = this.container.get('userRepository');
     return await repository.findById(userId);
   }
 
-  // Challenge Operations
-  async submitChallenge(userId: string, challengeId: string, submissionData: any): Promise<any> {
-    const useCase = this.container.get('submitChallengeUseCase');
-    return await useCase.execute({
-      userId,
-      challengeId,
-      ...submissionData
-    });
-  }
-
-  async completeChallenge(userId: string, challengeId: string): Promise<any> {
-    const useCase = this.container.get('completeChallengeUseCase');
-    return await useCase.execute({ userId, challengeId });
-  }
-
-  async getAllChallenges(filters: any = {}): Promise<any> {
-    const repository = this.container.get('challengeRepository');
-    return await repository.findAll(filters);
-  }
-
-  async getChallengeById(challengeId: string): Promise<any> {
-    const repository = this.container.get('challengeRepository');
-    return await repository.findById(challengeId);
-  }
-
-  async createChallenge(challengeData: any): Promise<any> {
-    const repository = this.container.get('challengeRepository');
-    const { Challenge } = await import('../domain/entities/Challenge.js');
-    const challenge = new Challenge(challengeData);
-    return await repository.save(challenge);
-  }
-
-  async deleteChallenge(challengeId: string): Promise<any> {
-    const repository = this.container.get('challengeRepository');
-    return await repository.delete(challengeId);
-  }
 
   // Project Operations
   async createProject(userId: string, projectData: any): Promise<any> {
@@ -82,7 +70,7 @@ class ApplicationService {
     return await useCase.execute({ userId, ...projectData });
   }
 
-  async getAllProjects(filters: any = {}): Promise<Project[] > {
+  async getAllProjects(filters: any = {}): Promise<Project[]> {
     const repository = this.container.get('projectRepository');
     return await repository.findAll(filters);
   }
@@ -120,7 +108,7 @@ class ApplicationService {
 
   async createEvent(eventData: any): Promise<any> {
     const repository = this.container.get('eventRepository');
-    const { Event } = await import('../domain/entities/Event.js');
+    const { Event } = await import('../domain/entities/Event');
     const event = new Event(eventData);
     return await repository.save(event);
   }
@@ -141,28 +129,29 @@ class ApplicationService {
     return await service.getUserRank(userId);
   }
 
-  // Stats Operations
-  async getAdminStats(): Promise<any> {
-    const userRepo = this.container.get('userRepository');
-    const challengeRepo = this.container.get('challengeRepository');
-    const projectRepo = this.container.get('projectRepository');
 
-    const [totalUsers, totalChallenges, totalProjects] = await Promise.all([
-      userRepo.count(),
-      challengeRepo.count(),
-      projectRepo.count()
-    ]);
-
-    const users = await userRepo.findAll();
-    const activeUsers = users.filter((u: any) => u.isActive()).length;
-
-    return {
-      totalUsers,
-      totalChallenges,
-      totalProjects,
-      activeUsers
-    };
+  // Chatbot Operations
+  async askChatbot(message: string, userId?: string): Promise<{ response: string; confidence?: number }> {
+    const useCase = this.container.get('askChatbotUseCase');
+    return await useCase.execute(message, userId);
   }
+
+  async getChatHistory(userId: string): Promise<Array<{
+    id: string;
+    message: string;
+    response: string;
+    timestamp: Date;
+  }>> {
+    const service = this.container.get('chatbotService');
+    return await service.getUserHistory(userId);
+  }
+
+  getChatbotQuickActions(): Array<{ label: string; message: string }> {
+    const service = this.container.get('chatbotService');
+    return service.getQuickActions();
+  }
+
+
 }
 
 // Singleton instance

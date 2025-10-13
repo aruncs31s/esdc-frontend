@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react';
-import { FaBook, FaVideo, FaDownload, FaExternalLinkAlt, FaCode, FaLink } from 'react-icons/fa';
+import { FaBook, FaVideo, FaExternalLinkAlt, FaCode, FaLink } from 'react-icons/fa';
 import { FiInbox } from 'react-icons/fi';
 
+interface Resource {
+  id: number;
+  title: string;
+  type: string;
+  category: string;
+  url: string;
+  description: string;
+}
+
 const Resources = () => {
-  const [resources, setResources] = useState([]);
+  const [resources, setResources] = useState<Resource[]>([]);
   const [category, setCategory] = useState('all');
 
   useEffect(() => {
@@ -64,12 +73,12 @@ const Resources = () => {
     ]);
   };
 
-  const filteredResources = resources.filter(r => 
+  const filteredResources = resources.filter(r =>
     category === 'all' || r.category === category
   );
 
-  const getIcon = (type) => {
-    switch(type) {
+  const getIcon = (type: string) => {
+    switch (type) {
       case 'document': return <FaBook />;
       case 'video': return <FaVideo />;
       case 'code': return <FaCode />;
@@ -83,10 +92,10 @@ const Resources = () => {
       <div className="container">
         <h1>Learning Resources</h1>
         <p>Explore our curated collection of tutorials, guides, and tools</p>
-        
+
         <div className="category-filter">
           {['all', 'arduino', 'raspberry-pi', 'pcb', 'iot', 'programming'].map(cat => (
-            <button 
+            <button
               key={cat}
               className={category === cat ? 'active' : ''}
               onClick={() => setCategory(cat)}

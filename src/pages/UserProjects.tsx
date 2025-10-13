@@ -1,53 +1,23 @@
 import { useState, useEffect } from 'react';
-import { FaGithub, FaExternalLinkAlt, FaCode, FaUsers, FaStar, FaPlus } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaUsers, FaStar, FaPlus } from 'react-icons/fa';
+import { container } from '@/application';
+import { ProjectRepository } from '@/infrastructure/repositories/ProjectRepository';
+import { Project } from '@/domain/entities/Project';
+
 
 const UserProjects = () => {
-  const [projects, setProjects] = useState([]);
+  const repo = container.get('ProjectRepository') as ProjectRepository;
+
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
   const fetchProjects = async () => {
-    // Mock data - replace with API call
-    setProjects([
-      {
-        id: 1,
-        title: 'Smart Home Automation',
-        description: 'IoT-based home automation system using ESP32 and sensors',
-        technologies: ['ESP32', 'Arduino', 'MQTT', 'Node.js'],
-        githubUrl: 'https://github.com/user/smart-home',
-        liveUrl: 'https://smarthome-demo.com',
-        stars: 24,
-        collaborators: 3,
-        status: 'completed',
-        image: 'https://via.placeholder.com/400x250'
-      },
-      {
-        id: 2,
-        title: 'LED Matrix Display',
-        description: 'Programmable LED matrix with custom animations and text scrolling',
-        technologies: ['Arduino', 'C++', 'LED Matrix'],
-        githubUrl: 'https://github.com/user/led-matrix',
-        stars: 15,
-        collaborators: 1,
-        status: 'in-progress',
-        image: 'https://via.placeholder.com/400x250'
-      },
-      {
-        id: 3,
-        title: 'Weather Station',
-        description: 'Real-time weather monitoring with data logging and web dashboard',
-        technologies: ['Raspberry Pi', 'Python', 'Flask', 'SQLite'],
-        githubUrl: 'https://github.com/user/weather-station',
-        liveUrl: 'https://weather-dashboard.com',
-        stars: 32,
-        collaborators: 2,
-        status: 'completed',
-        image: 'https://via.placeholder.com/400x250'
-      }
-    ]);
-  };
+    const projects = await repo.findAll();
+    setProjects(projects);
+  }
 
   return (
     <div className="user-projects-page">
@@ -75,30 +45,30 @@ const UserProjects = () => {
                 <p>{project.description}</p>
 
                 <div className="project-tech">
-                  {project.technologies.map((tech, index) => (
-                    <span key={index} className="tech-tag">{tech}</span>
+                  {project.technologies?.map((tech, index) => (
+                    <span key={index} className="tech-tag">{tech.name}</span>
                   ))}
                 </div>
 
                 <div className="project-stats">
                   <div className="stat-item">
                     <FaStar />
-                    <span>{project.stars}</span>
+                    <span>{project.likes}</span>
                   </div>
                   <div className="stat-item">
                     <FaUsers />
-                    <span>{project.collaborators}</span>
+                    <span>{project.contributors?.length || 0}</span>
                   </div>
                 </div>
 
                 <div className="project-links">
-                  {project.githubUrl && (
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-link">
+                  {project.github_link && (
+                    <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="project-link">
                       <FaGithub /> GitHub
                     </a>
                   )}
-                  {project.liveUrl && (
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-link">
+                  {project.live_url && (
+                    <a href={project.live_url} target="_blank" rel="noopener noreferrer" className="project-link">
                       <FaExternalLinkAlt /> Live Demo
                     </a>
                   )}

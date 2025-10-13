@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import {  FaMapMarkerAlt, FaClock, FaUsers, FaList, FaCalendarAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaUsers, FaList, FaCalendarAlt } from 'react-icons/fa';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  capacity: number;
+  registered: number;
+  status: string;
+}
 
 const Events = () => {
   const { isAuthenticated } = useAuth();
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('timeline');
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -66,11 +78,11 @@ const Events = () => {
     }, 1000);
   };
 
-  const registerForEvent = async (eventId) => {
+  const registerForEvent = async (eventId: number) => {
     console.log('Registering for event:', eventId);
   };
 
-  const getDaysInMonth = (date) => {
+  const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1).getDay();
@@ -78,23 +90,23 @@ const Events = () => {
     return { firstDay, daysInMonth };
   };
 
-  const getEventsForDate = (day) => {
+  const getEventsForDate = (day: number) => {
     const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     return events.filter(e => e.date === dateStr);
   };
 
-  const changeMonth = (delta) => {
+  const changeMonth = (delta: number) => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + delta, 1));
   };
 
   const renderCalendar = () => {
     const { firstDay, daysInMonth } = getDaysInMonth(currentDate);
     const days = [];
-    
+
     for (let i = 0; i < firstDay; i++) {
       days.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
     }
-    
+
     for (let day = 1; day <= daysInMonth; day++) {
       const dayEvents = getEventsForDate(day);
       days.push(
@@ -110,13 +122,13 @@ const Events = () => {
         </div>
       );
     }
-    
+
     return days;
   };
 
   const renderTimeline = () => {
     const sortedEvents = [...events].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    
+
     return (
       <div className="timeline">
         {sortedEvents.map((event) => (
@@ -162,13 +174,13 @@ const Events = () => {
         </div>
 
         <div className="view-toggle">
-          <button 
+          <button
             className={`toggle-btn ${view === 'timeline' ? 'active' : ''}`}
             onClick={() => setView('timeline')}
           >
             <FaList /> Timeline
           </button>
-          <button 
+          <button
             className={`toggle-btn ${view === 'calendar' ? 'active' : ''}`}
             onClick={() => setView('calendar')}
           >

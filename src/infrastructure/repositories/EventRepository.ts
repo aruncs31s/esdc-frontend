@@ -32,7 +32,7 @@ export class EventRepository extends IEventRepository {
   /**
    * Find event by ID
    */
-  async findById(id) {
+  async findById(id: string) {
     try {
       const response = await this.api.get(`/api/events/${id}`);
       const data = response.data?.data || response.data;
@@ -46,7 +46,7 @@ export class EventRepository extends IEventRepository {
   /**
    * Find events by status
    */
-  async findByStatus(status) {
+  async findByStatus(status: string) {
     try {
       const response = await this.api.get(`/api/events?status=${status}`);
       const data = response.data?.data || response.data || [];
@@ -74,7 +74,7 @@ export class EventRepository extends IEventRepository {
   /**
    * Save event (create or update)
    */
-  async save(event) {
+  async save(event: any) {
     try {
       if (event.id) {
         // Update existing event
@@ -99,7 +99,7 @@ export class EventRepository extends IEventRepository {
   /**
    * Delete event by ID
    */
-  async delete(id) {
+  async delete(id: string) {
     try {
       await this.api.delete(`/api/events/${id}`);
       return true;

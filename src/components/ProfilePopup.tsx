@@ -189,7 +189,7 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
             <h4>Quick Links</h4>
           </div>
           <div className="profile-popup-quick-links">
-            <Link to="/projects" className="quick-link-item" onClick={onClose}>
+            <Link to="/my-projects" className="quick-link-item" onClick={onClose}>
               <div className="quick-link-icon"><FiFolder size={24} /></div>
               <div className="quick-link-text">
                 <h5>My Projects</h5>

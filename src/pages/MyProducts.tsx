@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiShoppingBag, FiDollarSign, FiEdit, FiTrash2 } from 'react-icons/fi';
+import { FiDollarSign, FiEdit, FiTrash2 } from 'react-icons/fi';
 
 const MyProducts = () => {
   const [myProducts] = useState([

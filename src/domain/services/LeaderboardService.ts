@@ -1,5 +1,3 @@
-import { Points } from '../value-objects/Points.js';
-
 /**
  * Leaderboard Service
  * Handles leaderboard calculations and rankings
@@ -16,7 +14,7 @@ export class LeaderboardService {
    */
   async getTopUsers(limit = 10) {
     const users = await this.userRepository.findAll();
-    
+
     // Sort by points (descending)
     const sortedUsers = users.sort((a, b) => {
       return b.points.value - a.points.value;
@@ -36,14 +34,14 @@ export class LeaderboardService {
    */
   async getUserRank(userId) {
     const users = await this.userRepository.findAll();
-    
+
     // Sort by points (descending)
     const sortedUsers = users.sort((a, b) => {
       return b.points.value - a.points.value;
     });
 
     const userIndex = sortedUsers.findIndex(u => u.id === userId);
-    
+
     if (userIndex === -1) {
       return null;
     }

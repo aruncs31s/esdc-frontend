@@ -10,14 +10,19 @@ const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_DIRECTION = { x: 1, y: 0 };
 const INITIAL_SPEED = 150;
 
+interface Position {
+  x: number;
+  y: number;
+}
+
 const SnakeGame = () => {
-  const [snake, setSnake] = useState(INITIAL_SNAKE);
-  const [food, setFood] = useState({ x: 15, y: 15 });
-  const [direction, setDirection] = useState(INITIAL_DIRECTION);
+  const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
+  const [food, setFood] = useState<Position>({ x: 15, y: 15 });
+  const [direction, setDirection] = useState<Position>(INITIAL_DIRECTION);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(
-    parseInt(localStorage.getItem('snakeHighScore')) || 0
+    parseInt(localStorage.getItem('snakeHighScore') || '0') || 0
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(INITIAL_SPEED);
@@ -46,11 +51,11 @@ const SnakeGame = () => {
     setSpeed(INITIAL_SPEED);
   };
 
-  const checkCollision = useCallback((head, snakeBody) => {
+  const checkCollision = useCallback((head: Position, snakeBody: Position[]) => {
     if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
       return true;
     }
-    return snakeBody.some((segment) => segment.x === head.x && segment.y === head.y);
+    return snakeBody.some((segment: Position) => segment.x === head.x && segment.y === head.y);
   }, []);
 
   useEffect(() => {
@@ -93,7 +98,7 @@ const SnakeGame = () => {
   }, [isPlaying, gameOver, food, generateFood, checkCollision, score, highScore, speed]);
 
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying || gameOver) return;
 
       const key = e.key;
@@ -178,9 +183,8 @@ const SnakeGame = () => {
               return (
                 <div
                   key={index}
-                  className={`cell ${isSnake ? 'snake' : ''} ${isHead ? 'snake-head' : ''} ${
-                    isFood ? 'food' : ''
-                  }`}
+                  className={`cell ${isSnake ? 'snake' : ''} ${isHead ? 'snake-head' : ''} ${isFood ? 'food' : ''
+                    }`}
                 />
               );
             })}

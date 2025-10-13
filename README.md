@@ -10,7 +10,6 @@ A modern React application for the Embedded Systems Design Club (ESDC) built wit
 - **Responsive Design**: Mobile-first design with Bootstrap integration
 - **React Router**: Client-side routing for navigation
 - **React Icons**: Beautiful icon library integration
-- **Supabase Integration**: Backend services for data management
 
 ## Available Scripts
 

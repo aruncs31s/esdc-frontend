@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { BsSearch, BsFilter, BsGrid, BsList, BsPersonPlus } from 'react-icons/bs';
 import ProfileCard from '../components/ProfileCard';
-import { adminAPI } from '../services/api';
-import { useAuth } from '../hooks/useAuth';
 
+import { useAuth } from '../hooks/useAuth';
+import { UserDataForAdmin } from '@/types/user';
+import { applicationService } from '@/application';
 /**
  * Users Page
  * Displays all users in a grid layout using ProfileCard components
  */
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [users, setUsers] = useState<UserDataForAdmin[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<UserDataForAdmin[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -18,13 +19,13 @@ const Users = () => {
   const [sortBy, setSortBy] = useState('name');
   const { user: currentUser, isAuthenticated } = useAuth();
 
-  
+
   // Load users from API
   useEffect(() => {
     const loadUsers = async () => {
       setLoading(true);
       try {
-        const fetchedUsers = await adminAPI.getUsers();
+        const fetchedUsers: UserDataForAdmin[] = await applicationService.getAllUsersForAdmin();
         setUsers(fetchedUsers);
         setFilteredUsers(fetchedUsers);
       } catch (error) {
@@ -43,7 +44,7 @@ const Users = () => {
 
     // Apply search filter
     if (searchTerm) {
-      result = result.filter(user => 
+      result = result.filter(user =>
         user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,26 +56,26 @@ const Users = () => {
       result = result.filter(user => user.role === filterRole);
     }
 
-    // Apply sorting
-    result.sort((a, b) => {
-      switch (sortBy) {
-        case 'name':
-          return (a.name || '').localeCompare(b.name || '');
-        case 'points':
-          return (b.points || 0) - (a.points || 0);
-        case 'challenges':
-          return (b.completedChallenges || 0) - (a.completedChallenges || 0);
-        case 'recent':
-          return new Date(b.joinedDate || 0).getTime() - new Date(a.joinedDate || 0).getTime();
-        default:
-          return 0;
-      }
-    });
+    // // Apply sorting
+    // result.sort((a, b) => {
+    //   switch (sortBy) {
+    //     case 'name':
+    //       return (a.name || '').localeCompare(b.name || '');
+    //     case 'points':
+    //       return (b.points || 0) - (a.points || 0);
+    //     case 'challenges':
+    //       return (b.completedChallenges || 0) - (a.completedChallenges || 0);
+    //     case 'recent':
+    //       return new Date(b.joinedDate || 0).getTime() - new Date(a.joinedDate || 0).getTime();
+    //     default:
+    //       return 0;
+    //   }
+    // });
 
     setFilteredUsers(result);
   }, [searchTerm, filterRole, sortBy, users]);
 
-  const handleUserClick = (user) => {
+  const handleUserClick = (user: number) => {
     console.log('User clicked:', user);
     // You can navigate to user detail page or show modal
   };
@@ -125,8 +126,8 @@ const Users = () => {
                 {/* Search */}
                 <div className="col-md-4">
                   <div className="input-group">
-                    <span className="input-group-text" style={{ 
-                      background: 'var(--surface0)', 
+                    <span className="input-group-text" style={{
+                      background: 'var(--surface0)',
                       border: '1px solid var(--surface1)',
                       color: 'var(--text)'
                     }}>
@@ -138,8 +139,8 @@ const Users = () => {
                       placeholder="Search users..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      style={{ 
-                        background: 'var(--surface0)', 
+                      style={{
+                        background: 'var(--surface0)',
                         border: '1px solid var(--surface1)',
                         color: 'var(--text)'
                       }}
@@ -150,8 +151,8 @@ const Users = () => {
                 {/* Role Filter */}
                 <div className="col-md-3">
                   <div className="input-group">
-                    <span className="input-group-text" style={{ 
-                      background: 'var(--surface0)', 
+                    <span className="input-group-text" style={{
+                      background: 'var(--surface0)',
                       border: '1px solid var(--surface1)',
                       color: 'var(--text)'
                     }}>
@@ -161,8 +162,8 @@ const Users = () => {
                       className="form-select"
                       value={filterRole}
                       onChange={(e) => setFilterRole(e.target.value)}
-                      style={{ 
-                        background: 'var(--surface0)', 
+                      style={{
+                        background: 'var(--surface0)',
                         border: '1px solid var(--surface1)',
                         color: 'var(--text)'
                       }}
@@ -181,8 +182,8 @@ const Users = () => {
                     className="form-select"
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    style={{ 
-                      background: 'var(--surface0)', 
+                    style={{
+                      background: 'var(--surface0)',
                       border: '1px solid var(--surface1)',
                       color: 'var(--text)'
                     }}
@@ -236,7 +237,7 @@ const Users = () => {
                 <p style={{ color: 'var(--subtext0)' }}>
                   Try adjusting your search or filter criteria
                 </p>
-                <button 
+                <button
                   className="btn btn-primary mt-3"
                   onClick={() => {
                     setSearchTerm('');
@@ -251,19 +252,15 @@ const Users = () => {
         ) : (
           <div className={viewMode === 'grid' ? 'users-grid' : 'users-list'}>
             {filteredUsers.map((user) => (
-              <div 
-                key={user.id} 
-                onClick={() => handleUserClick(user)}
+              <div
+                key={user.id}
+                onClick={() => handleUserClick(user.id)}
                 style={{ cursor: 'pointer' }}
               >
                 <ProfileCard
                   user={user}
-                  onEdit={() => {}}
+                  onEdit={() => { }}
                   showStats={true}
-                  stats={{
-                    points: user.points,
-                    completedChallenges: user.completedChallenges || user.completed_challenges
-                  }}
                 />
               </div>
             ))}
@@ -286,7 +283,7 @@ const Users = () => {
                   <div className="col-md-3 col-6">
                     <div className="p-3" style={{ background: 'var(--surface0)', borderRadius: '12px' }}>
                       <h2 className="mb-1" style={{ color: 'var(--green)' }}>
-                        {users.reduce((sum, u) => sum + (u.points || 0), 0).toLocaleString()}
+                        {/* {users.reduce((sum, u) => sum + (u.points || 0), 0).toLocaleString()} */} Points Not Implemented.
                       </h2>
                       <p className="mb-0" style={{ color: 'var(--subtext0)', fontSize: '0.9rem' }}>Total Points</p>
                     </div>
@@ -294,7 +291,7 @@ const Users = () => {
                   <div className="col-md-3 col-6">
                     <div className="p-3" style={{ background: 'var(--surface0)', borderRadius: '12px' }}>
                       <h2 className="mb-1" style={{ color: 'var(--yellow)' }}>
-                        {users.reduce((sum, u) => sum + (u.completedChallenges || 0), 0)}
+                        {/* {users.reduce((sum, u) => sum + (u.completedChallenges || 0), 0)} */} Challenges Not Implemented
                       </h2>
                       <p className="mb-0" style={{ color: 'var(--subtext0)', fontSize: '0.9rem' }}>Challenges Solved</p>
                     </div>
@@ -313,7 +310,7 @@ const Users = () => {
           </div>
         )}
       </div>
-    </section>
+    </section >
   );
 };
 

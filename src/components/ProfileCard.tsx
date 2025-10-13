@@ -15,17 +15,17 @@ import PropTypes from 'prop-types';
  * @param {Object} props.stats - Statistics object with user metrics
  * @param {string} props.className - Additional CSS classes
  */
-interface ProfileCardStats {
-  points?: number;
-  completedChallenges?: number;
-}
+// interface ProfileCardStats {
+//   points?: number;
+//   completedChallenges?: number;
+// }
 
-const ProfileCard = ({ 
-  user, 
-  editable = false, 
-  onEdit, 
+const ProfileCard = ({
+  user,
+  editable = false,
+  onEdit,
   showStats = true,
-  stats = {} as ProfileCardStats,
+  // stats = {} as ProfileCardStats,
   className = ''
 }: {
   user: any;
@@ -87,10 +87,10 @@ const ProfileCard = ({
     if (!dateString) return 'Recently';
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
       });
     } catch {
       return 'Recently';
@@ -107,7 +107,7 @@ const ProfileCard = ({
       <div className="profile-card-header">
         <div className="profile-card-gradient"></div>
         {editable && onEdit && (
-          <button 
+          <button
             className="profile-card-edit-btn"
             onClick={onEdit}
             aria-label="Edit profile"
@@ -121,7 +121,7 @@ const ProfileCard = ({
       <div className="profile-card-avatar-wrapper">
         <div className="profile-card-avatar">
           {displayAvatar && !imageError ? (
-            <img 
+            <img
               src={displayAvatar}
               alt={`${displayName}'s avatar`}
               onError={handleImageError}
@@ -143,7 +143,7 @@ const ProfileCard = ({
       {/* User Information */}
       <div className="profile-card-content">
         <h2 className="profile-card-name">{displayName}</h2>
-        
+
         {displayUsername && (
           <p className="profile-card-username">@{displayUsername}</p>
         )}
@@ -158,9 +158,9 @@ const ProfileCard = ({
 
         {/* GitHub Link */}
         {githubUrl && (
-          <a 
+          <a
             href={githubUrl}
-            target="_blank" 
+            target="_blank"
             rel="noopener noreferrer"
             className="profile-card-github-link"
           >

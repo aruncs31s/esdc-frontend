@@ -1,0 +1,469 @@
+/* Admin Panel Styles */
+.admin-panel {
+    min-height: 100vh;
+    padding: 6rem 0 4rem;
+    background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
+}
+
+.admin-panel .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Header */
+.admin-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.admin-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--mauve) 50%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+}
+
+.admin-header .text-muted {
+    font-size: 1.1rem;
+    color: var(--subtext0);
+}
+
+/* Stats Grid */
+.admin-panel .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.admin-panel .stat-card {
+    background: var(--mantle);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid var(--surface0);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-panel .stat-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, var(--surface0), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+
+.admin-panel .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    border-color: var(--blue);
+}
+
+.admin-panel .stat-card:hover::before {
+    right: 100%;
+}
+
+.admin-panel .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.admin-panel .stat-card:nth-child(1) .stat-icon {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+    color: var(--crust);
+}
+
+.admin-panel .stat-card:nth-child(2) .stat-icon {
+    background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+    color: var(--crust);
+}
+
+.admin-panel .stat-card:nth-child(3) .stat-icon {
+    background: linear-gradient(135deg, var(--peach) 0%, var(--yellow) 100%);
+    color: var(--crust);
+}
+
+.admin-panel .stat-card:nth-child(4) .stat-icon {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--mauve) 100%);
+    color: var(--crust);
+}
+
+.admin-panel .stat-card:hover .stat-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.admin-panel .stat-content {
+    flex: 1;
+}
+
+.admin-panel .stat-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    line-height: 1;
+}
+
+.admin-panel .stat-content p {
+    font-size: 1rem;
+    color: var(--subtext0);
+    margin: 0.5rem 0 0;
+    font-weight: 500;
+}
+
+.admin-panel .stat-subtext {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--green);
+    margin-top: 0.25rem;
+    font-weight: 600;
+}
+
+/* Tabs - Beautiful Modern Design */
+.admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    background: var(--mantle);
+    border-radius: 16px;
+    border: 2px solid var(--surface0);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface1) var(--mantle);
+}
+
+.admin-tabs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.admin-tabs::-webkit-scrollbar-track {
+    background: var(--mantle);
+    border-radius: 8px;
+}
+
+.admin-tabs::-webkit-scrollbar-thumb {
+    background: var(--surface1);
+    border-radius: 8px;
+}
+
+.admin-tabs::-webkit-scrollbar-thumb:hover {
+    background: var(--surface2);
+}
+
+.tab-button {
+    flex: 1;
+    min-width: 150px;
+    padding: 1rem 2rem;
+    border: none;
+    background: transparent;
+    color: var(--subtext0);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.02em;
+}
+
+.tab-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.tab-button svg {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover:not(.active) {
+    color: var(--text);
+    background: var(--surface0);
+    transform: translateY(-2px);
+}
+
+.tab-button:hover:not(.active) svg {
+    transform: scale(1.1);
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%);
+    color: var(--crust);
+    box-shadow: 0 4px 20px rgba(137, 180, 250, 0.4);
+    transform: translateY(-2px);
+}
+
+.tab-button.active svg {
+    animation: bounce 0.6s ease;
+}
+
+/* Toolbar */
+.admin-toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box svg {
+    position: absolute;
+    left: 1.25rem;
+    color: var(--subtext0);
+    font-size: 1.1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3.5rem;
+    border: 2px solid var(--surface0);
+    border-radius: 12px;
+    background: var(--mantle);
+    color: var(--text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: var(--subtext0);
+}
+
+.search-box input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(137, 180, 250, 0.1);
+}
+
+.btn-create {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+    color: var(--crust);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 4px 12px rgba(64, 160, 43, 0.3);
+    white-space: nowrap;
+}
+
+.btn-create svg {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(64, 160, 43, 0.4);
+}
+
+.btn-create:hover svg {
+    transform: rotate(90deg);
+}
+
+.btn-create:active {
+    transform: translateY(0);
+}
+
+/* Content */
+.admin-content {
+    background: var(--mantle);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid var(--surface0);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+}
+
+/* Loading State */
+.admin-panel-loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--base);
+}
+
+.admin-panel-loading .spinner-border {
+    color: var(--blue) !important;
+}
+
+/* Animations */
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .admin-tabs {
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .tab-button {
+        min-width: 120px;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-panel {
+        padding: 5rem 0 3rem;
+    }
+
+    .admin-panel .container {
+        padding: 0 1rem;
+    }
+
+    .admin-header h1 {
+        font-size: 2rem;
+    }
+
+    .admin-header .text-muted {
+        font-size: 0.95rem;
+    }
+
+    .admin-panel .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .admin-panel .stat-card {
+        padding: 1.5rem;
+    }
+
+    .admin-panel .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .admin-panel .stat-content h3 {
+        font-size: 2rem;
+    }
+
+    .admin-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0.5rem;
+    }
+
+    .tab-button {
+        min-width: 110px;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        gap: 0.5rem;
+    }
+
+    .tab-button svg {
+        font-size: 1rem;
+    }
+
+    .admin-toolbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+
+    .btn-create {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-content {
+        padding: 1.5rem;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .admin-panel .stat-content h3 {
+        font-size: 1.75rem;
+    }
+
+    .tab-button {
+        min-width: 100px;
+        padding: 0.7rem 0.875rem;
+        font-size: 0.85rem;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+}

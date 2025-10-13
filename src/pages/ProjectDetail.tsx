@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  FaGithub, 
-  FaExternalLinkAlt, 
-  FaHeart, 
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaHeart,
   FaRegHeart,
   FaEye,
   FaCalendar,
@@ -16,7 +16,8 @@ import {
   FaSpinner,
   FaArchive
 } from 'react-icons/fa';
-import { Project, ProjectStatus } from '../domain/entities/Project';
+import { Project } from '../domain/entities/Project';
+import { ProjectStatus } from '@/domain';
 import '../styles/ProjectDetail.css';
 import { applicationService } from '../application';
 import { DEFAULT_PROJECT_IMAGE } from '../data/project_images';
@@ -38,7 +39,7 @@ const ProjectDetail = () => {
         setProject(projectData);
         // Increment views
         projectData.incrementViews();
-        
+
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load project');
       } finally {
@@ -51,7 +52,7 @@ const ProjectDetail = () => {
 
   const handleLike = () => {
     if (!project) return;
-    
+
     if (isLiked) {
       project.removeLike();
     } else {
@@ -115,9 +116,9 @@ const ProjectDetail = () => {
         {/* Hero Section */}
         <div className="project-hero">
           <div className="project-hero-image">
-            <img 
-              src={project.image || DEFAULT_PROJECT_IMAGE} 
-              alt={project.title} 
+            <img
+              src={project.image || DEFAULT_PROJECT_IMAGE}
+              alt={project.title}
             />
             <div className="project-status-badge">
               {getStatusIcon(project.status)}
@@ -133,8 +134,8 @@ const ProjectDetail = () => {
             <div className="project-header-section">
               <h1 className="project-title">{project.title}</h1>
               <div className="project-actions">
-                <button 
-                  onClick={handleLike} 
+                <button
+                  onClick={handleLike}
                   className={`action-btn ${isLiked ? 'liked' : ''}`}
                   aria-label="Like project"
                 >
@@ -151,9 +152,9 @@ const ProjectDetail = () => {
             {/* Quick Links */}
             <div className="project-links">
               {project.github_link && (
-                <a 
-                  href={project.github_link} 
-                  target="_blank" 
+                <a
+                  href={project.github_link}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary"
                 >
@@ -161,9 +162,9 @@ const ProjectDetail = () => {
                 </a>
               )}
               {project.live_url && (
-                <a 
-                  href={project.live_url} 
-                  target="_blank" 
+                <a
+                  href={project.live_url}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"
                 >
@@ -231,7 +232,7 @@ const ProjectDetail = () => {
           <aside className="project-sidebar">
             <div className="sidebar-card">
               <h3>Project Information</h3>
-              
+
               <div className="info-item">
                 <FaCalendar className="info-icon" />
                 <div>

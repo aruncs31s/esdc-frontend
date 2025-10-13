@@ -19,7 +19,7 @@ const Team = () => {
         {
           name: "Abhaya Govind",
           role: "Developer",
-          avatar: "👨💻",
+          avatar: "https://github.com/AbhayaGovind.png",
           github: "https://github.com/orgs/Embedded-Systems-GCEK/people/AbhayaGovind"
         },
         {
@@ -97,8 +97,8 @@ const Team = () => {
                 <div key={memberIndex} className="team-card">
                   <div className="team-avatar">
                     {member.avatar.startsWith('http') ? (
-                      <img 
-                        src={member.avatar} 
+                      <img
+                        src={member.avatar}
                         alt={member.name}
                         style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
                       />
@@ -108,9 +108,9 @@ const Team = () => {
                   </div>
                   <h4>{member.name}</h4>
                   <p className="team-role">{member.role}</p>
-                  <a 
-                    href={member.github} 
-                    target="_blank" 
+                  <a
+                    href={member.github}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="github-link"
                   >

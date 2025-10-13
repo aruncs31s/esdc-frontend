@@ -11,7 +11,7 @@ const Notifications = () => {
     { id: 4, title: 'Achievement Unlocked', message: 'You earned the "Code Master" badge!', time: '2 days ago', read: true, type: 'achievement' },
   ]);
 
-  const markAsRead = (id) => {
+  const markAsRead = (id: number) => {
     setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
   };
 
@@ -19,7 +19,7 @@ const Notifications = () => {
     setNotifications(notifications.map(n => ({ ...n, read: true })));
   };
 
-  const deleteNotification = (id) => {
+  const deleteNotification = (id: number) => {
     setNotifications(notifications.filter(n => n.id !== id));
   };
 

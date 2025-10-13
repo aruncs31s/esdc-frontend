@@ -1,5 +1,6 @@
 // Domain Layer Exports
 
+
 // Value Objects
 export { Email } from './value-objects/Email.js';
 export { Points } from './value-objects/Points.js';
@@ -7,9 +8,10 @@ export { Difficulty, DifficultyLevel } from './value-objects/Difficulty.js';
 export { DateRange } from './value-objects/DateRange.js';
 
 // Entities
-export { User, UserRole, UserStatus, createUser } from './entities/User.js';
-export { Challenge, ChallengeStatus, createChallenge } from './entities/Challenge.js';
-export { Project, ProjectStatus, createProject } from './entities/Project.js';
+export { User, UserRole, UserStatus } from './entities/User.js';
+
+export { ProjectStatus } from '@/types/project.js';
+export { Project, createProject } from './entities/Project.js';
 export { Event, EventStatus, createEvent } from './entities/Event.js';
 
 // Domain Services

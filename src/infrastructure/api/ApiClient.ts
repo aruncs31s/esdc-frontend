@@ -1,18 +1,15 @@
-import axios from 'axios';
-import { AxiosInstance } from 'axios';
-
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { ApiSuccessResponse } from '@/types';
 // Base URL for the API
-// const API_BASE_URL = 'https://esdc-backend.onrender.com';
 const API_BASE_URL = 'http://localhost:9090';
-// const API_BASE_URL = 'https://esdc-backend.onrender.com';
 /**
  * API Client
  * Central HTTP client with interceptors for authentication
  */
-class ApiClient {
+export class ApiClient {
   private client: AxiosInstance;
-  constructor(baseURL = API_BASE_URL) {
-  this.client = axios.create({
+  constructor(baseURL: string = API_BASE_URL) {
+    this.client = axios.create({
       baseURL,
       timeout: 2000, // 2 seconds timeout
       headers: {
@@ -53,28 +50,28 @@ class ApiClient {
     );
   }
 
-  async get(url, config = {}) {
+  async get<T = any>(url: string, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
     return this.client.get(url, config);
   }
 
-  async post(url, data, config = {}) {
+  async post<T = any>(url: string, data: any, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
     return this.client.post(url, data, config);
   }
 
-  async put(url, data, config = {}) {
+  async put<T = any>(url: string, data: any, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
     return this.client.put(url, data, config);
   }
 
-  async patch(url, data, config = {}) {
+  async patch<T = any>(url: string, data: any, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
     return this.client.patch(url, data, config);
   }
 
-  async delete(url, config = {}) {
+
+  async delete<T = any>(url: string, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
     return this.client.delete(url, config);
   }
 }
 
 // Singleton instance
 const apiClient = new ApiClient();
-
 export default apiClient;

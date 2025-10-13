@@ -12,20 +12,20 @@ const COLORS = [
 ];
 
 const SimonGame = () => {
-  const [sequence, setSequence] = useState([]);
-  const [userSequence, setUserSequence] = useState([]);
+  const [sequence, setSequence] = useState<number[]>([]);
+  const [userSequence, setUserSequence] = useState<number[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isShowingSequence, setIsShowingSequence] = useState(false);
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(parseInt(localStorage.getItem('simonHighScore')) || 0);
+  const [highScore, setHighScore] = useState(parseInt(localStorage.getItem('simonHighScore') || '0') || 0);
   const [gameOver, setGameOver] = useState(false);
   const [speed, setSpeed] = useState(600);
-  const audioContextRef = useRef(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
 
   useEffect(() => {
     // Initialize Web Audio API
-    audioContextRef.current = new (window.AudioContext || window.AudioContext)();
+    audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     return () => {
       if (audioContextRef.current) {
         audioContextRef.current.close();
@@ -33,7 +33,7 @@ const SimonGame = () => {
     };
   }, []);
 
-  const playSound = (frequency, duration = 300) => {
+  const playSound = (frequency: number, duration = 300) => {
     if (!audioContextRef.current) return;
 
     const oscillator = audioContextRef.current.createOscillator();
@@ -70,25 +70,25 @@ const SimonGame = () => {
     setTimeout(() => showSequence(newSequence), 500);
   };
 
-  const showSequence = async (seq) => {
+  const showSequence = async (seq: number[]) => {
     setIsShowingSequence(true);
-    
+
     for (let i = 0; i < seq.length; i++) {
       await new Promise(resolve => setTimeout(resolve, 300));
       setActiveButton(seq[i]);
-      playSound(frequencies[seq[i]]);
+      playSound(frequencies[seq[i] as keyof typeof frequencies]);
       await new Promise(resolve => setTimeout(resolve, speed));
       setActiveButton(null);
     }
-    
+
     setIsShowingSequence(false);
   };
 
-  const handleButtonClick = (index) => {
+  const handleButtonClick = (index: number) => {
     if (!isPlaying || isShowingSequence || gameOver) return;
 
     setActiveButton(index);
-    playSound(frequencies[index], 200);
+    playSound(frequencies[index as keyof typeof frequencies], 200);
     setTimeout(() => setActiveButton(null), 200);
 
     const newUserSequence = [...userSequence, index];
@@ -100,7 +100,7 @@ const SimonGame = () => {
       setGameOver(true);
       setIsPlaying(false);
       playSound(100, 500); // Error sound
-      
+
       if (score > highScore) {
         setHighScore(score);
         localStorage.setItem('simonHighScore', score.toString());
@@ -113,7 +113,7 @@ const SimonGame = () => {
       const newScore = score + 1;
       setScore(newScore);
       setUserSequence([]);
-      
+
       // Increase difficulty
       if (newScore % 5 === 0) {
         setSpeed(prev => Math.max(200, prev - 50));
@@ -122,7 +122,7 @@ const SimonGame = () => {
       // Add new step
       const newSequence = [...sequence, Math.floor(Math.random() * 4)];
       setSequence(newSequence);
-      
+
       setTimeout(() => showSequence(newSequence), 1000);
     }
   };
@@ -160,12 +160,11 @@ const SimonGame = () => {
               {COLORS.map((color, index) => (
                 <button
                   key={color.name}
-                  className={`simon-button simon-${color.name} ${
-                    activeButton === index ? 'active' : ''
-                  } ${!isPlaying || isShowingSequence || gameOver ? 'disabled' : ''}`}
+                  className={`simon-button simon-${color.name} ${activeButton === index ? 'active' : ''
+                    } ${!isPlaying || isShowingSequence || gameOver ? 'disabled' : ''}`}
                   style={{
-                    backgroundColor: activeButton === index 
-                      ? color.color 
+                    backgroundColor: activeButton === index
+                      ? color.color
                       : `${color.color}80`,
                   }}
                   onClick={() => handleButtonClick(index)}
@@ -173,7 +172,7 @@ const SimonGame = () => {
                 />
               ))}
             </div>
-            
+
             <div className="simon-center">
               <div className="simon-logo">SIMON</div>
               {isShowingSequence && (

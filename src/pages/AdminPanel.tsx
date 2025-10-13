@@ -1,32 +1,38 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { adminAPI } from '../services/api';
-import ChallengesTable from '../components/table_views/ChallengeTable';
+import applicationService from '../application/ApplicationService';
 import UsersTable from '../components/table_views/UserTable';
 import ProjectsTable from '../components/table_views/ProjectsTable';
-import User from '../models/user';
+
 
 import CreateModal from '../components/modals/CreateModal';
-import { 
-  FaUsers, 
-  FaProjectDiagram, 
-  FaTasks, 
+import {
+  FaUsers,
+  FaProjectDiagram,
+  FaTasks,
   FaChartLine,
   FaPlus,
   FaSearch,
 } from 'react-icons/fa';
+import {
+  statsForAdmin,
+  UserDataForAdmin,
+} from '@/types';
 
+
+/**
+ * Admin Panel - Updated to use DDD Architecture
+ * Uses ApplicationService instead of direct API calls
+ */
 const AdminPanel = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('users');
-  const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [challenges, setChallenges] = useState([]);
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalProjects: 0,
-    totalChallenges: 0,
-    activeUsers: 0
+  const [users, setUsers] = useState<UserDataForAdmin[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [stats, setStats] = useState<statsForAdmin>({
+    total_users: 0,
+    total_projects: 0,
+    active_users: 0,
   });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,34 +46,42 @@ const AdminPanel = () => {
   const loadAdminData = async () => {
     setLoading(true);
     try {
-      const [statsData, usersData, projectsData, challengesData] = await Promise.all([
-        adminAPI.getStats(),
-        adminAPI.getUsers(),
-        adminAPI.getProjects(),
-        adminAPI.getChallenges()
+      // Use ApplicationService instead of direct API calls
+      const [statsData, usersResult, projectsData] = await Promise.all([
+        applicationService.getAdminStats(),
+        applicationService.getAllUsersForAdmin(),
+        applicationService.getAllProjectForAdmin(),
       ]);
 
       setStats(statsData);
-      setUsers(Array.isArray(usersData) ? usersData : []);
-      setProjects(Array.isArray(projectsData) ? projectsData : []);
-      setChallenges(Array.isArray(challengesData) ? challengesData : []);
+      // ApplicationService returns {success, data, ...}
+      setUsers(Array.isArray(usersResult) ? usersResult : ((usersResult as any)?.data || []));
+      setProjects(Array.isArray(projectsData) ? projectsData : ((projectsData as any)?.data || []));
     } catch (error) {
       console.error('Error loading admin data:', error);
+      // Set empty arrays on error
+      setUsers([]);
+      setProjects([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCreateNew = (type) => {
+  const handleCreateNew = (type: string) => {
     setModalType(type);
     setShowCreateModal(true);
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteUser = async (userId: number | string) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await adminAPI.deleteUser(userId);
-        await loadAdminData();
+        const result = await applicationService.deleteUser(String(userId));
+        if (result.success) {
+          alert('User deleted successfully');
+          await loadAdminData();
+        } else {
+          alert(`Failed to delete user: ${result.error}`);
+        }
       } catch (error) {
         console.error('Error deleting user:', error);
         alert('Failed to delete user');
@@ -75,10 +89,11 @@ const AdminPanel = () => {
     }
   };
 
-  const handleDeleteProject = async (projectId) => {
+  const handleDeleteProject = async (projectId: number) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       try {
-        await adminAPI.deleteProject(projectId);
+        await applicationService.deleteProject(String(projectId));
+        alert('Project deleted successfully');
         await loadAdminData();
       } catch (error) {
         console.error('Error deleting project:', error);
@@ -87,250 +102,171 @@ const AdminPanel = () => {
     }
   };
 
-  const handleDeleteChallenge = async (challengeId) => {
-    if (window.confirm('Are you sure you want to delete this challenge?')) {
-      try {
-        await adminAPI.deleteChallenge(challengeId);
-        await loadAdminData();
-      } catch (error) {
-        console.error('Error deleting challenge:', error);
-        alert('Failed to delete challenge');
-      }
-    }
-  };
 
-  const filteredUsers = (users || []).filter(user => {
-    const searchLower = searchTerm.toLowerCase();
-    // Use User model methods if available
-    if (user instanceof User) {
-      return user.username.toLowerCase().includes(searchLower) ||
-             user.email.toLowerCase().includes(searchLower) ||
-             user.getDisplayName().toLowerCase().includes(searchLower);
-    }
-    // Fallback for plain objects
-    return user.username?.toLowerCase().includes(searchLower) ||
-           user.email?.toLowerCase().includes(searchLower);
-  });
 
-  const filteredProjects = (projects || []).filter(project =>
-    project.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter logic using domain entity methods
+  // const filteredUsers = (users || []).filter(user => {
+  //   const searchLower = searchTerm.toLowerCase();
+  //   // Use domain entity methods if available
+  //   if (typeof user.getDisplayName === 'function') {
+  //     return user.username?.toLowerCase().includes(searchLower) ||
+  //       user.email?.value?.toLowerCase().includes(searchLower) ||
+  //       user.email?.toString()?.toLowerCase().includes(searchLower) ||
+  //       user.getDisplayName().toLowerCase().includes(searchLower);
+  //   }
+  //   // Fallback for plain objects
+  //   return user.username?.toLowerCase().includes(searchLower) ||
+  //     user.email?.toLowerCase().includes(searchLower);
+  // });
 
-  const filteredChallenges = (challenges || []).filter(challenge =>
-    challenge.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    challenge.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
+
 
   if (loading) {
     return (
-      <div className="loading-container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
+      <div className="admin-panel-loading">
+        <div className="container">
+          <div className="text-center py-5">
+            <div className="spinner-border text-primary" role="status" style={{ width: '3rem', height: '3rem' }}>
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-3">Loading admin panel...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user?.role || user.role !== 'admin') {
+    return (
+      <div className="admin-panel">
+        <div className="container">
+          <div className="alert alert-danger mt-5">
+            <h4>Access Denied</h4>
+            <p>You do not have permission to access the admin panel.</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="admin-panel" style={{ minHeight: '100vh', paddingTop: '80px' }}>
-      <div className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem' }}>
-        {/* Header */}
-        <div className="admin-header" style={{ marginBottom: '2rem' }}>
-          <h1 className="gradient-text" style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.5rem' }}>
-            Admin Panel
-          </h1>
-          <p style={{ color: 'var(--subtext0)', fontSize: '1.1rem' }}>
-            Welcome back, {user?.username || 'Admin'}
-          </p>
+    <div className="admin-panel">
+      <div className="container">
+        <div className="admin-header">
+          <h1>Admin Panel</h1>
+          <p className="text-muted">Manage users, projects, and challenges</p>
         </div>
 
         {/* Stats Cards */}
-        <div className="stats-grid" style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-          gap: '1.5rem', 
-          marginBottom: '2rem' 
-        }}>
-          <div className="stat-card glass-card" style={{ padding: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
-                <p style={{ color: 'var(--subtext0)', marginBottom: '0.5rem' }}>Total Users</p>
-                <h3 style={{ fontSize: '2rem', fontWeight: '700', color: 'var(--text)' }}>{stats.totalUsers}</h3>
-              </div>
-              <FaUsers style={{ fontSize: '2.5rem', color: 'var(--blue)' }} />
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-icon">
+              <FaUsers />
+            </div>
+            <div className="stat-content">
+              <h3>{stats.total_users}</h3>
+              <p>Total Users</p>
+              <span className="stat-subtext">{stats.active_users} active</span>
             </div>
           </div>
 
-          <div className="stat-card glass-card" style={{ padding: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
-                <p style={{ color: 'var(--subtext0)', marginBottom: '0.5rem' }}>Total Projects</p>
-                <h3 style={{ fontSize: '2rem', fontWeight: '700', color: 'var(--text)' }}>{stats.totalProjects}</h3>
-              </div>
-              <FaProjectDiagram style={{ fontSize: '2.5rem', color: 'var(--lavender)' }} />
+          <div className="stat-card">
+            <div className="stat-icon">
+              <FaProjectDiagram />
+            </div>
+            <div className="stat-content">
+              <h3>{stats.total_projects}</h3>
+              <p>Total Projects</p>
             </div>
           </div>
 
-          <div className="stat-card glass-card" style={{ padding: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
-                <p style={{ color: 'var(--subtext0)', marginBottom: '0.5rem' }}>Total Challenges</p>
-                <h3 style={{ fontSize: '2rem', fontWeight: '700', color: 'var(--text)' }}>{stats.totalChallenges}</h3>
-              </div>
-              <FaTasks style={{ fontSize: '2.5rem', color: 'var(--mauve)' }} />
-            </div>
-          </div>
 
-          <div className="stat-card glass-card" style={{ padding: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
-                <p style={{ color: 'var(--subtext0)', marginBottom: '0.5rem' }}>Active Users</p>
-                <h3 style={{ fontSize: '2rem', fontWeight: '700', color: 'var(--text)' }}>{stats.activeUsers}</h3>
-              </div>
-              <FaChartLine style={{ fontSize: '2.5rem', color: 'var(--green)' }} />
+          <div className="stat-card">
+            <div className="stat-icon">
+              <FaChartLine />
+            </div>
+            <div className="stat-content">
+              <h3>{Math.round((stats.active_users / stats.total_users) * 100) || 0}%</h3>
+              <p>Active Rate</p>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="admin-tabs" style={{ marginBottom: '2rem' }}>
-          <div className="tabs-container" style={{ 
-            display: 'flex', 
-            gap: '1rem', 
-            borderBottom: '2px solid var(--surface0)',
-            flexWrap: 'wrap'
-          }}>
-            <button
-              className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
-              onClick={() => setActiveTab('users')}
-              style={{
-                padding: '1rem 2rem',
-                background: activeTab === 'users' ? 'var(--blue)' : 'transparent',
-                color: activeTab === 'users' ? 'var(--base)' : 'var(--text)',
-                border: 'none',
-                borderRadius: '8px 8px 0 0',
-                cursor: 'pointer',
-                fontWeight: '600',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <FaUsers style={{ marginRight: '0.5rem' }} />
-              Users
-            </button>
-
-            <button
-              className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`}
-              onClick={() => setActiveTab('projects')}
-              style={{
-                padding: '1rem 2rem',
-                background: activeTab === 'projects' ? 'var(--blue)' : 'transparent',
-                color: activeTab === 'projects' ? 'var(--base)' : 'var(--text)',
-                border: 'none',
-                borderRadius: '8px 8px 0 0',
-                cursor: 'pointer',
-                fontWeight: '600',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <FaProjectDiagram style={{ marginRight: '0.5rem' }} />
-              Projects
-            </button>
-
-            <button
-              className={`tab-btn ${activeTab === 'challenges' ? 'active' : ''}`}
-              onClick={() => setActiveTab('challenges')}
-              style={{
-                padding: '1rem 2rem',
-                background: activeTab === 'challenges' ? 'var(--blue)' : 'transparent',
-                color: activeTab === 'challenges' ? 'var(--base)' : 'var(--text)',
-                border: 'none',
-                borderRadius: '8px 8px 0 0',
-                cursor: 'pointer',
-                fontWeight: '600',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <FaTasks style={{ marginRight: '0.5rem' }} />
-              Challenges
-            </button>
-          </div>
+        <div className="admin-tabs">
+          <button
+            className={`tab-button ${activeTab === 'users' ? 'active' : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            <FaUsers /> Users
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'projects' ? 'active' : ''}`}
+            onClick={() => setActiveTab('projects')}
+          >
+            <FaProjectDiagram /> Projects
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'challenges' ? 'active' : ''}`}
+            onClick={() => setActiveTab('challenges')}
+          >
+            <FaTasks /> Challenges
+          </button>
         </div>
 
-        {/* Search and Create Bar */}
-        <div className="action-bar" style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          marginBottom: '2rem',
-          gap: '1rem',
-          flexWrap: 'wrap'
-        }}>
-          <div className="search-box" style={{ flex: '1', minWidth: '250px', position: 'relative' }}>
-            <FaSearch style={{ 
-              position: 'absolute', 
-              left: '1rem', 
-              top: '50%', 
-              transform: 'translateY(-50%)',
-              color: 'var(--subtext0)'
-            }} />
+        {/* Toolbar */}
+        <div className="admin-toolbar">
+          <div className="search-box">
+            <FaSearch />
             <input
               type="text"
               placeholder={`Search ${activeTab}...`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '0.75rem 1rem 0.75rem 3rem',
-                borderRadius: '12px',
-                border: '1px solid var(--surface0)',
-                background: 'var(--base)',
-                color: 'var(--text)',
-                fontSize: '1rem'
-              }}
             />
           </div>
-
           <button
             onClick={() => handleCreateNew(activeTab)}
-            className="btn-primary"
-            style={{
-              padding: '0.75rem 2rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
+            className="btn-create"
           >
-            <FaPlus />
-            Create {activeTab.slice(0, -1).charAt(0).toUpperCase() + activeTab.slice(1, -1)}
+            <FaPlus /> Create {activeTab.slice(0, -1)}
           </button>
         </div>
 
         {/* Content */}
-        <div className="admin-content glass-card" style={{ padding: '2rem', borderRadius: '20px' }}>
-          {activeTab === 'users' && <UsersTable users={filteredUsers} onDelete={handleDeleteUser} />}
-          {activeTab === 'projects' && <ProjectsTable projects={filteredProjects} onDelete={handleDeleteProject} />}
-          {activeTab === 'challenges' && <ChallengesTable challenges={filteredChallenges} onDelete={handleDeleteChallenge} />}
+        <div className="admin-content">
+          {activeTab === 'users' && (
+            <UsersTable
+              users={users}
+              onDelete={handleDeleteUser}
+            />
+          )}
+
+          {activeTab === 'projects' && (
+            <ProjectsTable
+              projects={projects}
+              onDelete={handleDeleteProject}
+            />
+          )}
+
+
         </div>
+
+        {/* Create Modal */}
+        {showCreateModal && (
+          <CreateModal
+            type={modalType}
+            onClose={() => setShowCreateModal(false)}
+            onSuccess={() => {
+              setShowCreateModal(false);
+              loadAdminData();
+            }}
+          />
+        )}
       </div>
-
-
-      {/* Create Modal */}
-      {showCreateModal && (
-        <CreateModal
-          type={modalType}
-          onClose={() => setShowCreateModal(false)}
-          onSuccess={() => {
-            setShowCreateModal(false);
-            loadAdminData();
-          }}
-        />
-      )}
     </div>
   );
 };
-
-
-
 
 export default AdminPanel;

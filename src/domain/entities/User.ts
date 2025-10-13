@@ -1,3 +1,4 @@
+import { UserRegisterData,UserRegisterDataByAdmin } from '@/types/user.js';
 import { Email } from '../value-objects/Email.js';
 import { Points } from '../value-objects/Points.js';
 
@@ -27,11 +28,12 @@ export const UserStatus = {
 export class User {
   id: string | null;
   username: string;
+  name: string;
   email: Email;
   role: string;
   status: string;
   githubUsername: string;
-  points: Points;
+  points?: Points;
   completedChallenges: number;
   avatar: string | null;
   bio: string;
@@ -40,9 +42,11 @@ export class User {
   createdAt: string;
   updatedAt: string;
   suspensionReason: string | null;
+  password?: string; // Optional, only for creation workflows
 
-  constructor(data: any = {}) {
+  constructor(data: UserRegisterData | UserRegisterDataByAdmin | any = {}) {
     this.id = data.id || null;
+    this.name = data.name || 'New User';
     this.username = data.username || '';
     this.email = data.email instanceof Email ? data.email : new Email(data.email || 'temp@example.com');
     this.role = data.role || UserRole.USER;
@@ -50,13 +54,14 @@ export class User {
     this.githubUsername = data.githubUsername || data.github_username || '';
     this.points = data.points instanceof Points ? data.points : new Points(data.points || 0);
     this.completedChallenges = data.completedChallenges || data.completed_challenges || 0;
-    this.avatar = data.avatar || null;
+    this.avatar = data.avatar || `https://github.com/${this.githubUsername}.png?size=200` || null;
     this.bio = data.bio || '';
     this.joinedDate = data.joinedDate || data.joined_date || new Date().toISOString();
     this.lastActive = data.lastActive || data.last_active || null;
     this.createdAt = data.createdAt || data.created_at || new Date().toISOString();
     this.updatedAt = data.updatedAt || data.updated_at || new Date().toISOString();
     this.suspensionReason = data.suspensionReason || data.suspension_reason || null;
+    this.password = data.password || undefined; // Only for creation, not stored
   }
 
   // Business Logic Methods
@@ -106,7 +111,7 @@ export class User {
   /**
    * Subtract points from user
    */
-  subtractPoints(points) {
+  subtractPoints(points: Points) {
     if (!(points instanceof Points)) {
       points = new Points(points);
     }
@@ -269,6 +274,18 @@ export class User {
       updated_at: this.updatedAt
     };
   }
+  getJSONForCreation() {
+    const userData: UserRegisterDataByAdmin = {
+      name: this.name || this.getDisplayName(),
+      username: this.username,
+      email: this.email.toString(),
+      password: this.password,
+      role: this.role,
+      status: this.status,
+      github_username: this.githubUsername
+    };
+    return userData;  
+  }
 
   /**
    * Create User from API response
@@ -291,6 +308,8 @@ export class User {
 /**
  * Factory function to create a user
  */
-export const createUser = (userData) => {
+export const createUserObject = (userData: UserRegisterData) => {
   return new User(userData);
 };
+
+
