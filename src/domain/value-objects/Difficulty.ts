@@ -6,23 +6,24 @@ export const DifficultyLevel = {
   BEGINNER: 'beginner',
   INTERMEDIATE: 'intermediate',
   ADVANCED: 'advanced',
-  EXPERT: 'expert'
+  EXPERT: 'expert',
 };
 
 export class Difficulty {
-  _level;
-  constructor(level) {
+  private _level: string;
+
+  constructor(level: string) {
     if (!Object.values(DifficultyLevel).includes(level)) {
       throw new Error(`Invalid difficulty level: ${level}`);
     }
     this._level = level;
   }
 
-  get level() {
+  get level(): string {
     return this._level;
   }
 
-  equals(other) {
+  equals(other: Difficulty): boolean {
     return other instanceof Difficulty && this._level === other._level;
   }
 
@@ -57,35 +58,35 @@ export class Difficulty {
     }
   }
 
-  getDisplayName() {
+  getDisplayName(): string {
     return this._level.charAt(0).toUpperCase() + this._level.slice(1);
   }
 
-  toString() {
+  toString(): string {
     return this._level;
   }
 
-  toJSON() {
+  toJSON(): string {
     return this._level;
   }
 
-  static fromString(level) {
+  static fromString(level: string): Difficulty {
     return new Difficulty(level);
   }
 
-  static beginner() {
+  static beginner(): Difficulty {
     return new Difficulty(DifficultyLevel.BEGINNER);
   }
 
-  static intermediate() {
+  static intermediate(): Difficulty {
     return new Difficulty(DifficultyLevel.INTERMEDIATE);
   }
 
-  static advanced() {
+  static advanced(): Difficulty {
     return new Difficulty(DifficultyLevel.ADVANCED);
   }
 
-  static expert() {
+  static expert(): Difficulty {
     return new Difficulty(DifficultyLevel.EXPERT);
   }
 }

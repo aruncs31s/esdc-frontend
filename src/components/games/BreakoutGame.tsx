@@ -20,13 +20,26 @@ const BreakoutGame = () => {
   const [ballY, setBallY] = useState(CANVAS_HEIGHT - 100);
   const [ballVelocityX, setBallVelocityX] = useState(4);
   const [ballVelocityY, setBallVelocityY] = useState(-4);
-  const [bricks, setBricks] = useState([]);
+
+  interface Brick {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    color: string;
+    hits: number;
+    visible: boolean;
+  }
+
+  const [bricks, setBricks] = useState<Brick[]>([]);
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
-  const [highScore, setHighScore] = useState(parseInt(localStorage.getItem('breakoutHighScore')) || 0);
+  const [highScore, setHighScore] = useState(
+    parseInt(localStorage.getItem('breakoutHighScore') || '0') || 0
+  );
 
   const initBricks = useCallback(() => {
     const newBricks = [];
@@ -56,16 +69,16 @@ const BreakoutGame = () => {
 
   const updateGame = useCallback(() => {
     // Move ball
-    setBallX(prevX => prevX + ballVelocityX);
-    setBallY(prevY => prevY + ballVelocityY);
+    setBallX((prevX) => prevX + ballVelocityX);
+    setBallY((prevY) => prevY + ballVelocityY);
 
     // Ball collision with walls
     if (ballX <= 0 || ballX >= CANVAS_WIDTH - BALL_SIZE) {
-      setBallVelocityX(prev => -prev);
+      setBallVelocityX((prev) => -prev);
     }
 
     if (ballY <= 0) {
-      setBallVelocityY(prev => -prev);
+      setBallVelocityY((prev) => -prev);
     }
 
     // Ball collision with paddle
@@ -75,13 +88,13 @@ const BreakoutGame = () => {
       ballX >= paddleX &&
       ballX <= paddleX + PADDLE_WIDTH
     ) {
-      setBallVelocityY(prev => -Math.abs(prev));
+      setBallVelocityY((prev) => -Math.abs(prev));
       const hitPos = (ballX - paddleX) / PADDLE_WIDTH;
       setBallVelocityX((hitPos - 0.5) * 10);
     }
 
     // Ball collision with bricks
-    setBricks(prevBricks => {
+    setBricks((prevBricks) => {
       let newBricks = [...prevBricks];
       let scoreIncrease = 0;
 
@@ -94,17 +107,17 @@ const BreakoutGame = () => {
           ballY <= brick.y + brick.height
         ) {
           newBricks[index] = { ...brick, visible: false };
-          setBallVelocityY(prev => -prev);
+          setBallVelocityY((prev) => -prev);
           scoreIncrease += 10;
         }
       });
 
       if (scoreIncrease > 0) {
-        setScore(prev => prev + scoreIncrease);
+        setScore((prev) => prev + scoreIncrease);
       }
 
       // Check win condition
-      if (newBricks.every(brick => !brick.visible)) {
+      if (newBricks.every((brick) => !brick.visible)) {
         setWon(true);
         setGameOver(true);
         setIsPlaying(false);
@@ -119,7 +132,7 @@ const BreakoutGame = () => {
 
     // Ball falls off bottom
     if (ballY >= CANVAS_HEIGHT) {
-      setLives(prev => {
+      setLives((prev) => {
         const newLives = prev - 1;
         if (newLives <= 0) {
           setGameOver(true);
@@ -144,14 +157,14 @@ const BreakoutGame = () => {
   }, [isPlaying, gameOver, updateGame]);
 
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying || gameOver) return;
-      
+
       if (e.key === 'ArrowLeft') {
-        setPaddleX(prev => Math.max(0, prev - 30));
+        setPaddleX((prev) => Math.max(0, prev - 30));
         e.preventDefault();
       } else if (e.key === 'ArrowRight') {
-        setPaddleX(prev => Math.min(CANVAS_WIDTH - PADDLE_WIDTH, prev + 30));
+        setPaddleX((prev) => Math.min(CANVAS_WIDTH - PADDLE_WIDTH, prev + 30));
         e.preventDefault();
       }
     };
@@ -181,7 +194,9 @@ const BreakoutGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title"><GiBreakingChain /> Breakout</h1>
+          <h1 className="games-title">
+            <GiBreakingChain /> Breakout
+          </h1>
           <p className="games-subtitle">Break all the bricks to win!</p>
         </div>
 
@@ -208,26 +223,29 @@ const BreakoutGame = () => {
               if (!isPlaying || gameOver) return;
               const rect = e.currentTarget.getBoundingClientRect();
               const mouseX = e.clientX - rect.left;
-              setPaddleX(Math.max(0, Math.min(mouseX - PADDLE_WIDTH / 2, CANVAS_WIDTH - PADDLE_WIDTH)));
+              setPaddleX(
+                Math.max(0, Math.min(mouseX - PADDLE_WIDTH / 2, CANVAS_WIDTH - PADDLE_WIDTH))
+              );
             }}
           >
             {/* Bricks */}
-            {bricks.map((brick, index) => (
-              brick.visible && (
-                <div
-                  key={index}
-                  className="breakout-brick"
-                  style={{
-                    left: brick.x,
-                    top: brick.y,
-                    width: brick.width,
-                    height: brick.height,
-                    backgroundColor: brick.color,
-                  }}
-                />
-              )
-            ))}
-            
+            {bricks.map(
+              (brick, index) =>
+                brick.visible && (
+                  <div
+                    key={index}
+                    className="breakout-brick"
+                    style={{
+                      left: brick.x,
+                      top: brick.y,
+                      width: brick.width,
+                      height: brick.height,
+                      backgroundColor: brick.color,
+                    }}
+                  />
+                )
+            )}
+
             {/* Paddle */}
             <div
               className="breakout-paddle"
@@ -238,7 +256,7 @@ const BreakoutGame = () => {
                 height: PADDLE_HEIGHT,
               }}
             />
-            
+
             {/* Ball */}
             <div
               className="breakout-ball"
@@ -253,10 +271,20 @@ const BreakoutGame = () => {
             {gameOver && (
               <div className="game-over-overlay">
                 <div className="game-over-content">
-                  <h2>{won ? <><FaTrophy /> You Win!</> : 'Game Over!'}</h2>
+                  <h2>
+                    {won ? (
+                      <>
+                        <FaTrophy /> You Win!
+                      </>
+                    ) : (
+                      'Game Over!'
+                    )}
+                  </h2>
                   <p>Final Score: {score}</p>
                   {score === highScore && score > 0 && (
-                    <p className="new-high-score"><FaTrophy /> New High Score!</p>
+                    <p className="new-high-score">
+                      <FaTrophy /> New High Score!
+                    </p>
                   )}
                 </div>
               </div>
@@ -275,8 +303,12 @@ const BreakoutGame = () => {
         <div className="game-instructions">
           <h3>How to Play</h3>
           <ul>
-            <li>Move your <strong>mouse</strong> left and right to control the paddle</li>
-            <li>Or use <strong>Arrow Left/Right</strong> keys</li>
+            <li>
+              Move your <strong>mouse</strong> left and right to control the paddle
+            </li>
+            <li>
+              Or use <strong>Arrow Left/Right</strong> keys
+            </li>
             <li>Bounce the ball to break all the bricks</li>
             <li>Don't let the ball fall past your paddle!</li>
             <li>You have 3 lives - make them count!</li>

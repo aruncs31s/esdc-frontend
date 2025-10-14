@@ -1,4 +1,9 @@
-import { UserCreatedEvent, UserActivatedEvent, UserSuspendedEvent } from '../events/DomainEvents.js';
+import { UserRegisterData } from '@/types/user.js';
+import {
+  UserCreatedEvent,
+  UserActivatedEvent,
+  UserSuspendedEvent,
+} from '../events/DomainEvents.js';
 import eventBus from '../events/EventBus.js';
 import { IUserRepository } from '../index.js';
 
@@ -15,7 +20,7 @@ export class UserRegistrationService {
   /**
    * Register a new user
    */
-  async register(userData) {
+  async register(userData: UserRegisterData) {
     // Check if email already exists
     const existingUserByEmail = await this.userRepository.findByEmail(userData.email);
     if (existingUserByEmail) {
@@ -52,7 +57,7 @@ export class UserRegistrationService {
   /**
    * Activate user account
    */
-  async activateUser(userId) {
+  async activateUser(userId: number) {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new Error('User not found');
@@ -62,7 +67,7 @@ export class UserRegistrationService {
     const updatedUser = await this.userRepository.save(user);
 
     // Publish domain event
-    const event = new UserActivatedEvent(userId);
+    const event = new UserActivatedEvent(userId.toString());
     await eventBus.publish(event);
 
     return updatedUser;
@@ -71,7 +76,7 @@ export class UserRegistrationService {
   /**
    * Suspend user account
    */
-  async suspendUser(userId, reason) {
+  async suspendUser(userId: number, reason: string) {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new Error('User not found');

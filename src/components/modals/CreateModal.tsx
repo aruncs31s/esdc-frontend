@@ -1,16 +1,32 @@
-
 import { useState } from 'react';
 import { UserRole, UserStatus } from '@/domain/entities/User';
-import { FaTimes, FaFileAlt, FaLink, FaHourglassHalf, FaPlus, FaUser, FaEnvelope, FaUserShield, FaToggleOn } from 'react-icons/fa';
+import {
+  FaTimes,
+  FaFileAlt,
+  FaLink,
+  FaHourglassHalf,
+  FaPlus,
+  FaUser,
+  FaEnvelope,
+  FaUserShield,
+  FaToggleOn,
+} from 'react-icons/fa';
 import { FiLock, FiShield, FiFileText } from 'react-icons/fi';
 import { ProjectData } from '@/types';
 // TODO: aruncs31s , fix this projects creation part
-import { applicationService, CreateUserUseCase } from '@/application';
+import { applicationService } from '@/application';
 
 import { UserRegisterDataByAdmin } from '@/types';
 
-
-const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () => void; onSuccess: () => void }) => {
+const CreateModal = ({
+  type,
+  onClose,
+  onSuccess,
+}: {
+  type: string;
+  onClose: () => void;
+  onSuccess: () => void;
+}) => {
   const [formData, setFormData] = useState<UserRegisterDataByAdmin>({} as UserRegisterDataByAdmin);
   const [projectData, setProjectData] = useState<ProjectData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -33,20 +49,19 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
           return;
         }
         // Create and validate user using Application Service
-        const createUserUseCase = new CreateUserUseCase(null); // No dependencies needed for createUserByAdmin
-        const newUser = createUserUseCase.createUserByAdmin({
+        // const createUserUseCase = new CreateUserUseCase(null); // No dependencies needed for createUserByAdmin
+        const newUser = applicationService.createUserByAdmin({
           name: formData.name,
           username: formData.username,
           email: formData.email,
           role: formData.role || UserRole.USER,
           github_username: formData.github_username,
-          password: formData.password
+          password: formData.password,
         });
-
+        console.log('New User to create:', newUser);
         // Send to backend API
-        await applicationService.createUserByAdmin(newUser.getJSONForCreation());
       } else if (type === 'projects') {
-        await applicationService.createProject(formData);
+        await applicationService.createProject('admin-user-id', formData);
       }
       onSuccess();
     } catch (error) {
@@ -67,7 +82,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
     transition: 'all 0.3s ease',
     outline: 'none',
     WebkitBoxShadow: '0 0 0 1000px var(--mantle) inset !important',
-    WebkitTextFillColor: 'var(--text) !important'
+    WebkitTextFillColor: 'var(--text) !important',
   } as React.CSSProperties;
 
   const labelStyle = {
@@ -78,7 +93,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
     fontWeight: '600',
     fontSize: '0.9rem',
     letterSpacing: '0.02em',
-    gap: '0.5rem'
+    gap: '0.5rem',
   } as React.CSSProperties;
 
   return (
@@ -137,7 +152,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 1000,
-          animation: 'fadeIn 0.3s ease'
+          animation: 'fadeIn 0.3s ease',
         }}
         onClick={onClose}
       >
@@ -153,28 +168,32 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
             background: 'var(--base)',
             boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
             border: '1px solid var(--surface0)',
-            animation: 'slideUp 0.3s ease'
+            animation: 'slideUp 0.3s ease',
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '2rem',
-            paddingBottom: '1rem',
-            borderBottom: '2px solid var(--surface0)'
-          }}>
-            <h2 style={{
-              margin: 0,
-              color: 'var(--text)',
-              fontSize: '1.75rem',
-              fontWeight: '700',
-              background: 'linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '2rem',
+              paddingBottom: '1rem',
+              borderBottom: '2px solid var(--surface0)',
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                color: 'var(--text)',
+                fontSize: '1.75rem',
+                fontWeight: '700',
+                background: 'linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
               Create New {type.slice(0, -1).charAt(0).toUpperCase() + type.slice(1, -1)}
             </h2>
             <button
@@ -191,7 +210,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                 cursor: 'pointer',
                 color: 'var(--text)',
                 fontSize: '1rem',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'var(--red)';
@@ -221,8 +240,8 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     placeholder="Enter Name (min 3 characters)"
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     style={{ ...inputStyle }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
 
@@ -238,8 +257,8 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     placeholder="Enter username (min 3 characters)"
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     style={{ ...inputStyle }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
 
@@ -254,12 +273,19 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     placeholder="user@example.com"
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     style={{ ...inputStyle }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '1rem',
+                    marginBottom: '1.5rem',
+                  }}
+                >
                   <div>
                     <label style={labelStyle}>
                       <FiLock style={{ color: 'var(--red)' }} />
@@ -272,8 +298,8 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                       placeholder="Min 8 characters"
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       style={{ ...inputStyle }}
-                      onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                      onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                      onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                     />
                   </div>
                   <div>
@@ -286,31 +312,46 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                       required
                       minLength={8}
                       placeholder="Repeat password"
-                      onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, confirmPassword: e.target.value })
+                      }
                       style={{
                         ...inputStyle,
-                        borderColor: formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword ? 'var(--red)' : 'var(--surface0)'
+                        borderColor:
+                          formData.password &&
+                          formData.confirmPassword &&
+                          formData.password !== formData.confirmPassword
+                            ? 'var(--red)'
+                            : 'var(--surface0)',
                       }}
-                      onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
                       onBlur={(e) => {
-                        if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
+                        if (
+                          formData.password &&
+                          formData.confirmPassword &&
+                          formData.password !== formData.confirmPassword
+                        ) {
                           e.currentTarget.style.borderColor = 'var(--red)';
                         } else {
                           e.currentTarget.style.borderColor = 'var(--surface0)';
                         }
                       }}
                     />
-                    {formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword && (
-                      <span style={{
-                        fontSize: '0.8rem',
-                        color: 'var(--red)',
-                        marginTop: '0.25rem',
-                        display: 'block',
-                        fontWeight: '500'
-                      }}>
-                        ⚠️ Passwords don't match
-                      </span>
-                    )}
+                    {formData.password &&
+                      formData.confirmPassword &&
+                      formData.password !== formData.confirmPassword && (
+                        <span
+                          style={{
+                            fontSize: '0.8rem',
+                            color: 'var(--red)',
+                            marginTop: '0.25rem',
+                            display: 'block',
+                            fontWeight: '500',
+                          }}
+                        >
+                          ⚠️ Passwords don't match
+                        </span>
+                      )}
                   </div>
                 </div>
 
@@ -324,12 +365,19 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     placeholder="github-username"
                     onChange={(e) => setFormData({ ...formData, github_username: e.target.value })}
                     style={{ ...inputStyle }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '1rem',
+                    marginBottom: '1.5rem',
+                  }}
+                >
                   <div>
                     <label style={labelStyle}>
                       <FaUserShield style={{ color: 'var(--lavender)' }} />
@@ -341,10 +389,10 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                       onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                       style={{
                         ...inputStyle,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
                       }}
-                      onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                      onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                      onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                     >
                       <option value={UserRole.USER}>User</option>
                       <option value={UserRole.MODERATOR}>Moderator</option>
@@ -363,10 +411,10 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                       onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                       style={{
                         ...inputStyle,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
                       }}
-                      onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                      onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                      onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                      onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                     >
                       <option value={UserStatus.ACTIVE}>Active</option>
                       <option value={UserStatus.INACTIVE}>Inactive</option>
@@ -375,7 +423,6 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     </select>
                   </div>
                 </div>
-
               </>
             )}
 
@@ -392,8 +439,8 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     placeholder="Enter project title"
                     onChange={(e) => setProjectData({ ...projectData, title: e.target.value })}
                     style={inputStyle}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
                 <div style={{ marginBottom: '1.5rem' }}>
@@ -405,15 +452,17 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                     required
                     rows={4}
                     placeholder="Describe your project"
-                    onChange={(e) => setProjectData({ ...projectData, description: e.target.value })}
+                    onChange={(e) =>
+                      setProjectData({ ...projectData, description: e.target.value })
+                    }
                     style={{
                       ...inputStyle,
                       resize: 'vertical',
                       minHeight: '120px',
-                      fontFamily: 'inherit'
+                      fontFamily: 'inherit',
                     }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
                 <div style={{ marginBottom: '1.5rem' }}>
@@ -424,24 +473,27 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   <input
                     type="url"
                     placeholder="https://github.com/username/repo"
-                    onChange={(e) => setProjectData({ ...projectData, github_link: e.target.value })}
+                    onChange={(e) =>
+                      setProjectData({ ...projectData, github_link: e.target.value })
+                    }
                     style={inputStyle}
-                    onFocus={(e) => e.currentTarget.style.borderColor = 'var(--blue)'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = 'var(--surface0)'}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--blue)')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--surface0)')}
                   />
                 </div>
               </>
             )}
 
-
-            <div style={{
-              display: 'flex',
-              gap: '1rem',
-              marginTop: '2.5rem',
-              paddingTop: '1.5rem',
-              borderTop: '1px solid var(--surface0)',
-              flexWrap: 'wrap'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: '1rem',
+                marginTop: '2.5rem',
+                paddingTop: '1.5rem',
+                borderTop: '1px solid var(--surface0)',
+                flexWrap: 'wrap',
+              }}
+            >
               <button
                 type="submit"
                 disabled={loading}
@@ -451,7 +503,9 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   padding: '1rem 2rem',
                   borderRadius: '12px',
                   border: 'none',
-                  background: loading ? 'var(--surface0)' : 'linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%)',
+                  background: loading
+                    ? 'var(--surface0)'
+                    : 'linear-gradient(135deg, var(--blue) 0%, var(--mauve) 100%)',
                   color: loading ? 'var(--subtext0)' : 'var(--crust)',
                   fontSize: '1rem',
                   fontWeight: '700',
@@ -463,7 +517,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.5rem'
+                  gap: '0.5rem',
                 }}
                 onMouseEnter={(e) => {
                   if (!loading) {
@@ -506,7 +560,7 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
+                  letterSpacing: '0.05em',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'var(--surface0)';
@@ -528,6 +582,5 @@ const CreateModal = ({ type, onClose, onSuccess }: { type: string; onClose: () =
     </>
   );
 };
-
 
 export default CreateModal;

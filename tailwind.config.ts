@@ -1,14 +1,37 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        // Semantic color tokens - use these in your components
+        primary: {
+          DEFAULT: '#1e66f5', // latte blue
+          dark: '#89b4fa', // mocha blue
+        },
+        secondary: {
+          DEFAULT: '#8839ef', // latte mauve
+          dark: '#cba6f7', // mocha mauve
+        },
+        success: {
+          DEFAULT: '#40a02b', // latte green
+          dark: '#a6e3a1', // mocha green
+        },
+        warning: {
+          DEFAULT: '#df8e1d', // latte yellow
+          dark: '#f9e2af', // mocha yellow
+        },
+        danger: {
+          DEFAULT: '#d20f39', // latte red
+          dark: '#f38ba8', // mocha red
+        },
+        info: {
+          DEFAULT: '#04a5e5', // latte sky
+          dark: '#89dceb', // mocha sky
+        },
+
         latte: {
           base: '#eff1f5',
           mantle: '#e6e9ef',
@@ -63,4 +86,4 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config
+} satisfies Config;

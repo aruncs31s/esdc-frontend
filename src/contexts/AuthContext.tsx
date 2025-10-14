@@ -1,11 +1,10 @@
-
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { authAPI } from '@/infrastructure/api/auth';
 import { jwtDecode } from 'jwt-decode';
 import { UserRegisterData } from '../types/user';
 import { UserData, LoginCredentials } from '../types/user';
-import { AuthResponse, DecodedToken, AuthResult } from '../types/auth';
+import { DecodedToken, AuthResult } from '../types/auth';
 import { AuthContextType } from './AuthContextTypes';
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -74,25 +73,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   const login = async (credentials: LoginCredentials): Promise<AuthResult> => {
     try {
-      const response: AuthResponse = await authAPI.login(credentials);
-      if (response.status || response.success && response.data.token) {
+      const response = await authAPI.login(credentials);
+      if (response.token) {
         // TODO: Standardize this.
-        const token = response.data.token || response.token;
+        const token = response.token;
         localStorage.setItem('auth_token', token);
 
         // Decode the JWT to get claims
         const decoded = jwtDecode<DecodedToken>(token);
-        console.log("Decoded JWT:", decoded);
+        console.log('Decoded JWT:', decoded);
         const userData: UserData = {
           email: decoded.sub,
           username: decoded.username,
           role: decoded.role,
-          name: decoded.name
+          name: decoded.name,
         };
-        console.log("User Data:", userData);
+        console.log('User Data:', userData);
 
         // Store user data in localStorage for persistence
         localStorage.setItem('user_data', JSON.stringify(userData));
@@ -102,13 +100,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         return { success: true };
       } else {
-        return { success: false, message: response.message || 'Login failed' };
+        return { success: false, message: 'Login failed' };
       }
     } catch (error: any) {
       console.error('Login error:', error);
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed'
+        message: error.response?.data?.message || 'Login failed',
       };
     }
   };
@@ -125,7 +123,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Registration error:', error);
       return {
         success: false,
-        message: error.response?.data?.message || 'Registration failed'
+        message: error.response?.data?.message || 'Registration failed',
       };
     }
   };
@@ -150,12 +148,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     login,
     register,
     logout,
-    checkAuthStatus
+    checkAuthStatus,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

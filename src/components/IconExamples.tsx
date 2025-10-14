@@ -1,37 +1,33 @@
-import React from 'react';
 // Import icons from different icon libraries available in react-icons
-import { 
-  FaReact, FaGithub, FaLinkedin, FaTwitter, FaInstagram, 
-  FaPhone, FaEnvelope, FaMapMarkerAlt, FaArrowUp 
-} from 'react-icons/fa';
-import { 
-  FiUser, FiMail, FiPhone, FiMapPin, FiExternalLink,
-  FiGithub, FiLinkedin, FiTwitter, FiInstagram
-} from 'react-icons/fi';
-import { 
-  MdEmail, MdPhone, MdLocationOn, MdArrowUpward,
-  MdDarkMode, MdLightMode, MdMenu, MdClose
-} from 'react-icons/md';
-import { 
-  AiOutlineHome, AiOutlineUser, AiOutlineProject,
-  AiOutlineTeam, AiOutlinePhone, AiOutlineMail
+import { FaReact, FaGithub, FaLinkedin, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FiUser, FiMail, FiPhone, FiMapPin, FiExternalLink } from 'react-icons/fi';
+import { MdEmail, MdPhone, MdLocationOn, MdDarkMode, MdLightMode } from 'react-icons/md';
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineProject,
+  AiOutlineTeam,
+  AiOutlineMail,
 } from 'react-icons/ai';
-import { 
-  BiHome, BiUser, BiFolder, BiPhone, BiEnvelope 
-} from 'react-icons/bi';
-import { 
-  HiOutlineHome, HiOutlineUser, HiOutlineFolder,
-  HiOutlineUserGroup, HiOutlinePhone, HiOutlineMail
+import { BiHome, BiUser, BiFolder, BiEnvelope } from 'react-icons/bi';
+import {
+  HiOutlineHome,
+  HiOutlineUser,
+  HiOutlineFolder,
+  HiOutlineUserGroup,
+  HiOutlineMail,
 } from 'react-icons/hi';
 
 const IconExamples = () => {
   return (
     <div className="p-8 max-w-6xl mx-auto">
       <h2 className="text-center mb-8 text-gray-800">React Icons Examples</h2>
-      
+
       {/* Font Awesome Icons */}
       <section>
-        <h3 className="my-8 text-gray-600 border-b-2 border-gray-200 pb-2">Font Awesome Icons (FA)</h3>
+        <h3 className="my-8 text-gray-600 border-b-2 border-gray-200 pb-2">
+          Font Awesome Icons (FA)
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
           <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
             <FaReact size={32} color="#61dafb" />
@@ -85,7 +81,9 @@ const IconExamples = () => {
 
       {/* Material Design Icons */}
       <section>
-        <h3 className="my-8 text-gray-600 border-b-2 border-gray-200 pb-2">Material Design Icons (MD)</h3>
+        <h3 className="my-8 text-gray-600 border-b-2 border-gray-200 pb-2">
+          Material Design Icons (MD)
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
           <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
             <MdEmail size={32} color="#ea4335" />
@@ -112,7 +110,9 @@ const IconExamples = () => {
 
       {/* Ant Design Icons */}
       <section>
-        <h3 className="my-8 text-gray-600 border-b-2 border-gray-200 pb-2">Ant Design Icons (AI)</h3>
+        <h3 className="my-8 text-gray-600 border-b-2 border-gray-200 pb-2">
+          Ant Design Icons (AI)
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
           <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
             <AiOutlineHome size={32} />

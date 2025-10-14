@@ -26,28 +26,24 @@ const PongGame = () => {
   const resetBall = useCallback(() => {
     setBallX(CANVAS_WIDTH / 2);
     setBallY(CANVAS_HEIGHT / 2);
-    setBallVelocityX(prevVx => -prevVx);
+    setBallVelocityX((prevVx) => -prevVx);
     setBallVelocityY((Math.random() - 0.5) * 10);
   }, []);
 
   const updateGame = useCallback(() => {
     // Move ball
-    setBallX(prevX => prevX + ballVelocityX);
-    setBallY(prevY => prevY + ballVelocityY);
+    setBallX((prevX) => prevX + ballVelocityX);
+    setBallY((prevY) => prevY + ballVelocityY);
 
     // Ball collision with top/bottom
     if (ballY <= 0 || ballY >= CANVAS_HEIGHT - BALL_SIZE) {
-      setBallVelocityY(prev => -prev);
+      setBallVelocityY((prev) => -prev);
     }
 
     // Ball collision with paddles
-    if (
-      ballX <= PADDLE_WIDTH &&
-      ballY >= playerY &&
-      ballY <= playerY + PADDLE_HEIGHT
-    ) {
-      setBallVelocityX(prev => Math.abs(prev) + 0.5);
-      const relativeIntersectY = (playerY + PADDLE_HEIGHT / 2) - ballY;
+    if (ballX <= PADDLE_WIDTH && ballY >= playerY && ballY <= playerY + PADDLE_HEIGHT) {
+      setBallVelocityX((prev) => Math.abs(prev) + 0.5);
+      const relativeIntersectY = playerY + PADDLE_HEIGHT / 2 - ballY;
       setBallVelocityY(-relativeIntersectY * 0.2);
     }
 
@@ -56,13 +52,13 @@ const PongGame = () => {
       ballY >= aiY &&
       ballY <= aiY + PADDLE_HEIGHT
     ) {
-      setBallVelocityX(prev => -(Math.abs(prev) + 0.5));
-      const relativeIntersectY = (aiY + PADDLE_HEIGHT / 2) - ballY;
+      setBallVelocityX((prev) => -(Math.abs(prev) + 0.5));
+      const relativeIntersectY = aiY + PADDLE_HEIGHT / 2 - ballY;
       setBallVelocityY(-relativeIntersectY * 0.2);
     }
 
     // AI movement
-    setAiY(prevY => {
+    setAiY((prevY) => {
       const aiCenter = prevY + PADDLE_HEIGHT / 2;
       if (ballX > CANVAS_WIDTH / 2) {
         if (aiCenter < ballY - 35) {
@@ -76,7 +72,7 @@ const PongGame = () => {
 
     // Score
     if (ballX <= 0) {
-      setAiScore(prev => {
+      setAiScore((prev) => {
         const newScore = prev + 1;
         if (newScore >= WINNING_SCORE) {
           setGameOver(true);
@@ -89,7 +85,7 @@ const PongGame = () => {
     }
 
     if (ballX >= CANVAS_WIDTH) {
-      setPlayerScore(prev => {
+      setPlayerScore((prev) => {
         const newScore = prev + 1;
         if (newScore >= WINNING_SCORE) {
           setGameOver(true);
@@ -110,14 +106,14 @@ const PongGame = () => {
   }, [isPlaying, gameOver, updateGame]);
 
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying || gameOver) return;
-      
+
       if (e.key === 'ArrowUp') {
-        setPlayerY(prev => Math.max(0, prev - 20));
+        setPlayerY((prev) => Math.max(0, prev - 20));
         e.preventDefault();
       } else if (e.key === 'ArrowDown') {
-        setPlayerY(prev => Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev + 20));
+        setPlayerY((prev) => Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev + 20));
         e.preventDefault();
       }
     };
@@ -150,7 +146,9 @@ const PongGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title"><GiPingPongBat /> Pong</h1>
+          <h1 className="games-title">
+            <GiPingPongBat /> Pong
+          </h1>
           <p className="games-subtitle">The classic arcade game! First to {WINNING_SCORE} wins!</p>
         </div>
 
@@ -173,12 +171,14 @@ const PongGame = () => {
               if (!isPlaying || gameOver) return;
               const rect = e.currentTarget.getBoundingClientRect();
               const mouseY = e.clientY - rect.top;
-              setPlayerY(Math.max(0, Math.min(mouseY - PADDLE_HEIGHT / 2, CANVAS_HEIGHT - PADDLE_HEIGHT)));
+              setPlayerY(
+                Math.max(0, Math.min(mouseY - PADDLE_HEIGHT / 2, CANVAS_HEIGHT - PADDLE_HEIGHT))
+              );
             }}
           >
             {/* Center line */}
             <div className="pong-center-line" />
-            
+
             {/* Player paddle */}
             <div
               className="pong-paddle player-paddle"
@@ -189,7 +189,7 @@ const PongGame = () => {
                 height: PADDLE_HEIGHT,
               }}
             />
-            
+
             {/* AI paddle */}
             <div
               className="pong-paddle ai-paddle"
@@ -200,7 +200,7 @@ const PongGame = () => {
                 height: PADDLE_HEIGHT,
               }}
             />
-            
+
             {/* Ball */}
             <div
               className="pong-ball"
@@ -216,7 +216,9 @@ const PongGame = () => {
               <div className="game-over-overlay">
                 <div className="game-over-content">
                   <h2>{winner} Wins!</h2>
-                  <p>Final Score: {playerScore} - {aiScore}</p>
+                  <p>
+                    Final Score: {playerScore} - {aiScore}
+                  </p>
                 </div>
               </div>
             )}
@@ -234,8 +236,12 @@ const PongGame = () => {
         <div className="game-instructions">
           <h3>How to Play</h3>
           <ul>
-            <li>Move your <strong>mouse</strong> up and down to control your paddle</li>
-            <li>Or use <strong>Arrow Up/Down</strong> keys</li>
+            <li>
+              Move your <strong>mouse</strong> up and down to control your paddle
+            </li>
+            <li>
+              Or use <strong>Arrow Up/Down</strong> keys
+            </li>
             <li>Don't let the ball past your paddle!</li>
             <li>First to reach {WINNING_SCORE} points wins the game</li>
           </ul>

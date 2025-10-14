@@ -1,5 +1,3 @@
-
-
 // User related types and interfaces
 
 // [UserData] Is used to type the local_data stored in the browser for persisting user session
@@ -36,6 +34,14 @@ export interface UserRegisterData {
   github_username?: string;
 }
 
+export interface RegisterRequest {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  github_username?: string;
+}
 
 export interface UserRegisterDataByAdmin {
   name: string;
@@ -58,4 +64,16 @@ export interface UserDataForAdmin {
   status?: string;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface UserDataPresentation {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  role: string;
+  github_username?: string;
+  status?: string;
+  project_count?: number;
+  // last_active?: string;
 }

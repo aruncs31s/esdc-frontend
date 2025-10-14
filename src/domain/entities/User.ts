@@ -1,4 +1,4 @@
-import { UserRegisterData,UserRegisterDataByAdmin } from '@/types/user.js';
+import { UserRegisterData, UserRegisterDataByAdmin } from '@/types/user.js';
 import { Email } from '../value-objects/Email.js';
 import { Points } from '../value-objects/Points.js';
 
@@ -8,7 +8,7 @@ import { Points } from '../value-objects/Points.js';
 export const UserRole = {
   ADMIN: 'admin',
   USER: 'user',
-  MODERATOR: 'moderator'
+  MODERATOR: 'moderator',
 };
 
 /**
@@ -18,7 +18,7 @@ export const UserStatus = {
   ACTIVE: 'active',
   INACTIVE: 'inactive',
   SUSPENDED: 'suspended',
-  PENDING: 'pending'
+  PENDING: 'pending',
 };
 
 /**
@@ -48,7 +48,8 @@ export class User {
     this.id = data.id || null;
     this.name = data.name || 'New User';
     this.username = data.username || '';
-    this.email = data.email instanceof Email ? data.email : new Email(data.email || 'temp@example.com');
+    this.email =
+      data.email instanceof Email ? data.email : new Email(data.email || 'temp@example.com');
     this.role = data.role || UserRole.USER;
     this.status = data.status || UserStatus.ACTIVE;
     this.githubUsername = data.githubUsername || data.github_username || '';
@@ -80,7 +81,7 @@ export class User {
   /**
    * Suspend user account
    */
-  suspend(reason) {
+  suspend(reason: string): void {
     if (this.status === UserStatus.SUSPENDED) {
       throw new Error('User is already suspended');
     }
@@ -92,7 +93,7 @@ export class User {
   /**
    * Deactivate user account
    */
-  deactivate() {
+  deactivate(): void {
     this.status = UserStatus.INACTIVE;
     this.updatedAt = new Date().toISOString();
   }
@@ -100,22 +101,28 @@ export class User {
   /**
    * Add points to user
    */
-  addPoints(points) {
+  addPoints(points: Points | number): void {
     if (!(points instanceof Points)) {
       points = new Points(points);
     }
-    this.points = this.points.add(points);
+    if (this.points) {
+      this.points = this.points.add(points);
+    } else {
+      this.points = points;
+    }
     this.updatedAt = new Date().toISOString();
   }
 
   /**
    * Subtract points from user
    */
-  subtractPoints(points: Points) {
+  subtractPoints(points: Points | number): void {
     if (!(points instanceof Points)) {
       points = new Points(points);
     }
-    this.points = this.points.subtract(points);
+    if (this.points) {
+      this.points = this.points.subtract(points);
+    }
     this.updatedAt = new Date().toISOString();
   }
 
@@ -199,7 +206,7 @@ export class User {
     return new Date(this.joinedDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
 
@@ -212,7 +219,7 @@ export class User {
     }
     const initials = this.getDisplayName()
       .split(' ')
-      .map(word => word[0])
+      .map((word) => word[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
@@ -232,9 +239,12 @@ export class User {
     }
 
     try {
-      this.email.validate();
+      // Email validation is done in Email constructor
+      if (this.email) {
+        this.email.toString(); // Just to check it exists
+      }
     } catch (error) {
-      errors.push(error.message);
+      errors.push((error as Error).message);
     }
 
     if (!Object.values(UserRole).includes(this.role)) {
@@ -247,7 +257,7 @@ export class User {
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -264,14 +274,14 @@ export class User {
       role: this.role,
       status: this.status,
       github_username: this.githubUsername,
-      points: this.points.value,
+      points: this.points?.value || 0,
       completed_challenges: this.completedChallenges,
       avatar: this.avatar,
       bio: this.bio,
       joined_date: this.joinedDate,
       last_active: this.lastActive,
       created_at: this.createdAt,
-      updated_at: this.updatedAt
+      updated_at: this.updatedAt,
     };
   }
   getJSONForCreation() {
@@ -282,26 +292,26 @@ export class User {
       password: this.password,
       role: this.role,
       status: this.status,
-      github_username: this.githubUsername
+      github_username: this.githubUsername,
     };
-    return userData;  
+    return userData;
   }
 
   /**
    * Create User from API response
    */
-  static fromAPI(data) {
+  static fromAPI(data: any): User {
     return new User(data);
   }
 
   /**
    * Create multiple Users from API response array
    */
-  static fromAPIArray(dataArray) {
+  static fromAPIArray(dataArray: any): User[] {
     if (!Array.isArray(dataArray)) {
       return [];
     }
-    return dataArray.map(data => User.fromAPI(data));
+    return dataArray.map((data) => User.fromAPI(data));
   }
 }
 
@@ -311,5 +321,3 @@ export class User {
 export const createUserObject = (userData: UserRegisterData) => {
   return new User(userData);
 };
-
-

@@ -19,12 +19,12 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -32,7 +32,7 @@ const Login = () => {
     try {
       const result = await login(formData);
       if (!result.success) {
-        setError(result.message);
+        setError(result.message || 'Login failed');
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -41,7 +41,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div className="login-page">
       {/* <Header /> */}
@@ -66,7 +66,9 @@ const Login = () => {
                   </div>
 
                   <form onSubmit={handleSubmit} className="login-form">
-                    <div className={`login-input-group ${focusedField === 'email' || formData.email ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'email' || formData.email ? 'focused' : ''}`}
+                    >
                       <FaUser className="login-input-icon" />
                       <input
                         type="email"
@@ -80,10 +82,14 @@ const Login = () => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="email" className="login-label">Email Address</label>
+                      <label htmlFor="email" className="login-label">
+                        Email Address
+                      </label>
                     </div>
 
-                    <div className={`login-input-group ${focusedField === 'password' || formData.password ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'password' || formData.password ? 'focused' : ''}`}
+                    >
                       <FaLock className="login-input-icon" />
                       <input
                         type={showPassword ? 'text' : 'password'}
@@ -97,7 +103,9 @@ const Login = () => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="password" className="login-label">Password</label>
+                      <label htmlFor="password" className="login-label">
+                        Password
+                      </label>
                       <button
                         type="button"
                         className="login-toggle-password"
@@ -126,7 +134,10 @@ const Login = () => {
                     </button>
 
                     <div className="login-footer-text">
-                      Don't have an account? <Link to="/register" className="login-link">Create one</Link>
+                      Don't have an account?{' '}
+                      <Link to="/register" className="login-link">
+                        Create one
+                      </Link>
                     </div>
                   </form>
                 </div>

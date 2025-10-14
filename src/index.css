@@ -1,26 +1,26 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Import modular CSS files */
-@import "./styles/variables.css";
-@import "./styles/base.css";
-@import "./styles/animations.css";
-@import "./styles/navbar.css";
-@import "./styles/components.css";
-@import "./styles/sections.css";
-@import "./styles/footer.css";
-@import "./styles/profile.css";
-@import "./styles/profile-popup.css";
-@import "./styles/dashboard.css";
-@import "./styles/admin-panel.css";
-@import "./styles/user-projects.css";
-@import "./styles/leaderboard.css";
-@import "./styles/events.css";
-@import "./styles/resources.css";
-@import "./styles/products.css";
-@import "./styles/electronics-lab.css";
-@import "./styles/bootstrap-overrides.css";
-@import "./styles/responsive.css";
-@import "./styles/accessibility.css";
+@import './styles/variables.css';
+@import './styles/base.css';
+@import './styles/animations.css';
+@import './styles/navbar.css';
+@import './styles/components.css';
+@import './styles/sections.css';
+@import './styles/footer.css';
+@import './styles/profile.css';
+@import './styles/profile-popup.css';
+@import './styles/dashboard.css';
+@import './styles/admin-panel.css';
+@import './styles/user-projects.css';
+@import './styles/leaderboard.css';
+@import './styles/events.css';
+@import './styles/resources.css';
+@import './styles/products.css';
+@import './styles/electronics-lab.css';
+@import './styles/bootstrap-overrides.css';
+@import './styles/responsive.css';
+@import './styles/accessibility.css';
 
 @media (max-width: 1000px) {
   .nav-menu {
@@ -35,26 +35,50 @@
 .about-card,
 .project-card,
 .team-card {
-    animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.6s ease-out;
 }
 
-.about-card:nth-child(1) { animation-delay: 0.1s; }
-.about-card:nth-child(2) { animation-delay: 0.2s; }
-.about-card:nth-child(3) { animation-delay: 0.3s; }
-.about-card:nth-child(4) { animation-delay: 0.4s; }
+.about-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.about-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.about-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.about-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
 
-.project-card:nth-child(1) { animation-delay: 0.1s; }
-.project-card:nth-child(2) { animation-delay: 0.2s; }
-.project-card:nth-child(3) { animation-delay: 0.3s; }
-.project-card:nth-child(4) { animation-delay: 0.4s; }
-.project-card:nth-child(5) { animation-delay: 0.5s; }
-.project-card:nth-child(6) { animation-delay: 0.6s; }
+.project-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.project-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.project-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.project-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.project-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.project-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
-.team-card:nth-child(1) { animation-delay: 0.1s; }
-.team-card:nth-child(2) { animation-delay: 0.2s; }
-.team-card:nth-child(3) { animation-delay: 0.3s; }
-.team-card:nth-child(4) { animation-delay: 0.4s; }
-
-:root {
-  --primary-color: white;
+.team-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.team-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.team-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.team-card:nth-child(4) {
+  animation-delay: 0.4s;
 }

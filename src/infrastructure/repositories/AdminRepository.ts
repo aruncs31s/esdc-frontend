@@ -1,11 +1,8 @@
-import { ProjectDataForAdmin } from '@/types/project';
+import { ProjectData, ProjectDataForAdmin } from '@/types/project';
 import { Project } from '../../domain/entities/Project';
 import apiClient from '../api/ApiClient';
 import { IAdminRepository } from '@/domain/repositories/IAdminRepository';
-import {
-  ApiSuccessResponse,
-  statsForAdmin
-} from '@/types';
+import { ApiSuccessResponse, statsForAdmin } from '@/types';
 import { UserDataForAdmin, UserRegisterDataByAdmin } from '@/types/user';
 /**
  * Admin Repository Implementation v0.0.1
@@ -26,10 +23,11 @@ export class AdminRepository extends IAdminRepository {
   async findAllProjects(_filters = {}): Promise<ProjectDataForAdmin[]> {
     try {
       // const params = new URLSearchParams(filters);
-      const response: ApiSuccessResponse<ProjectDataForAdmin[]> = await this.api.get(`/api/admin/projects`);
+      const response: ApiSuccessResponse<ProjectDataForAdmin[]> =
+        await this.api.get(`/api/admin/projects`);
       const data = response.data || [];
       console.log('Projects fetched from API:', data);
-      return data
+      return data;
       // return data.map(item => ({
       //   id: item.id,
       //   title: item.title,
@@ -93,10 +91,7 @@ export class AdminRepository extends IAdminRepository {
     try {
       if (project.id) {
         // Update existing project
-        const response = await this.api.put(
-          `/api/admin/projects/${project.id}`,
-          project.toJSON()
-        );
+        const response = await this.api.put(`/api/admin/projects/${project.id}`, project.toJSON());
         const data = response.data?.data || response.data;
         return Project.fromAPI(data);
       } else {
@@ -142,23 +137,24 @@ export class AdminRepository extends IAdminRepository {
       // const params = new URLSearchParams(filters);
       const response: ApiSuccessResponse<statsForAdmin> = await this.api.get(`/api/admin/projects`);
       const data = response.data || [];
-      return data
+      return data;
     } catch (error) {
       console.error('Error fetching admin stats:', error);
       return {
         total_users: 0,
         total_projects: 0,
-        active_users: 0
+        active_users: 0,
       };
     }
   }
   async findAllUsers(_filters = {}): Promise<UserDataForAdmin[]> {
     try {
       // const params = new URLSearchParams(filters);
-      const response: ApiSuccessResponse<UserDataForAdmin[]> = await this.api.get(`/api/admin/users`);
+      const response: ApiSuccessResponse<UserDataForAdmin[]> =
+        await this.api.get(`/api/admin/users`);
       const data = response.data || [];
       console.log('Users fetched from API:', data);
-      return data
+      return data;
     } catch (error) {
       console.error('Error fetching users:', error);
       return [];
@@ -166,24 +162,30 @@ export class AdminRepository extends IAdminRepository {
   }
   async createUser(userData: UserRegisterDataByAdmin): Promise<any> {
     try {
-      const response: ApiSuccessResponse<{ message: string }> = await this.api.post('/api/admin/users', userData);
+      const response: ApiSuccessResponse<{ message: string }> = await this.api.post(
+        '/api/admin/users',
+        userData
+      );
       return response.data;
     } catch (error) {
       console.error('Error creating user:', error);
       throw error;
     }
-
   }
-  async createProject(userId: string, projectData: ProjectDataForAdmin): Promise<any> {
+  async createProject(userId: string, projectData: ProjectData): Promise<any> {
     try {
-      const response: ApiSuccessResponse<{ message: string }> = await this.api.post('/api/admin/projects', { user_id: userId, ...projectData });
+      const response: ApiSuccessResponse<{ message: string }> = await this.api.post(
+        '/api/admin/projects',
+        { user_id: userId, ...projectData }
+      );
       return response.data;
     } catch (error) {
       console.error('Error creating project:', error);
       throw error;
     }
   }
-  // Singleton instance
-  const adminRepository = new AdminRepository();
+}
+// Singleton instance
+const adminRepository = new AdminRepository();
 
 export default adminRepository;

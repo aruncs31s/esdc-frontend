@@ -25,7 +25,8 @@ export function Chatroom({ onClose }: ChatroomProps) {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const ws = new WebSocket(import.meta.env.VITE_WS_URL || 'ws://localhost:9090/ws/chat');
+    // const ws = new WebSocket(import.meta.env.VITE_WS_URL || 'ws://localhost:9090/ws/chat');
+    const ws = new WebSocket('wss://esdc-backend.onrender.com/ws/chat');
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -36,10 +37,13 @@ export function Chatroom({ onClose }: ChatroomProps) {
     ws.onmessage = (event) => {
       console.log('📨 Received message:', event.data);
       const message = JSON.parse(event.data);
-      setMessages(prev => [...prev, {
-        ...message,
-        timestamp: new Date(message.timestamp)
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          ...message,
+          timestamp: new Date(message.timestamp),
+        },
+      ]);
     };
 
     ws.onerror = (error) => {
@@ -47,19 +51,12 @@ export function Chatroom({ onClose }: ChatroomProps) {
       setUseMock(true);
       setMessages([
         {
-          id: '1',
-          userId: '1',
-          username: 'Alice',
-          text: 'Hey everyone! Welcome to the chat!',
-          timestamp: new Date(Date.now() - 10 * 60000)
+          id: Date.now().toString(),
+          userId: 'system',
+          username: 'System',
+          text: 'Failed to connect to chat. Using mock data.',
+          timestamp: new Date(),
         },
-        {
-          id: '2',
-          userId: '2',
-          username: 'Bob',
-          text: 'Thanks! Excited to be here.',
-          timestamp: new Date(Date.now() - 8 * 60000)
-        }
       ]);
     };
 
@@ -84,22 +81,25 @@ export function Chatroom({ onClose }: ChatroomProps) {
     const message = {
       userId: user?.id || 'anonymous',
       username: user?.name || 'Anonymous',
-      text: inputText.trim()
+      text: inputText.trim(),
     };
 
     if (useMock) {
-      setMessages(prev => [...prev, {
-        ...message,
-        id: Date.now().toString(),
-        timestamp: new Date()
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          ...message,
+          id: Date.now().toString(),
+          timestamp: new Date(),
+        },
+      ]);
     } else if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       console.log('📤 Sending message:', message);
       wsRef.current.send(JSON.stringify(message));
     } else {
       console.error('❌ WebSocket not connected');
     }
-    
+
     setInputText('');
   };
 
@@ -109,7 +109,9 @@ export function Chatroom({ onClose }: ChatroomProps) {
         <div className="chatroom-header">
           <div>
             <h3>Community Chat</h3>
-            <span style={{ fontSize: '0.75rem', color: connected ? 'var(--green)' : 'var(--yellow)' }}>
+            <span
+              style={{ fontSize: '0.75rem', color: connected ? 'var(--green)' : 'var(--yellow)' }}
+            >
               {connected ? '• Connected' : useMock ? '• Mock Mode' : '• Connecting...'}
             </span>
           </div>
@@ -120,10 +122,7 @@ export function Chatroom({ onClose }: ChatroomProps) {
 
         <div className="chatroom-messages">
           {messages.map((msg) => (
-            <div 
-              key={msg.id} 
-              className={`message ${msg.userId === user?.id ? 'own-message' : ''}`}
-            >
+            <div key={msg.id} className={`message ${msg.userId === user?.id ? 'own-message' : ''}`}>
               <div className="message-header">
                 <span className="message-username">{msg.username}</span>
                 <span className="message-time">

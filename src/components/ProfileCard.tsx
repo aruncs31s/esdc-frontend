@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { BsGithub, BsPencilSquare, BsCalendar, BsTrophy, BsStar } from 'react-icons/bs';
 
-import PropTypes from 'prop-types';
-
 /**
  * ProfileCard Component
  * A reusable profile card component for displaying user information
- * 
+ *
  * @param {Object} props - Component props
  * @param {Object} props.user - User object containing profile information
  * @param {boolean} props.editable - Whether the profile can be edited
@@ -15,18 +13,18 @@ import PropTypes from 'prop-types';
  * @param {Object} props.stats - Statistics object with user metrics
  * @param {string} props.className - Additional CSS classes
  */
-// interface ProfileCardStats {
-//   points?: number;
-//   completedChallenges?: number;
-// }
+interface ProfileCardStats {
+  points?: number;
+  completedChallenges?: number;
+}
 
 const ProfileCard = ({
   user,
   editable = false,
   onEdit,
   showStats = true,
-  // stats = {} as ProfileCardStats,
-  className = ''
+  stats = {} as ProfileCardStats,
+  className = '',
 }: {
   user: any;
   editable?: boolean;
@@ -68,29 +66,34 @@ const ProfileCard = ({
     joined_date,
     createdAt,
     created_at,
-    html_url
+    html_url,
   } = user;
 
   const displayName = name || login || username || 'Anonymous User';
   const displayUsername = username || login || github_username || githubUsername || '';
   const displayEmail = email || '';
   const displayBio = bio || '';
-  const displayAvatar = avatar_url || avatarUrl || avatar || (displayUsername ? `https://github.com/${displayUsername}.png` : null);
+  const displayAvatar =
+    avatar_url ||
+    avatarUrl ||
+    avatar ||
+    (displayUsername ? `https://github.com/${displayUsername}.png` : null);
   const displayRole = role || 'user';
   const displayPoints = points || stats.points || 0;
-  const displayChallenges = completedChallenges || completed_challenges || stats.completedChallenges || 0;
+  const displayChallenges =
+    completedChallenges || completed_challenges || stats.completedChallenges || 0;
   const displayJoinDate = joinedDate || joined_date || createdAt || created_at;
   const githubUrl = html_url || (displayUsername ? `https://github.com/${displayUsername}` : null);
 
   // Format join date
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | undefined) => {
     if (!dateString) return 'Recently';
     try {
       const date = new Date(dateString);
       return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
-        day: 'numeric'
+        day: 'numeric',
       });
     } catch {
       return 'Recently';
@@ -107,11 +110,7 @@ const ProfileCard = ({
       <div className="profile-card-header">
         <div className="profile-card-gradient"></div>
         {editable && onEdit && (
-          <button
-            className="profile-card-edit-btn"
-            onClick={onEdit}
-            aria-label="Edit profile"
-          >
+          <button className="profile-card-edit-btn" onClick={onEdit} aria-label="Edit profile">
             <BsPencilSquare />
           </button>
         )}
@@ -144,17 +143,11 @@ const ProfileCard = ({
       <div className="profile-card-content">
         <h2 className="profile-card-name">{displayName}</h2>
 
-        {displayUsername && (
-          <p className="profile-card-username">@{displayUsername}</p>
-        )}
+        {displayUsername && <p className="profile-card-username">@{displayUsername}</p>}
 
-        {displayEmail && (
-          <p className="profile-card-email">{displayEmail}</p>
-        )}
+        {displayEmail && <p className="profile-card-email">{displayEmail}</p>}
 
-        {displayBio && (
-          <p className="profile-card-bio">{displayBio}</p>
-        )}
+        {displayBio && <p className="profile-card-bio">{displayBio}</p>}
 
         {/* GitHub Link */}
         {githubUrl && (
@@ -202,38 +195,6 @@ const ProfileCard = ({
       </div>
     </div>
   );
-};
-
-ProfileCard.propTypes = {
-  user: PropTypes.shape({
-    username: PropTypes.string,
-    email: PropTypes.string,
-    name: PropTypes.string,
-    login: PropTypes.string,
-    avatar: PropTypes.string,
-    avatar_url: PropTypes.string,
-    avatarUrl: PropTypes.string,
-    githubUsername: PropTypes.string,
-    github_username: PropTypes.string,
-    bio: PropTypes.string,
-    role: PropTypes.string,
-    points: PropTypes.number,
-    completedChallenges: PropTypes.number,
-    completed_challenges: PropTypes.number,
-    joinedDate: PropTypes.string,
-    joined_date: PropTypes.string,
-    createdAt: PropTypes.string,
-    created_at: PropTypes.string,
-    html_url: PropTypes.string,
-  }),
-  editable: PropTypes.bool,
-  onEdit: PropTypes.func,
-  showStats: PropTypes.bool,
-  stats: PropTypes.shape({
-    points: PropTypes.number,
-    completedChallenges: PropTypes.number,
-  }),
-  className: PropTypes.string,
 };
 
 export default ProfileCard;

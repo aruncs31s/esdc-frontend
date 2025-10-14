@@ -1,8 +1,8 @@
 /*
  * Application Facade
  * Provides a simplified interface to the application layer
-* This acts as the main entry point for UI components
-*/
+ * This acts as the main entry point for UI components
+ */
 
 import { Project } from '../domain/index';
 import container from './Container';
@@ -10,12 +10,49 @@ import { ProjectData, ProjectDataForAdmin } from '@/types/project';
 import { AdminRepository } from '@/infrastructure/repositories/AdminRepository';
 import { statsForAdmin } from '@/types';
 import { UserDataForAdmin, UserRegisterDataByAdmin } from '@/types/user';
+import { authAPI } from '@/infrastructure/api/auth';
+import { LoginCredentials, UserRegisterData } from '@/types';
+import { NotificationRepository } from '@/infrastructure/repositories/NotificationsRepository';
+import { Notification as AppNotification } from '@/types/notifications';
 
 class ApplicationService {
   private container: typeof container;
 
   constructor() {
     this.container = container;
+  }
+
+  // Authentication Operations
+  async login(credentials: LoginCredentials): Promise<any> {
+    const response = await authAPI.login(credentials);
+    // The response is already the data payload { token: string }
+    // Transform to AuthResponse format expected by AuthProvider
+    return {
+      success: true,
+      status: true,
+      data: response,
+      token: (response as any).token,
+      message: 'Login successful',
+    };
+  }
+
+  async register(userData: UserRegisterData): Promise<any> {
+    const response = await authAPI.register(userData);
+    // Transform to AuthResponse format expected by AuthProvider
+    return {
+      success: true,
+      status: true,
+      data: response,
+      message: 'Registration successful',
+    };
+  }
+
+  async logout() {
+    return await authAPI.logout();
+  }
+
+  async getProfile() {
+    return await authAPI.getProfile();
   }
 
   async getAllProjectForAdmin(filters: any = {}): Promise<ProjectDataForAdmin[]> {
@@ -56,13 +93,10 @@ class ApplicationService {
     return await useCase.execute(userId);
   }
 
-
-
   async getUserById(userId: string): Promise<any> {
     const repository = this.container.get('userRepository');
     return await repository.findById(userId);
   }
-
 
   // Project Operations
   async createProject(userId: string, projectData: any): Promise<any> {
@@ -129,19 +163,23 @@ class ApplicationService {
     return await service.getUserRank(userId);
   }
 
-
   // Chatbot Operations
-  async askChatbot(message: string, userId?: string): Promise<{ response: string; confidence?: number }> {
+  async askChatbot(
+    message: string,
+    userId?: string
+  ): Promise<{ response: string; confidence?: number }> {
     const useCase = this.container.get('askChatbotUseCase');
     return await useCase.execute(message, userId);
   }
 
-  async getChatHistory(userId: string): Promise<Array<{
-    id: string;
-    message: string;
-    response: string;
-    timestamp: Date;
-  }>> {
+  async getChatHistory(userId: string): Promise<
+    Array<{
+      id: string;
+      message: string;
+      response: string;
+      timestamp: Date;
+    }>
+  > {
     const service = this.container.get('chatbotService');
     return await service.getUserHistory(userId);
   }
@@ -151,7 +189,10 @@ class ApplicationService {
     return service.getQuickActions();
   }
 
-
+  async getUserNotifications(): Promise<AppNotification[]> {
+    const repository = this.container.get('notificationRepository') as NotificationRepository;
+    return await repository.getNotifications();
+  }
 }
 
 // Singleton instance

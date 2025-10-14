@@ -2,8 +2,11 @@
  * Event Bus for Domain Events
  * Implements the Observer pattern for event handling
  */
+type EventHandler = (event: any) => void | Promise<void>;
+
 class EventBus {
-  handlers: Map<string, ((event: any) => void | Promise<void>)[]>;
+  private handlers: Map<string, EventHandler[]>;
+
   constructor() {
     this.handlers = new Map();
   }
@@ -11,21 +14,21 @@ class EventBus {
   /**
    * Subscribe to an event
    */
-  subscribe(eventType, handler) {
+  subscribe(eventType: string, handler: EventHandler): void {
     if (!this.handlers.has(eventType)) {
       this.handlers.set(eventType, []);
     }
-    this.handlers.get(eventType).push(handler);
+    this.handlers.get(eventType)!.push(handler);
   }
 
   /**
    * Unsubscribe from an event
    */
-  unsubscribe(eventType, handler) {
+  unsubscribe(eventType: string, handler: EventHandler): void {
     if (!this.handlers.has(eventType)) {
       return;
     }
-    const handlers = this.handlers.get(eventType);
+    const handlers = this.handlers.get(eventType)!;
     const index = handlers.indexOf(handler);
     if (index > -1) {
       handlers.splice(index, 1);
@@ -35,14 +38,14 @@ class EventBus {
   /**
    * Publish an event
    */
-  async publish(event) {
+  async publish(event: any): Promise<void> {
     const eventType = event.eventType;
     if (!this.handlers.has(eventType)) {
       return;
     }
 
-    const handlers = this.handlers.get(eventType);
-    const promises = handlers.map(handler => {
+    const handlers = this.handlers.get(eventType)!;
+    const promises = handlers.map((handler) => {
       try {
         return Promise.resolve(handler(event));
       } catch (error) {
@@ -57,15 +60,15 @@ class EventBus {
   /**
    * Clear all handlers
    */
-  clear() {
+  clear(): void {
     this.handlers.clear();
   }
 
   /**
    * Get handler count for an event type
    */
-  getHandlerCount(eventType) {
-    return this.handlers.has(eventType) ? this.handlers.get(eventType).length : 0;
+  getHandlerCount(eventType: string): number {
+    return this.handlers.has(eventType) ? this.handlers.get(eventType)!.length : 0;
   }
 }
 

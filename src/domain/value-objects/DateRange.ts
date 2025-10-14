@@ -3,15 +3,16 @@
  * Encapsulates date range logic for events
  */
 export class DateRange {
-  _startDate;
-  _endDate;
-  constructor(startDate, endDate) {
+  private _startDate: Date;
+  private _endDate: Date;
+
+  constructor(startDate: Date | string, endDate: Date | string) {
     this._startDate = startDate instanceof Date ? startDate : new Date(startDate);
     this._endDate = endDate instanceof Date ? endDate : new Date(endDate);
     this.validate();
   }
 
-  validate() {
+  private validate(): void {
     if (isNaN(this._startDate.getTime())) {
       throw new Error('Invalid start date');
     }
@@ -23,52 +24,54 @@ export class DateRange {
     }
   }
 
-  get startDate() {
+  get startDate(): Date {
     return this._startDate;
   }
 
-  get endDate() {
+  get endDate(): Date {
     return this._endDate;
   }
 
-  isActive(date = new Date()) {
+  isActive(date: Date | string = new Date()): boolean {
     const checkDate = date instanceof Date ? date : new Date(date);
     return checkDate >= this._startDate && checkDate <= this._endDate;
   }
 
-  hasStarted(date = new Date()) {
+  hasStarted(date: Date | string = new Date()): boolean {
     const checkDate = date instanceof Date ? date : new Date(date);
     return checkDate >= this._startDate;
   }
 
-  hasEnded(date = new Date()) {
+  hasEnded(date: Date | string = new Date()): boolean {
     const checkDate = date instanceof Date ? date : new Date(date);
     return checkDate > this._endDate;
   }
 
-  getDurationInDays() {
-    const diffTime = Math.abs(this._endDate - this._startDate);
+  getDurationInDays(): number {
+    const diffTime = Math.abs(this._endDate.getTime() - this._startDate.getTime());
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
-  equals(other) {
-    return other instanceof DateRange &&
-           this._startDate.getTime() === other._startDate.getTime() &&
-           this._endDate.getTime() === other._endDate.getTime();
+  equals(other: DateRange): boolean {
+    return (
+      other instanceof DateRange &&
+      this._startDate.getTime() === other._startDate.getTime() &&
+      this._endDate.getTime() === other._endDate.getTime()
+    );
   }
 
-  toString() {
+  toString(): string {
     return `${this._startDate.toISOString()} - ${this._endDate.toISOString()}`;
   }
 
-  toJSON() {
+  toJSON(): { startDate: string; endDate: string } {
     return {
       startDate: this._startDate.toISOString(),
-      endDate: this._endDate.toISOString()
+      endDate: this._endDate.toISOString(),
     };
   }
 
-  static fromDates(startDate, endDate) {
+  static fromDates(startDate: Date | string, endDate: Date | string): DateRange {
     return new DateRange(startDate, endDate);
   }
 }

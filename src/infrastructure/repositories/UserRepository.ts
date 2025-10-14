@@ -1,5 +1,5 @@
-import { IUserRepository } from '../../domain/repositories/IUserRepository.js';
-import { User } from '../../domain/entities/User.js';
+import { IUserRepository } from '@/domain/repositories/IUserRepository.js';
+import { User } from '@/domain/entities/User.js';
 import apiClient from '../api/ApiClient.js';
 // import api from '../../services/api';
 /**
@@ -17,7 +17,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Find all users with optional filters
    */
-  async findAll(filters = {}) {
+  async findAll(filters = {}): Promise<User[]> {
     try {
       const params = new URLSearchParams(filters);
       const response = await this.api.get(`/api/admin/users?${params}`);
@@ -32,7 +32,7 @@ export class UserRepository extends IUserRepository {
   /**
    * Find user by ID
    */
-  async findById(id: string) {
+  async findById(id: number): Promise<User | null> {
     try {
       const response = await this.api.get(`/api/admin/users/${id}`);
       const data = response.data?.data || response.data;
@@ -80,10 +80,7 @@ export class UserRepository extends IUserRepository {
     try {
       if (user.id) {
         // Update existing user
-        const response = await this.api.put(
-          `/api/admin/users/${user.id}`,
-          user.toJSON()
-        );
+        const response = await this.api.put(`/api/admin/users/${user.id}`, user.toJSON());
         const data = response.data?.data || response.data;
         return User.fromAPI(data);
       } else {

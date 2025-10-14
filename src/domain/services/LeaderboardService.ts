@@ -12,35 +12,35 @@ export class LeaderboardService {
   /**
    * Get top users by points
    */
-  async getTopUsers(limit = 10) {
+  async getTopUsers(limit = 10): Promise<any[]> {
     const users = await this.userRepository.findAll();
 
     // Sort by points (descending)
-    const sortedUsers = users.sort((a, b) => {
+    const sortedUsers = users.sort((a: any, b: any) => {
       return b.points.value - a.points.value;
     });
 
     // Add rank
-    return sortedUsers.slice(0, limit).map((user, index) => ({
+    return sortedUsers.slice(0, limit).map((user: any, index: number) => ({
       rank: index + 1,
       user: user,
       points: user.points.value,
-      completedChallenges: user.completedChallenges
+      completedChallenges: user.completedChallenges,
     }));
   }
 
   /**
    * Get user's rank
    */
-  async getUserRank(userId) {
+  async getUserRank(userId: string): Promise<any> {
     const users = await this.userRepository.findAll();
 
     // Sort by points (descending)
-    const sortedUsers = users.sort((a, b) => {
+    const sortedUsers = users.sort((a: any, b: any) => {
       return b.points.value - a.points.value;
     });
 
-    const userIndex = sortedUsers.findIndex(u => u.id === userId);
+    const userIndex = sortedUsers.findIndex((u: any) => u.id === userId);
 
     if (userIndex === -1) {
       return null;
@@ -49,14 +49,14 @@ export class LeaderboardService {
     return {
       rank: userIndex + 1,
       totalUsers: users.length,
-      percentile: ((users.length - userIndex) / users.length) * 100
+      percentile: ((users.length - userIndex) / users.length) * 100,
     };
   }
 
   /**
    * Get leaderboard by category
    */
-  async getLeaderboardByCategory(category, limit = 10) {
+  async getLeaderboardByCategory(_category: string, limit = 10): Promise<any[]> {
     // This would require tracking points by category
     // Simplified implementation for now
     return this.getTopUsers(limit);
@@ -78,7 +78,7 @@ export class LeaderboardService {
     return {
       currentPoints: user.points.value,
       growth: 0, // Would calculate from historical data
-      trend: 'stable'
+      trend: 'stable',
     };
   }
 }

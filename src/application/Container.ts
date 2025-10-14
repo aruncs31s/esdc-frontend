@@ -7,16 +7,9 @@ import { UserRegistrationService } from '../domain/services/UserRegistrationServ
 import { LeaderboardService } from '../domain/services/LeaderboardService.js';
 import { ChatbotService } from '../domain/services/ChatbotService.js';
 
-import { CreateUserUseCase } from '../application/use-cases/users/CreateUserUseCase.js';
-import { UpdateUserUseCase } from '../application/use-cases/users/UpdateUserUseCase.js';
-import { DeleteUserUseCase } from '../application/use-cases/users/DeleteUserUseCase.js';
-import { GetAllUsersUseCase } from '../application/use-cases/users/GetAllUsersUseCase.js';
+import { adminRepository } from '@/infrastructure/index';
 
-
-import { CreateProjectUseCase } from '../application/use-cases/projects/CreateProjectUseCase.js';
-import { AskChatbotUseCase } from '../application/use-cases/AskChatbotUseCase.js';
-import { adminRepository } from '@/infrastructure/index.js';
-
+import { notificationRepository } from '@/infrastructure/index';
 /**
  * Dependency Injection Container
  * Manages application dependencies and their lifecycle
@@ -43,7 +36,7 @@ class Container {
     this.services.set('projectRepository', projectRepository);
     this.services.set('eventRepository', eventRepository);
     this.services.set('chatbotRepository', chatbotRepository);
-    this.services.set('adminRepository', adminRepository)
+    this.services.set('adminRepository', adminRepository);
     // Domain Services
     const userRegistrationService = new UserRegistrationService(userRepository);
 
@@ -55,25 +48,9 @@ class Container {
     this.services.set('chatbotService', chatbotService);
 
     // Use Cases - Users
-    this.services.set('createUserUseCase', new CreateUserUseCase(
-      userRepository,
-    ));
-    this.services.set('updateUserUseCase', new UpdateUserUseCase(userRepository));
-    this.services.set('deleteUserUseCase', new DeleteUserUseCase(userRepository));
-    this.services.set('getAllUsersUseCase', new GetAllUsersUseCase(userRepository));
+    this.services.set('notificationRepository', notificationRepository);
 
     // Use Cases - Challenges
-    ``
-
-
-    // Use Cases - Projects
-    this.services.set('createProjectUseCase', new CreateProjectUseCase(
-      projectRepository,
-      userRepository
-    ));
-
-    // Use Cases - Chatbot
-    this.services.set('askChatbotUseCase', new AskChatbotUseCase(chatbotService));
 
     this.initialized = true;
   }

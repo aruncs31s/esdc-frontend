@@ -2,27 +2,28 @@
  * Base Domain Event
  */
 export class DomainEvent {
-  eventType;
-  timestamp;
-  eventId;
-  data;
-  constructor(eventType, data) {
+  eventType: string;
+  timestamp: string;
+  eventId: string;
+  data: any;
+
+  constructor(eventType: string, data: any) {
     this.eventType = eventType;
     this.timestamp = new Date().toISOString();
     this.eventId = this.generateEventId();
     this.data = data;
   }
 
-  generateEventId() {
+  generateEventId(): string {
     return `${this.eventType}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  toJSON() {
+  toJSON(): any {
     return {
       eventId: this.eventId,
       eventType: this.eventType,
       timestamp: this.timestamp,
-      data: this.data
+      data: this.data,
     };
   }
 }
@@ -31,10 +32,11 @@ export class DomainEvent {
  * User Created Event
  */
 export class UserCreatedEvent extends DomainEvent {
-  userId;
-  email;
-  username;
-  constructor(userId, email, username) {
+  userId: string;
+  email: string;
+  username: string;
+
+  constructor(userId: string, email: string, username: string) {
     super('UserCreated', { userId, email, username });
     this.userId = userId;
     this.email = email;
@@ -47,6 +49,7 @@ export class UserCreatedEvent extends DomainEvent {
  */
 export class UserActivatedEvent extends DomainEvent {
   userId: string;
+
   constructor(userId: string) {
     super('UserActivated', { userId });
     this.userId = userId;
@@ -57,9 +60,9 @@ export class UserActivatedEvent extends DomainEvent {
  * User Suspended Event
  */
 export class UserSuspendedEvent extends DomainEvent {
-  userId: string;
+  userId: number;
   reason: string;
-  constructor(userId: string, reason: string) {
+  constructor(userId: number, reason: string) {
     super('UserSuspended', { userId, reason });
     this.userId = userId;
     this.reason = reason;

@@ -8,7 +8,8 @@ import eventBus from '../events/EventBus.js';
 export class ChallengeEvaluationService {
   private challengeRepository: any;
   private userRepository: any;
-  constructor(challengeRepository, userRepository) {
+
+  constructor(challengeRepository: any, userRepository: any) {
     this.challengeRepository = challengeRepository;
     this.userRepository = userRepository;
   }
@@ -16,7 +17,7 @@ export class ChallengeEvaluationService {
   /**
    * Submit and evaluate a challenge
    */
-  async submitChallenge(userId, challengeId, submissionData) {
+  async submitChallenge(userId: string, challengeId: string, submissionData: any): Promise<any> {
     // Get user and challenge
     const user = await this.userRepository.findById(userId);
     if (!user) {
@@ -41,7 +42,7 @@ export class ChallengeEvaluationService {
     challenge.addSubmission({
       userId,
       ...submissionData,
-      submittedAt: new Date().toISOString()
+      submittedAt: new Date().toISOString(),
     });
 
     // Save challenge
@@ -53,7 +54,7 @@ export class ChallengeEvaluationService {
   /**
    * Complete a challenge for a user
    */
-  async completeChallenge(userId, challengeId) {
+  async completeChallenge(userId: string, challengeId: string): Promise<any> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new Error('User not found');
@@ -73,11 +74,7 @@ export class ChallengeEvaluationService {
     const updatedUser = await this.userRepository.save(user);
 
     // Publish domain events
-    const challengeCompletedEvent = new ChallengeCompletedEvent(
-      userId,
-      challengeId,
-      points.value
-    );
+    const challengeCompletedEvent = new ChallengeCompletedEvent(userId, challengeId, points.value);
     await eventBus.publish(challengeCompletedEvent);
 
     const pointsAwardedEvent = new PointsAwardedEvent(
@@ -90,30 +87,29 @@ export class ChallengeEvaluationService {
     return {
       user: updatedUser,
       challenge,
-      pointsAwarded: points.value
+      pointsAwarded: points.value,
     };
   }
 
   /**
    * Get user's challenge progress
    */
-  async getUserChallengeProgress(userId) {
+  async getUserChallengeProgress(userId: string): Promise<any> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new Error('User not found');
     }
 
     const allChallenges = await this.challengeRepository.findAll();
-    const activeChallenges = allChallenges.filter(c => c.isActive());
+    const activeChallenges = allChallenges.filter((c: any) => c.isActive());
 
     return {
       totalChallenges: allChallenges.length,
       activeChallenges: activeChallenges.length,
       completedChallenges: user.completedChallenges,
       totalPoints: user.points.value,
-      completionRate: allChallenges.length > 0
-        ? (user.completedChallenges / allChallenges.length) * 100
-        : 0
+      completionRate:
+        allChallenges.length > 0 ? (user.completedChallenges / allChallenges.length) * 100 : 0,
     };
   }
 }

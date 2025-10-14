@@ -14,13 +14,18 @@ import {
   FaArrowLeft,
   FaCheckCircle,
   FaSpinner,
-  FaArchive
+  FaArchive,
 } from 'react-icons/fa';
-import { Project } from '../domain/entities/Project';
+import { Project } from '@/domain/entities/Project';
 import { ProjectStatus } from '@/domain';
 import '../styles/ProjectDetail.css';
 import { applicationService } from '../application';
 import { DEFAULT_PROJECT_IMAGE } from '../data/project_images';
+import LikesModal from '@/components/modals/LikesModal';
+import ContributorsModal from '@/components/modals/ContributorsModal';
+import TechnologiesModal from '@/components/modals/TechnologiesModal';
+import TagsModal from '@/components/modals/TagsModal';
+
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -28,6 +33,12 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState(false);
+
+  // Modal states
+  const [showLikesModal, setShowLikesModal] = useState(false);
+  const [showContributorsModal, setShowContributorsModal] = useState(false);
+  const [showTechnologiesModal, setShowTechnologiesModal] = useState(false);
+  const [showTagsModal, setShowTagsModal] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -39,7 +50,6 @@ const ProjectDetail = () => {
         setProject(projectData);
         // Increment views
         projectData.incrementViews();
-
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load project');
       } finally {
@@ -76,7 +86,7 @@ const ProjectDetail = () => {
   };
 
   const getStatusLabel = (status: string) => {
-    return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return status.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
   if (loading) {
@@ -116,10 +126,7 @@ const ProjectDetail = () => {
         {/* Hero Section */}
         <div className="project-hero">
           <div className="project-hero-image">
-            <img
-              src={project.image || DEFAULT_PROJECT_IMAGE}
-              alt={project.title}
-            />
+            <img src={project.image || DEFAULT_PROJECT_IMAGE} alt={project.title} />
             <div className="project-status-badge">
               {getStatusIcon(project.status)}
               <span>{getStatusLabel(project.status)}</span>
@@ -138,9 +145,18 @@ const ProjectDetail = () => {
                   onClick={handleLike}
                   className={`action-btn ${isLiked ? 'liked' : ''}`}
                   aria-label="Like project"
+                  title="Like this project"
                 >
                   {isLiked ? <FaHeart /> : <FaRegHeart />}
                   <span>{project.likes}</span>
+                </button>
+                <button
+                  onClick={() => setShowLikesModal(true)}
+                  className="action-btn action-btn-clickable"
+                  title="View who liked this project"
+                >
+                  <FaHeart />
+                  <span>Who Liked</span>
                 </button>
                 <div className="action-btn views">
                   <FaEye />
@@ -182,7 +198,16 @@ const ProjectDetail = () => {
             {/* Technologies */}
             {project.technologies && project.technologies.length > 0 && (
               <div className="project-section">
-                <h2><FaCode /> Technologies Used</h2>
+                <h2>
+                  <FaCode /> Technologies Used
+                  <button
+                    className="view-all-btn"
+                    onClick={() => setShowTechnologiesModal(true)}
+                    title="View all technologies with learning resources"
+                  >
+                    View Details
+                  </button>
+                </h2>
                 <div className="technologies-grid">
                   {project.technologies.map((tech) => (
                     <div key={tech.id} className="technology-badge">
@@ -196,13 +221,34 @@ const ProjectDetail = () => {
             {/* Tags */}
             {project.tags && project.tags.length > 0 && (
               <div className="project-section">
-                <h2><FaTag /> Tags</h2>
+                <h2>
+                  <FaTag /> Tags
+                  <button
+                    className="view-all-btn"
+                    onClick={() => setShowTagsModal(true)}
+                    title="Click tags to see related projects"
+                  >
+                    View All
+                  </button>
+                </h2>
                 <div className="tags-container">
-                  {project.tags.map((tag) => (
-                    <span key={tag.id} className="tag">
+                  {project.tags.slice(0, 5).map((tag) => (
+                    <span
+                      key={tag.id}
+                      className="tag tag-clickable"
+                      onClick={() => {
+                        navigate(`/projects?tag=${encodeURIComponent(tag.name)}`);
+                      }}
+                      title={`View all projects with tag: ${tag.name}`}
+                    >
                       {tag.name}
                     </span>
                   ))}
+                  {project.tags.length > 5 && (
+                    <span className="tag tag-more" onClick={() => setShowTagsModal(true)}>
+                      +{project.tags.length - 5} more
+                    </span>
+                  )}
                 </div>
               </div>
             )}
@@ -210,10 +256,24 @@ const ProjectDetail = () => {
             {/* Contributors */}
             {project.contributors && project.contributors.length > 0 && (
               <div className="project-section">
-                <h2><FaUser /> Contributors</h2>
+                <h2>
+                  <FaUser /> Contributors
+                  <button
+                    className="view-all-btn"
+                    onClick={() => setShowContributorsModal(true)}
+                    title="View all contributors"
+                  >
+                    View All ({project.contributors.length})
+                  </button>
+                </h2>
                 <div className="contributors-list">
-                  {project.contributors.map((contributor) => (
-                    <div key={contributor.id} className="contributor-card">
+                  {project.contributors.slice(0, 4).map((contributor) => (
+                    <div
+                      key={contributor.id}
+                      className="contributor-card contributor-card-clickable"
+                      onClick={() => setShowContributorsModal(true)}
+                      title="Click to view all contributors"
+                    >
                       <div className="contributor-avatar">
                         {contributor.name.charAt(0).toUpperCase()}
                       </div>
@@ -223,6 +283,18 @@ const ProjectDetail = () => {
                       </div>
                     </div>
                   ))}
+                  {project.contributors.length > 4 && (
+                    <div
+                      className="contributor-card contributor-more"
+                      onClick={() => setShowContributorsModal(true)}
+                    >
+                      <div className="contributor-avatar">+{project.contributors.length - 4}</div>
+                      <div className="contributor-info">
+                        <h4>View More</h4>
+                        <p>Click to see all</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -289,13 +361,17 @@ const ProjectDetail = () => {
             <div className="sidebar-card">
               <h3>Project Stats</h3>
               <div className="stats-grid">
-                <div className="stat-item">
+                <button
+                  className="stat-item stat-item-clickable"
+                  onClick={() => setShowLikesModal(true)}
+                  title="View who liked this project"
+                >
                   <FaHeart className="stat-icon" />
                   <div>
                     <p className="stat-value">{project.likes}</p>
                     <p className="stat-label">Likes</p>
                   </div>
-                </div>
+                </button>
                 <div className="stat-item">
                   <FaEye className="stat-icon" />
                   <div>
@@ -303,25 +379,59 @@ const ProjectDetail = () => {
                     <p className="stat-label">Views</p>
                   </div>
                 </div>
-                <div className="stat-item">
+                <button
+                  className="stat-item stat-item-clickable"
+                  onClick={() => setShowContributorsModal(true)}
+                  title="View all contributors"
+                >
                   <FaUser className="stat-icon" />
                   <div>
                     <p className="stat-value">{project.contributors?.length || 0}</p>
                     <p className="stat-label">Contributors</p>
                   </div>
-                </div>
-                <div className="stat-item">
+                </button>
+                <button
+                  className="stat-item stat-item-clickable"
+                  onClick={() => setShowTechnologiesModal(true)}
+                  title="View technologies and learning resources"
+                >
                   <FaCode className="stat-icon" />
                   <div>
                     <p className="stat-value">{project.technologies?.length || 0}</p>
                     <p className="stat-label">Technologies</p>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </aside>
         </div>
       </div>
+
+      {/* Modals */}
+      <LikesModal
+        isOpen={showLikesModal}
+        onClose={() => setShowLikesModal(false)}
+        likes={[]} // TODO: Fetch actual likes data from API
+        totalLikes={project.likes}
+      />
+
+      <ContributorsModal
+        isOpen={showContributorsModal}
+        onClose={() => setShowContributorsModal(false)}
+        contributors={project.contributors || []}
+      />
+
+      <TechnologiesModal
+        isOpen={showTechnologiesModal}
+        onClose={() => setShowTechnologiesModal(false)}
+        technologies={project.technologies || []}
+      />
+
+      <TagsModal
+        isOpen={showTagsModal}
+        onClose={() => setShowTagsModal(false)}
+        tags={project.tags || []}
+      />
     </div>
   );
 };

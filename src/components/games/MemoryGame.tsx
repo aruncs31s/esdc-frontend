@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { GiGamepad, GiDart, GiDiceSixFacesFive, GiTrophy, GiPalette, GiTheaterCurtains, GiGuitar, GiGrandPiano } from 'react-icons/gi';
+import {
+  GiGamepad,
+  GiDart,
+  GiDiceSixFacesFive,
+  GiTrophy,
+  GiPalette,
+  GiTheaterCurtains,
+  GiGuitar,
+  GiGrandPiano,
+} from 'react-icons/gi';
 import { GiBrain } from 'react-icons/gi';
 import { FaTrophy } from 'react-icons/fa';
 import '../../styles/games.css';
@@ -13,19 +22,29 @@ const ICONS = [
   <GiPalette key="palette" />,
   <GiTheaterCurtains key="theater" />,
   <GiGuitar key="guitar" />,
-  <GiGrandPiano key="piano" />
+  <GiGrandPiano key="piano" />,
 ];
 
+interface Card {
+  id: number;
+  icon: React.ReactElement;
+  flipped: boolean;
+}
+
 const MemoryGame = () => {
-  const [cards, setCards] = useState([]);
-  const [flipped, setFlipped] = useState([]);
-  const [matched, setMatched] = useState([]);
+  const [cards, setCards] = useState<Card[]>([]);
+  const [flipped, setFlipped] = useState<number[]>([]);
+  const [matched, setMatched] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [time, setTime] = useState(0);
-  const [bestTime, setBestTime] = useState(parseInt(localStorage.getItem('memoryBestTime')) || 0);
-  const [bestMoves, setBestMoves] = useState(parseInt(localStorage.getItem('memoryBestMoves')) || 0);
+  const [bestTime, setBestTime] = useState(
+    parseInt(localStorage.getItem('memoryBestTime') || '0') || 0
+  );
+  const [bestMoves, setBestMoves] = useState(
+    parseInt(localStorage.getItem('memoryBestMoves') || '0') || 0
+  );
 
   const initGame = () => {
     const shuffled = [...ICONS, ...ICONS]
@@ -44,7 +63,7 @@ const MemoryGame = () => {
     if (!isPlaying || gameOver) return;
 
     const timer = setInterval(() => {
-      setTime(prev => prev + 1);
+      setTime((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -54,14 +73,14 @@ const MemoryGame = () => {
     if (flipped.length === 2) {
       const [first, second] = flipped;
       if (cards[first].icon.key === cards[second].icon.key) {
-        setMatched(prev => [...prev, first, second]);
+        setMatched((prev) => [...prev, first, second]);
         setFlipped([]);
-        
+
         // Check win condition
         if (matched.length + 2 === cards.length) {
           setGameOver(true);
           setIsPlaying(false);
-          
+
           if (!bestTime || time < bestTime) {
             setBestTime(time);
             localStorage.setItem('memoryBestTime', time.toString());
@@ -77,20 +96,26 @@ const MemoryGame = () => {
     }
   }, [flipped, cards, matched, time, moves, bestTime, bestMoves]);
 
-  const handleCardClick = (index) => {
-    if (!isPlaying || gameOver || flipped.includes(index) || matched.includes(index) || flipped.length === 2) {
+  const handleCardClick = (index: number) => {
+    if (
+      !isPlaying ||
+      gameOver ||
+      flipped.includes(index) ||
+      matched.includes(index) ||
+      flipped.length === 2
+    ) {
       return;
     }
 
     const newFlipped = [...flipped, index];
     setFlipped(newFlipped);
-    
+
     if (newFlipped.length === 2) {
-      setMoves(prev => prev + 1);
+      setMoves((prev) => prev + 1);
     }
   };
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -104,7 +129,9 @@ const MemoryGame = () => {
         </Link>
 
         <div className="games-header">
-          <h1 className="games-title"><GiBrain /> Memory Match</h1>
+          <h1 className="games-title">
+            <GiBrain /> Memory Match
+          </h1>
           <p className="games-subtitle">Find all matching pairs!</p>
         </div>
 
@@ -148,11 +175,15 @@ const MemoryGame = () => {
           {gameOver && (
             <div className="game-over-overlay">
               <div className="game-over-content">
-                <h2><FaTrophy /> Congratulations!</h2>
+                <h2>
+                  <FaTrophy /> Congratulations!
+                </h2>
                 <p>Time: {formatTime(time)}</p>
                 <p>Moves: {moves}</p>
                 {(time === bestTime || moves === bestMoves) && (
-                  <p className="new-high-score"><FaTrophy /> New Record!</p>
+                  <p className="new-high-score">
+                    <FaTrophy /> New Record!
+                  </p>
                 )}
               </div>
             </div>
@@ -170,7 +201,9 @@ const MemoryGame = () => {
         <div className="game-instructions">
           <h3>How to Play</h3>
           <ul>
-            <li><strong>Click</strong> on cards to flip them over</li>
+            <li>
+              <strong>Click</strong> on cards to flip them over
+            </li>
             <li>Find matching pairs of emojis</li>
             <li>Try to match all pairs in the fewest moves</li>
             <li>Beat your best time and move count!</li>

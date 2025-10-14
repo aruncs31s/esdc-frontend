@@ -7,7 +7,7 @@ export class IUserRepository {
     throw new Error('Method not implemented');
   }
 
-  async findById(_id: string): Promise<any> {
+  async findById(_id: number): Promise<any> {
     throw new Error('Method not implemented');
   }
 

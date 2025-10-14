@@ -46,37 +46,47 @@ const AppRoutes = () => {
     <div className="App">
       {isFeatureEnabled('chatbot') && <Chatbot />}
       <Routes>
-        {/* <Route path="/3d" element={<ThreeLanding />} /> */}
-        {/* <Route path="/explore" element={<VehicleExplorer />} /> */}
-        <Route path="/" element={
-          <>
-            <Header />
-            <Home />
-            <Footer />
-          </>
-        } />
-        <Route path="/login" element={
-          <>
-            <Header />
-            <Login />
-            <Footer />
-          </>
-        } />
-        <Route path="/register" element={
-          <>
-            <Header />
-            <Register />
-            <Footer />
-          </>
-        } />
-        {isFeatureEnabled('events') && (
-          <Route path="/events" element={
+        <Route
+          path="/"
+          element={
             <>
               <Header />
-              <Events />
+              <Home />
               <Footer />
             </>
-          } />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <>
+              <Header />
+              <Login />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <>
+              <Header />
+              <Register />
+              <Footer />
+            </>
+          }
+        />
+        {isFeatureEnabled('events') && (
+          <Route
+            path="/events"
+            element={
+              <>
+                <Header />
+                <Events />
+                <Footer />
+              </>
+            }
+          />
         )}
         {/* {isFeatureEnabled('challenges') && (
                   <Route path="/challenges" element={
@@ -88,217 +98,295 @@ const AppRoutes = () => {
                   } />
                 )} */}
         {isFeatureEnabled('resources') && (
-          <Route path="/resources" element={
-            <>
-              <Header />
-              <Resources />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/resources"
+            element={
+              <>
+                <Header />
+                <Resources />
+                <Footer />
+              </>
+            }
+          />
         )}
         {isFeatureEnabled('products') && (
-          <Route path="/products" element={
-            <>
-              <Header />
-              <Products />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/products"
+            element={
+              <>
+                <Header />
+                <Products />
+                <Footer />
+              </>
+            }
+          />
         )}
         {isFeatureEnabled('shop') && (
           <>
-            <Route path="/shop" element={
-              <>
-                <Header />
-                <Shop />
-                <Footer />
-              </>
-            } />
-            <Route path="/shop-cart" element={
-              <>
-                <Header />
-                <ShopCart />
-                <Footer />
-              </>
-            } />
+            <Route
+              path="/shop"
+              element={
+                <>
+                  <Header />
+                  <Shop />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/shop-cart"
+              element={
+                <>
+                  <Header />
+                  <ShopCart />
+                  <Footer />
+                </>
+              }
+            />
           </>
         )}
         {isFeatureEnabled('lms') && (
-          <Route path="/lms" element={
-            <>
-              <Header />
-              <LMS />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/lms"
+            element={
+              <>
+                <Header />
+                <LMS />
+                <Footer />
+              </>
+            }
+          />
         )}
         {isFeatureEnabled('products') && (
-          <Route path="/my-products" element={
-            <>
-              <Header />
-              <MyProducts />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/my-products"
+            element={
+              <>
+                <Header />
+                <MyProducts />
+                <Footer />
+              </>
+            }
+          />
         )}
         {isFeatureEnabled('projects') && (
           <>
-            <Route path="/my-projects" element={
-              <>
-                <Header />
-                <UserProjects />
-                <Footer />
-              </>
-            } />
-            <Route path="/projects/:id" element={
-              <>
-                <Header />
-                <ProjectDetail />
-                <Footer />
-              </>
-            } />
+            <Route
+              path="/my-projects"
+              element={
+                <>
+                  <Header />
+                  <UserProjects />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/projects/:id"
+              element={
+                <>
+                  <Header />
+                  <ProjectDetail />
+                  <Footer />
+                </>
+              }
+            />
           </>
         )}
         {isFeatureEnabled('games') && (
           <>
-            <Route path="/games" element={
-              <>
-                <Header />
-                <Games />
-                <Footer />
-              </>
-            } />
-            <Route path="/games/snake" element={
-              <>
-                <Header />
-                <SnakeGame />
-                <Footer />
-              </>
-            } />
-            <Route path="/games/tetris" element={
-              <>
-                <Header />
-                <TetrisGame />
-                <Footer />
-              </>
-            } />
-            <Route path="/games/pong" element={
-              <>
-                <Header />
-                <PongGame />
-                <Footer />
-              </>
-            } />
-            <Route path="/games/breakout" element={
-              <>
-                <Header />
-                <BreakoutGame />
-                <Footer />
-              </>
-            } />
-            <Route path="/games/memory" element={
-              <>
-                <Header />
-                <MemoryGame />
-                <Footer />
-              </>
-            } />
-            <Route path="/games/simon" element={
-              <>
-                <Header />
-                <SimonGame />
-                <Footer />
-              </>
-            } />
+            <Route
+              path="/games"
+              element={
+                <>
+                  <Header />
+                  <Games />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/games/snake"
+              element={
+                <>
+                  <Header />
+                  <SnakeGame />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/games/tetris"
+              element={
+                <>
+                  <Header />
+                  <TetrisGame />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/games/pong"
+              element={
+                <>
+                  <Header />
+                  <PongGame />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/games/breakout"
+              element={
+                <>
+                  <Header />
+                  <BreakoutGame />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/games/memory"
+              element={
+                <>
+                  <Header />
+                  <MemoryGame />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/games/simon"
+              element={
+                <>
+                  <Header />
+                  <SimonGame />
+                  <Footer />
+                </>
+              }
+            />
           </>
         )}
-        <Route path="/dashboard" element={
-          <>
-            <Header />
-            <Dashboard />
-            <Footer />
-          </>
-        } />
-        {isFeatureEnabled('leaderboard') && (
-          <Route path="/leaderboard" element={
+        <Route
+          path="/dashboard"
+          element={
             <>
               <Header />
-              <Leaderboard />
+              <Dashboard />
               <Footer />
             </>
-          } />
+          }
+        />
+        {isFeatureEnabled('leaderboard') && (
+          <Route
+            path="/leaderboard"
+            element={
+              <>
+                <Header />
+                <Leaderboard />
+                <Footer />
+              </>
+            }
+          />
         )}
         {isFeatureEnabled('projects') && (
-          <Route path="/projects" element={
+          <Route
+            path="/projects"
+            element={
+              <>
+                <Header />
+                <Projects />
+                {/* <UserProjects /> */}
+                <Footer />
+              </>
+            }
+          />
+        )}
+        <Route
+          path="/profile"
+          element={
             <>
               <Header />
-              <Projects />
-              {/* <UserProjects /> */}
+              <UserProfile />
               <Footer />
             </>
-          } />
-        )}
-        <Route path="/profile" element={
-          <>
-            <Header />
-            <UserProfile />
-            <Footer />
-          </>
-        } />
-        <Route path="/profile-card-demo" element={
-          <>
-            <Header />
-            <ProfileCardPage />
-            <Footer />
-          </>
-        } />
-        <Route path="/users" element={
-          <>
-            <Header />
-            <Users />
-            <Footer />
-          </>
-        } />
-        {isFeatureEnabled('notifications') && (
-          <Route path="/notifications" element={
+          }
+        />
+        <Route
+          path="/profile-card-demo"
+          element={
             <>
-              <Notifications />
+              <Header />
+              <ProfileCardPage />
               <Footer />
             </>
-          } />
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <>
+              <Header />
+              <Users />
+              <Footer />
+            </>
+          }
+        />
+        {isFeatureEnabled('notifications') && (
+          <Route
+            path="/notifications"
+            element={
+              <>
+                <Notifications />
+                <Footer />
+              </>
+            }
+          />
         )}
         {isFeatureEnabled('blog') && (
-          <Route path="/blog" element={
-            <>
-              <Header />
-              <Blog />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/blog"
+            element={
+              <>
+                <Header />
+                <Blog />
+                <Footer />
+              </>
+            }
+          />
         )}
-        <Route path="/search" element={
-          <>
-            <Header />
-            <Search />
-            <Footer />
-          </>
-        } />
-        <Route path="/settings" element={
-          <>
-            <Header />
-            <Settings />
-            <Footer />
-          </>
-        } />
-        <Route path="/admin" element={
-          <ProtectedRoute requiredRole="admin">
+        <Route
+          path="/search"
+          element={
             <>
               <Header />
-              <AdminPanel />
+              <Search />
               <Footer />
             </>
-          </ProtectedRoute>
-        } />
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <>
+              <Header />
+              <Settings />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <>
+                <Header />
+                <AdminPanel />
+                <Footer />
+              </>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

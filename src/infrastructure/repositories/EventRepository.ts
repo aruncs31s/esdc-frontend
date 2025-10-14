@@ -1,6 +1,6 @@
 import { IEventRepository } from '../../domain/repositories/IEventRepository.js';
 import { Event } from '../../domain/entities/Event.js';
-import apiClient from '../api/ApiClient.js';
+import apiClient from '../api/ApiClient';
 
 /**
  * Event Repository Implementation
@@ -78,10 +78,7 @@ export class EventRepository extends IEventRepository {
     try {
       if (event.id) {
         // Update existing event
-        const response = await this.api.put(
-          `/api/events/${event.id}`,
-          event.toJSON()
-        );
+        const response = await this.api.put(`/api/events/${event.id}`, event.toJSON());
         const data = response.data?.data || response.data;
         return Event.fromAPI(data);
       } else {

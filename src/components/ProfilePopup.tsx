@@ -1,23 +1,42 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiSun, FiMoon, FiUser, FiLogOut, FiSettings, FiActivity, FiAward, FiTarget, FiZap, FiFolder, FiShoppingBag, FiGlobe, FiBell } from 'react-icons/fi';
+import {
+  FiSun,
+  FiMoon,
+  FiUser,
+  FiLogOut,
+  FiSettings,
+  FiActivity,
+  FiAward,
+  FiTarget,
+  FiZap,
+  FiFolder,
+  FiShoppingBag,
+  FiGlobe,
+  FiBell,
+} from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
-import PropTypes from 'prop-types';
 import './ProfilePopup.css';
 
 /**
  * ProfilePopup Component
  * Android-style quick settings popup with profile info and quick tiles
  */
-const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
+interface ProfilePopupProps {
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+  onClose: () => void;
+}
+
+const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }: ProfilePopupProps) => {
   const { user, logout } = useAuth();
   const [imageError, setImageError] = useState(false);
-  const popupRef = useRef(null);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   // Close popup when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
@@ -86,9 +105,7 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
             <div className="profile-popup-tile-icon">
               {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
             </div>
-            <span className="profile-popup-tile-label">
-              {isDarkMode ? 'Light' : 'Dark'}
-            </span>
+            <span className="profile-popup-tile-label">{isDarkMode ? 'Light' : 'Dark'}</span>
           </button>
 
           {/* Profile Tile */}
@@ -105,12 +122,7 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
           </Link>
 
           {/* Dashboard Tile */}
-          <Link
-            to="/dashboard"
-            className="profile-popup-tile"
-            onClick={onClose}
-            title="Dashboard"
-          >
+          <Link to="/dashboard" className="profile-popup-tile" onClick={onClose} title="Dashboard">
             <div className="profile-popup-tile-icon">
               <FiActivity size={20} />
             </div>
@@ -144,12 +156,7 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
           </Link>
 
           {/* Games Tile */}
-          <Link
-            to="/games"
-            className="profile-popup-tile"
-            onClick={onClose}
-            title="Games"
-          >
+          <Link to="/games" className="profile-popup-tile" onClick={onClose} title="Games">
             <div className="profile-popup-tile-icon">
               <FiZap size={20} />
             </div>
@@ -170,12 +177,7 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
           </Link>
 
           {/* Settings Tile */}
-          <Link
-            to="/settings"
-            className="profile-popup-tile"
-            onClick={onClose}
-            title="Settings"
-          >
+          <Link to="/settings" className="profile-popup-tile" onClick={onClose} title="Settings">
             <div className="profile-popup-tile-icon">
               <FiSettings size={20} />
             </div>
@@ -190,21 +192,27 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
           </div>
           <div className="profile-popup-quick-links">
             <Link to="/my-projects" className="quick-link-item" onClick={onClose}>
-              <div className="quick-link-icon"><FiFolder size={24} /></div>
+              <div className="quick-link-icon">
+                <FiFolder size={24} />
+              </div>
               <div className="quick-link-text">
                 <h5>My Projects</h5>
                 <p>View and manage your projects</p>
               </div>
             </Link>
             <Link to="/my-products" className="quick-link-item" onClick={onClose}>
-              <div className="quick-link-icon"><FiShoppingBag size={24} /></div>
+              <div className="quick-link-icon">
+                <FiShoppingBag size={24} />
+              </div>
               <div className="quick-link-text">
                 <h5>My Products</h5>
                 <p>Manage your products and sales</p>
               </div>
             </Link>
             <Link to="/community-projects" className="quick-link-item" onClick={onClose}>
-              <div className="quick-link-icon"><FiGlobe size={24} /></div>
+              <div className="quick-link-icon">
+                <FiGlobe size={24} />
+              </div>
               <div className="quick-link-text">
                 <h5>Community Projects</h5>
                 <p>Explore community projects</p>
@@ -214,23 +222,13 @@ const ProfilePopup = ({ isDarkMode, toggleTheme, onClose }) => {
         </div>
 
         {/* Logout Button */}
-        <button
-          onClick={handleLogout}
-          className="profile-popup-logout"
-          title="Logout"
-        >
+        <button onClick={handleLogout} className="profile-popup-logout" title="Logout">
           <FiLogOut size={18} />
           <span>Logout</span>
         </button>
       </div>
     </div>
   );
-};
-
-ProfilePopup.propTypes = {
-  isDarkMode: PropTypes.bool.isRequired,
-  toggleTheme: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default ProfilePopup;

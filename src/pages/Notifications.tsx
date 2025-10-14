@@ -1,29 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiBell, FiCheck, FiTrash2, FiSettings } from 'react-icons/fi';
 import Header from '../components/Navbar';
 import './Notifications.css';
+import type { Notification } from '@/types/notifications'; // Ensure this matches the source of the Notification type used in applicationService
+
+import { applicationService } from '@/application';
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: 'New Challenge Available', message: 'Check out the latest coding challenge!', time: '2 hours ago', read: false, type: 'challenge' },
-    { id: 2, title: 'Project Approved', message: 'Your project "IoT Smart Home" has been approved.', time: '5 hours ago', read: false, type: 'project' },
-    { id: 3, title: 'New Comment', message: 'Someone commented on your project.', time: '1 day ago', read: true, type: 'comment' },
-    { id: 4, title: 'Achievement Unlocked', message: 'You earned the "Code Master" badge!', time: '2 days ago', read: true, type: 'achievement' },
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data = (await applicationService.getUserNotifications()) as Notification[];
+        console.log('Fetched notifications from DB:', data);
+        setNotifications(data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+        setNotifications([]);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
 
   const markAsRead = (id: number) => {
-    setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+    setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
+    setNotifications(notifications.map((n) => ({ ...n, read: true })));
   };
 
   const deleteNotification = (id: number) => {
-    setNotifications(notifications.filter(n => n.id !== id));
+    setNotifications(notifications.filter((n) => n.id !== id));
   };
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <div className="notifications-page">
@@ -45,7 +57,9 @@ const Notifications = () => {
                     <div>
                       <h1 className="notifications-title">Notifications</h1>
                       <p className="notifications-subtitle">
-                        {unreadCount > 0 ? `${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}` : 'All caught up!'}
+                        {unreadCount > 0
+                          ? `${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}`
+                          : 'All caught up!'}
                       </p>
                     </div>
                   </div>
@@ -70,12 +84,15 @@ const Notifications = () => {
                       <p>You're all caught up!</p>
                     </div>
                   ) : (
-                    notifications.map(notification => (
+                    notifications.map((notification) => (
                       <div
                         key={notification.id}
                         className={`notification-item ${!notification.read ? 'unread' : ''}`}
                       >
-                        <div className="notification-content" onClick={() => markAsRead(notification.id)}>
+                        <div
+                          className="notification-content"
+                          onClick={() => markAsRead(notification.id)}
+                        >
                           <div className={`notification-type-badge ${notification.type}`}>
                             <FiBell size={16} />
                           </div>

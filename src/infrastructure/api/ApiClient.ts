@@ -1,7 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ApiSuccessResponse } from '@/types';
 // Base URL for the API
-const API_BASE_URL = 'http://localhost:9090';
+// const API_BASE_URL = 'http://localhost:9090';
+const API_BASE_URL = 'https://esdc-backend.onrender.com';
 /**
  * API Client
  * Central HTTP client with interceptors for authentication
@@ -54,20 +55,34 @@ export class ApiClient {
     return this.client.get(url, config);
   }
 
-  async post<T = any>(url: string, data: any, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
+  async post<T = any>(
+    url: string,
+    data: any,
+    config: AxiosRequestConfig = {}
+  ): Promise<ApiSuccessResponse<T>> {
     return this.client.post(url, data, config);
   }
 
-  async put<T = any>(url: string, data: any, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
+  async put<T = any>(
+    url: string,
+    data: any,
+    config: AxiosRequestConfig = {}
+  ): Promise<ApiSuccessResponse<T>> {
     return this.client.put(url, data, config);
   }
 
-  async patch<T = any>(url: string, data: any, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
+  async patch<T = any>(
+    url: string,
+    data: any,
+    config: AxiosRequestConfig = {}
+  ): Promise<ApiSuccessResponse<T>> {
     return this.client.patch(url, data, config);
   }
 
-
-  async delete<T = any>(url: string, config: AxiosRequestConfig = {}): Promise<ApiSuccessResponse<T>> {
+  async delete<T = any>(
+    url: string,
+    config: AxiosRequestConfig = {}
+  ): Promise<ApiSuccessResponse<T>> {
     return this.client.delete(url, config);
   }
 }

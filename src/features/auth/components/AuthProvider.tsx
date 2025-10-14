@@ -4,12 +4,11 @@
  */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
-import { authAPI } from '@/services/api';
 import { jwtDecode } from 'jwt-decode';
-import { RegisterRequest } from '@/types';
-import { UserData, LoginCredentials } from '@/types/user';
+import { UserData, LoginCredentials, UserRegisterData } from '@/types/user';
 import { AuthResponse, DecodedToken, AuthResult } from '@/types/auth';
 import { AuthContextType } from '@/contexts/AuthContextTypes';
+import { applicationService } from '@/application';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -29,12 +28,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const decoded = jwtDecode<DecodedToken & { exp?: number }>(token);
       if (!decoded.exp) return false;
-      
+
       const currentTime = Date.now() / 1000;
       return decoded.exp < currentTime;
     } catch (error) {
       console.error('Error decoding token:', error);
-      return true; 
+      return true;
     }
   };
 
@@ -42,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const token = localStorage.getItem('auth_token');
       const userData = localStorage.getItem('user_data');
-      
+
       if (token && userData) {
         if (isTokenExpired(token)) {
           console.log('Token expired, clearing authentication');
@@ -72,14 +71,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     checkAuthStatus();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
- 
-  const login = async (credentials: LoginCredentials): Promise<AuthResult> =>  {
+  const login = async (credentials: LoginCredentials): Promise<AuthResult> => {
     try {
-      const response: AuthResponse = await authAPI.login(credentials);
-      if (response.status || response.success && response.data.token) {
+      const response: AuthResponse = await applicationService.login(credentials);
+      if (response.status || (response.success && response.data.token)) {
         const token = response.data.token || response.token;
         localStorage.setItem('auth_token', token);
 
@@ -88,36 +86,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           email: decoded.sub,
           username: decoded.username,
           role: decoded.role,
-          name: decoded.name
+          name: decoded.name,
         };
-        
+
         localStorage.setItem('user_data', JSON.stringify(userData));
         setUser(userData);
         setIsAuthenticated(true);
-        
+
         return {
           success: true,
-          message: 'Login successful!'
+          message: 'Login successful!',
         };
       }
-      
+
       return {
         success: false,
-        message: response.message || 'Login failed'
+        message: response.message || 'Login failed',
       };
     } catch (err: any) {
       console.error('Login error:', err);
       return {
         success: false,
-        message: err.response?.data?.message || 'Login failed. Please try again.'
+        message: err.response?.data?.message || 'Login failed. Please try again.',
       };
     }
   };
 
-  const register = async (registerData: RegisterRequest): Promise<AuthResult> => {
+  const register = async (registerData: UserRegisterData): Promise<AuthResult> => {
     try {
-      const response = await authAPI.register(registerData);
-      
+      const response = await applicationService.register(registerData);
+
       if (response.success && response.data.token) {
         const token = response.data.token;
         localStorage.setItem('auth_token', token);
@@ -127,45 +125,48 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           email: decoded.sub,
           username: decoded.username,
           role: decoded.role,
-          name: decoded.name
+          name: decoded.name,
         };
-        
+
         localStorage.setItem('user_data', JSON.stringify(userData));
         setUser(userData);
         setIsAuthenticated(true);
-        
+
         return {
           success: true,
-          message: 'Registration successful!'
+          message: 'Registration successful!',
         };
       }
-      
+
       return {
         success: false,
-        message: response.message || 'Registration failed'
+        message: response.message || 'Registration failed',
       };
     } catch (err: any) {
       console.error('Register error:', err);
       return {
         success: false,
-        message: err.response?.data?.message || 'Registration failed. Please try again.'
+        message: err.response?.data?.message || 'Registration failed. Please try again.',
       };
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     clearAuth();
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      isAuthenticated,
-      loading,
-      login,
-      register,
-      logout
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        loading,
+        login,
+        register,
+        logout,
+        checkAuthStatus,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

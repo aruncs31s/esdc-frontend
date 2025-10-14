@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGithub, FaTrophy, FaCode, FaComments } from 'react-icons/fa';
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaGithub,
+  FaTrophy,
+  FaCode,
+  FaComments,
+} from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import { RegisterRequest } from '../types';
 import './Login.css';
@@ -19,7 +29,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [focusedField, setFocusedField] = useState('');
-  
+
   const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -34,11 +44,9 @@ const Register = () => {
     setError('');
   };
 
-
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -47,7 +55,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       setError('Password must be at least 6 characters long');
       return;
     }
-    
+
     setIsLoading(true);
     setError('');
 
@@ -57,11 +65,11 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         email: formData.email,
         password: formData.password,
         username: formData.username,
-        github_username: formData.github_username
+        github_username: formData.github_username,
       });
-      
+
       if (!result.success || !result.status) {
-        setError(result.message);
+        setError(result.message || 'Registration failed');
       }
     } catch (err) {
       console.error('Registration error:', err);
@@ -94,7 +102,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   </div>
 
                   <form onSubmit={handleSubmit} className="login-form">
-                    <div className={`login-input-group ${focusedField === 'name' || formData.name ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'name' || formData.name ? 'focused' : ''}`}
+                    >
                       <FaUser className="login-input-icon" />
                       <input
                         type="text"
@@ -108,10 +118,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="name" className="login-label">Full Name</label>
+                      <label htmlFor="name" className="login-label">
+                        Full Name
+                      </label>
                     </div>
 
-                    <div className={`login-input-group ${focusedField === 'username' || formData.username ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'username' || formData.username ? 'focused' : ''}`}
+                    >
                       <FaUser className="login-input-icon" />
                       <input
                         type="text"
@@ -125,10 +139,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="username" className="login-label">Username</label>
+                      <label htmlFor="username" className="login-label">
+                        Username
+                      </label>
                     </div>
 
-                    <div className={`login-input-group ${focusedField === 'email' || formData.email ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'email' || formData.email ? 'focused' : ''}`}
+                    >
                       <FaEnvelope className="login-input-icon" />
                       <input
                         type="email"
@@ -142,10 +160,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="email" className="login-label">Email Address</label>
+                      <label htmlFor="email" className="login-label">
+                        Email Address
+                      </label>
                     </div>
 
-                    <div className={`login-input-group ${focusedField === 'github_username' || formData.github_username ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'github_username' || formData.github_username ? 'focused' : ''}`}
+                    >
                       <FaGithub className="login-input-icon" />
                       <input
                         type="text"
@@ -158,10 +180,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         onBlur={() => setFocusedField('')}
                         placeholder=" "
                       />
-                      <label htmlFor="github_username" className="login-label">GitHub Username (Optional)</label>
+                      <label htmlFor="github_username" className="login-label">
+                        GitHub Username (Optional)
+                      </label>
                     </div>
 
-                    <div className={`login-input-group ${focusedField === 'password' || formData.password ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'password' || formData.password ? 'focused' : ''}`}
+                    >
                       <FaLock className="login-input-icon" />
                       <input
                         type={showPassword ? 'text' : 'password'}
@@ -175,7 +201,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="password" className="login-label">Password</label>
+                      <label htmlFor="password" className="login-label">
+                        Password
+                      </label>
                       <button
                         type="button"
                         className="login-toggle-password"
@@ -186,7 +214,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                       </button>
                     </div>
 
-                    <div className={`login-input-group ${focusedField === 'confirmPassword' || formData.confirmPassword ? 'focused' : ''}`}>
+                    <div
+                      className={`login-input-group ${focusedField === 'confirmPassword' || formData.confirmPassword ? 'focused' : ''}`}
+                    >
                       <FaLock className="login-input-icon" />
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
@@ -200,7 +230,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         required
                         placeholder=" "
                       />
-                      <label htmlFor="confirmPassword" className="login-label">Confirm Password</label>
+                      <label htmlFor="confirmPassword" className="login-label">
+                        Confirm Password
+                      </label>
                       <button
                         type="button"
                         className="login-toggle-password"
@@ -229,7 +261,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                     </button>
 
                     <div className="login-footer-text">
-                      Already have an account? <Link to="/login" className="login-link">Sign in</Link>
+                      Already have an account?{' '}
+                      <Link to="/login" className="login-link">
+                        Sign in
+                      </Link>
                     </div>
                   </form>
                 </div>

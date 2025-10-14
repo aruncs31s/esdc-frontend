@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -14,7 +14,8 @@ export default defineConfig({
       '@/infrastructure': path.resolve(__dirname, './src/infrastructure'),
       '@/application': path.resolve(__dirname, './src/application'),
       '@/types': path.resolve(__dirname, './src/types'),
-      '@/api': path.resolve(__dirname, './src/services/api'),
+      '@/pages': path.resolve(__dirname, './src/pages'),
+      // '@/api': path.resolve(__dirname, './src/services/api'),
     },
   },
   server: {
@@ -22,9 +23,9 @@ export default defineConfig({
       '/api': {
         target: 'https://esdc-backend.onrender.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   build: {
     rollupOptions: {
@@ -32,8 +33,8 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
-        }
-      }
-    }
-  }
-})
+        },
+      },
+    },
+  },
+});
