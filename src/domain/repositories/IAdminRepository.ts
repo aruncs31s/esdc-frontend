@@ -45,6 +45,4 @@ export class IAdminRepository {
   async countUsers(): Promise<number> {
     throw new Error('Method not implemented');
   }
-  
- 
 }
