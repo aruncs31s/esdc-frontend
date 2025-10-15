@@ -60,7 +60,10 @@ export class ApiClient {
     data: any,
     config: AxiosRequestConfig = {}
   ): Promise<ApiSuccessResponse<T>> {
-    return this.client.post(url, data, config);
+    const response = await this.client.post(url, data, config);
+    console.log('🔍 ApiClient POST Response:', response);
+    console.log('🔍 ApiClient POST Response.data:', response.data);
+    return response as any;
   }
 
   async put<T = any>(

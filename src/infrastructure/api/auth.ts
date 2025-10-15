@@ -1,13 +1,15 @@
 import { User } from '@/domain/entities/User';
 import apiClient from './ApiClient';
-import { ApiSuccessResponse, LoginCredentials, UserRegisterData } from '@/types';
+import { LoginCredentials, UserRegisterData } from '@/types';
 
 export const authAPI = {
   login: async (credentials: LoginCredentials) => {
-    const response = await (<Promise<ApiSuccessResponse<{ token: string }>>>(
-      apiClient.post('/api/user/login', credentials)
-    ));
-    return response.data;
+    const response = await apiClient.post('/api/user/login', credentials);
+
+    // Backend might return token directly in data, or wrapped in success/data
+    // Handle both cases
+    const responseData: any = response.data || response;
+    return responseData;
   },
 
   register: async (userData: UserRegisterData) => {

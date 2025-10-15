@@ -76,9 +76,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: LoginCredentials): Promise<AuthResult> => {
     try {
       const response = await authAPI.login(credentials);
-      if (response.token) {
-        // TODO: Standardize this.
-        const token = response.token;
+      // Token is nested in response.data.token based on backend API structure
+      const token = response?.data?.token;
+
+      if (token) {
+        console.log('✅ Token found:', token);
         localStorage.setItem('auth_token', token);
 
         // Decode the JWT to get claims
