@@ -14,7 +14,7 @@ import {
 import { useAuth } from '../hooks/useAuth';
 import { RegisterRequest } from '../types';
 import './Login.css';
-import { AuthResponse } from '../types/auth';
+import { RegisterResponse } from '@/types/auth';
 const Register = () => {
   const [formData, setFormData] = useState<RegisterRequest>({
     name: '',
@@ -35,7 +35,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/profile');
     }
   }, [isAuthenticated, navigate]);
 
@@ -60,15 +60,16 @@ const Register = () => {
     setError('');
 
     try {
-      const result: AuthResponse = await register({
+      const result: RegisterResponse = await register({
         name: formData.name,
         email: formData.email,
         password: formData.password,
         username: formData.username,
         github_username: formData.github_username,
+        confirmPassword: formData.confirmPassword,
       });
 
-      if (!result.success || !result.status) {
+      if (!result.success) {
         setError(result.message || 'Registration failed');
       }
     } catch (err) {

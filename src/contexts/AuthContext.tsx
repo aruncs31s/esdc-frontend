@@ -116,8 +116,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = async (userData: UserRegisterData): Promise<AuthResult> => {
     try {
       const response = await authAPI.register(userData);
+
+      // Check if registration was successful
       if (response.success || response.status) {
-        return { success: true, message: response.message };
+        // Extract token from response.data.token
+        const token = response?.data?.token;
+
+        if (token) {
+          localStorage.setItem('auth_token', token);
+
+          // Decode the JWT to get user claims
+          const decoded = jwtDecode<DecodedToken>(token);
+
+          const userData: UserData = {
+            email: decoded.sub,
+            username: decoded.username,
+            role: decoded.role,
+            name: decoded.name,
+          };
+
+          // Store user data in localStorage for persistence
+          localStorage.setItem('user_data', JSON.stringify(userData));
+
+          setUser(userData);
+          setIsAuthenticated(true);
+
+          return { success: true, message: response.message };
+        } else {
+          // Registration succeeded but no token - redirect to login
+          return {
+            success: true,
+            message: response.message || 'Registration successful. Please log in.',
+          };
+        }
       } else {
         return { success: false, message: response.message || 'Registration failed' };
       }

@@ -1,12 +1,13 @@
+import { RegisterRequest } from './user';
+
 // For JWT
 export interface DecodedToken {
-  sub: string; // email 
+  sub: string; // email
   username: string;
   role: string;
   exp?: number;
   name?: string;
 }
-
 
 export interface AuthResponse {
   success: boolean;
@@ -18,5 +19,12 @@ export interface AuthResponse {
 
 export interface AuthResult {
   success: boolean;
+  message?: string;
+  data?: any;
+}
+export interface RegisterResponse {
+  success: boolean;
+  meta?: string;
+  data?: RegisterRequest;
   message?: string;
 }
