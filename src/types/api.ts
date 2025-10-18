@@ -1,7 +1,8 @@
 export interface ApiSuccessResponse<T> {
   success: true;
   data: T;
-  meta: string;
+  meta?: string;
+  message?: string;
 }
 
 export interface ApiErrorResponse {

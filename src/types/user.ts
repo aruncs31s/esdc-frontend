@@ -77,3 +77,9 @@ export interface UserDataPresentation {
   project_count?: number;
   // last_active?: string;
 }
+
+export interface UserSearchData {
+  id: number;
+  name: string;
+  email: string;
+}

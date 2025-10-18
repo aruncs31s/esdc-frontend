@@ -56,3 +56,14 @@ export interface ProjectData {
   contributors?: ContributorDetails[];
   cost?: number;
 }
+export interface ProjectCreateData {
+  title: string;
+  description: string;
+  status: ProjectStatusType;
+  category: string;
+  github_link?: string;
+  live_url?: string;
+  image?: string;
+  technologies?: TechnologyDetails[];
+  contributors?: string[];
+}

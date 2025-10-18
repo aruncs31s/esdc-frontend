@@ -6,7 +6,8 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { UserData, LoginCredentials, UserRegisterData } from '@/types/user';
-import { AuthResponse, DecodedToken, AuthResult } from '@/types/auth';
+import { DecodedToken, AuthTokenData, RegisterResponse } from '@/types/auth';
+import { ApiSuccessResponse } from '@/types';
 import { AuthContextType } from '@/contexts/AuthContextTypes';
 import { applicationService } from '@/application';
 
@@ -74,9 +75,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (credentials: LoginCredentials): Promise<AuthResult> => {
+  const login = async (
+    credentials: LoginCredentials
+  ): Promise<ApiSuccessResponse<AuthTokenData>> => {
     try {
-      const response: AuthResponse = await applicationService.login(credentials);
+      const response = await applicationService.login(credentials);
       if (response.status || (response.success && response.data.token)) {
         const token = response.data.token || response.token;
         localStorage.setItem('auth_token', token);
@@ -94,25 +97,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsAuthenticated(true);
 
         return {
-          success: true,
-          message: 'Login successful!',
+          success: true as const,
+          data: { token },
+          meta: new Date().toISOString(),
         };
       }
 
-      return {
-        success: false,
-        message: response.message || 'Login failed',
-      };
+      throw new Error(response.message || 'Login failed');
     } catch (err: any) {
       console.error('Login error:', err);
-      return {
-        success: false,
-        message: err.response?.data?.message || 'Login failed. Please try again.',
-      };
+      throw new Error(err.response?.data?.message || 'Login failed. Please try again.');
     }
   };
 
-  const register = async (registerData: UserRegisterData): Promise<AuthResult> => {
+  const register = async (registerData: UserRegisterData): Promise<RegisterResponse> => {
     try {
       const response = await applicationService.register(registerData);
 
@@ -134,6 +132,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         return {
           success: true,
+          meta: new Date().toISOString(),
+          data: registerData, // The original register data
           message: 'Registration successful!',
         };
       }

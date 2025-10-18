@@ -1,128 +1,113 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
-import { FiUser, FiShield, FiMenu, FiX, FiShoppingCart, FiMessageSquare, FiBell, FiSearch } from 'react-icons/fi';
+import {
+  FiUser,
+  FiMenu,
+  FiX,
+  FiShoppingCart,
+  FiBell,
+  FiSearch,
+  FiChevronDown,
+} from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../contexts/ThemeContext';
 import { useShop } from '../contexts/ShopContext';
-import { useSettings } from '../contexts/SettingsContext';
 import ProfilePopup from './ProfilePopup';
-import Chatroom from './Chatroom';
 import './navbar.css';
 
 export function Header() {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { cartCount } = useShop();
-  const { isFeatureEnabled } = useSettings();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showChatroom, setShowChatroom] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
 
   return (
     <>
-      <header className="header">
-        <div className="header-container">
-          <div className="hamburger" onClick={toggleMobileMenu}>
-            {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </div>
+      <header className="github-header">
+        <div className="github-header-container">
+          <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+          </button>
 
-          <nav className={mobileMenuOpen ? 'nav-menu active' : 'nav-menu'}>
-            {isFeatureEnabled('lms') && (
-              <Link to="/lms" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
-            )}
-            {isFeatureEnabled('projects') && (
-              <Link to="/projects" onClick={() => setMobileMenuOpen(false)}>Projects</Link>
-            )}
-            {isFeatureEnabled('blog') && (
-              <Link to="/blog" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
-            )}
-            {isFeatureEnabled('shop') && (
-              <Link to="/shop" onClick={() => setMobileMenuOpen(false)}>Shop</Link>
-            )}
-            <Link to="/search" onClick={() => setMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <FiSearch size={20} />
-              <span>Search</span>
+          <Link to="/" className="github-logo">
+            <span className="logo-text">ESDC</span>
+          </Link>
+
+          <nav className={`github-nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+            <Link to="/lms" onClick={() => setMobileMenuOpen(false)}>
+              Courses
+            </Link>
+            <Link to="/projects" onClick={() => setMobileMenuOpen(false)}>
+              Projects
+            </Link>
+            <Link to="/blog" onClick={() => setMobileMenuOpen(false)}>
+              Blog
+            </Link>
+            <Link to="/shop" onClick={() => setMobileMenuOpen(false)}>
+              Shop
             </Link>
 
-            {isFeatureEnabled('chatroom') && (
-              <button
-                onClick={() => {
-                  setShowChatroom(true);
-                  setMobileMenuOpen(false);
-                }}
-                className="chat-button"
-                aria-label="Open chatroom"
-                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-              >
-                <FiMessageSquare size={20} />
-                <span>Chat</span>
+            <div
+              className="nav-dropdown"
+              onMouseEnter={() => setShowMoreMenu(true)}
+              onMouseLeave={() => setShowMoreMenu(false)}
+            >
+              <button className="nav-dropdown-btn">
+                More <FiChevronDown size={14} />
               </button>
-            )}
-
-            {isFeatureEnabled('notifications') && (
-              <Link to="/notifications" onClick={() => setMobileMenuOpen(false)} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <FiBell size={20} />
-              </Link>
-            )}
-
-            {isFeatureEnabled('shop') && (
-              <Link to="/shop-cart" onClick={() => setMobileMenuOpen(false)} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <FiShoppingCart size={20} />
-                {cartCount > 0 && (
-                  <span style={{
-                    position: 'absolute',
-                    top: '-8px',
-                    right: '-8px',
-                    background: 'var(--red)',
-                    color: 'white',
-                    borderRadius: '50%',
-                    width: '20px',
-                    height: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.75rem',
-                    fontWeight: '700'
-                  }}>
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-            )}
-
-            {isAuthenticated && user?.role === 'admin' && (
-              <Link to="/admin" className="admin-link" onClick={() => setMobileMenuOpen(false)}>
-                <FiShield size={16} />
-                <span>Admin</span>
-              </Link>
-            )}
-
-            <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
-              {theme === 'light' ? <MdDarkMode size={20} /> : <MdLightMode size={20} />}
-            </button>
+              {showMoreMenu && (
+                <div className="nav-dropdown-menu">
+                  <Link to="/planning" onClick={() => setMobileMenuOpen(false)}>
+                    Planning
+                  </Link>
+                  <Link to="/mentorship" onClick={() => setMobileMenuOpen(false)}>
+                    Mentorship
+                  </Link>
+                  <Link to="/hackathons" onClick={() => setMobileMenuOpen(false)}>
+                    Hackathons
+                  </Link>
+                  <Link to="/workshops" onClick={() => setMobileMenuOpen(false)}>
+                    Workshops
+                  </Link>
+                  <Link to="/forum" onClick={() => setMobileMenuOpen(false)}>
+                    Forum
+                  </Link>
+                  <Link to="/docs" onClick={() => setMobileMenuOpen(false)}>
+                    Docs
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
 
-          <div className={`header-actions ${mobileMenuOpen ? 'hidden' : ''}`}>
+          <div className="github-actions">
+            <Link to="/search" className="github-icon-btn" title="Search">
+              <FiSearch size={16} />
+            </Link>
+
+            <Link to="/notifications" className="github-icon-btn" title="Notifications">
+              <FiBell size={16} />
+            </Link>
+
+            <Link to="/shop-cart" className="github-icon-btn" title="Cart">
+              <FiShoppingCart size={16} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </Link>
+
+            <button onClick={toggleTheme} className="github-icon-btn" title="Toggle theme">
+              {theme === 'light' ? <MdDarkMode size={16} /> : <MdLightMode size={16} />}
+            </button>
+
             {isAuthenticated ? (
-              <button
-                onClick={() => {
-                  setShowProfilePopup(true);
-                  setMobileMenuOpen(false);
-                }}
-                className="profile-button"
-                aria-label="Open profile menu"
-              >
-                <FiUser size={20} />
-                <span className="desktop-only">{user?.name || 'User'}</span>
+              <button onClick={() => setShowProfilePopup(true)} className="github-profile-btn">
+                <FiUser size={16} />
               </button>
             ) : (
-              <Link to="/login" className="btn-login">
-                Login
+              <Link to="/login" className="github-login-btn">
+                Sign in
               </Link>
             )}
           </div>
@@ -135,10 +120,6 @@ export function Header() {
           toggleTheme={toggleTheme}
           onClose={() => setShowProfilePopup(false)}
         />
-      )}
-
-      {showChatroom && isFeatureEnabled('chatroom') && (
-        <Chatroom onClose={() => setShowChatroom(false)} />
       )}
     </>
   );

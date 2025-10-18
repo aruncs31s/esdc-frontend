@@ -1,6 +1,7 @@
 import { IUserRepository } from '@/domain/repositories/IUserRepository.js';
 import { User } from '@/domain/entities/User.js';
 import apiClient from '../api/ApiClient.js';
+import { UserSearchData } from '@/types/user.js';
 // import api from '../../services/api';
 /**
  * User Repository Implementation
@@ -13,10 +14,38 @@ export class UserRepository extends IUserRepository {
     super();
     this.api = client;
   }
+  // From this remove unwanted and only add wanted
+
+  async searchUsers(query: string): Promise<UserSearchData[]> {
+    try {
+      const response = await this.api.get(`/api/users/search?q=${encodeURIComponent(query)}`);
+      console.log('User search response:', response);
+      const users = response.data?.users || [];
+      return users as UserSearchData[];
+    } catch (error) {
+      console.error('Error searching users:', error);
+      return [];
+    }
+  }
 
   /**
    * Find all users with optional filters
    */
+
+  // Find All Projects for User , Used in UserProjects page. '/my-projects'
+  async findAllProjects(filters = {}): Promise<User[]> {
+    try {
+      const params = new URLSearchParams(filters);
+      const response = await this.api.get(`/api/admin/users?${params}`);
+      const data = response.data?.data || response.data || [];
+      return User.fromAPIArray(data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      return [];
+    }
+  }
+
+  // TODO: Not Tested.
   async findAll(filters = {}): Promise<User[]> {
     try {
       const params = new URLSearchParams(filters);

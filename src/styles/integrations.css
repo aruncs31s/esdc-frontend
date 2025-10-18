@@ -1,0 +1,53 @@
+.integrations-page {
+  min-height: 100vh;
+  padding: 6rem 0 3rem;
+  background: var(--base);
+}
+.integrations-page h1 {
+  font-size: 2.5rem;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.integrations-page > .container > p {
+  text-align: center;
+  color: var(--subtext0);
+  margin-bottom: 3rem;
+}
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+.integration-card {
+  background: var(--mantle);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--surface0);
+  text-align: center;
+  transition: transform 0.3s;
+}
+.integration-card:hover {
+  transform: translateY(-5px);
+}
+.integration-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: var(--surface0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue);
+}
+.integration-card h3 {
+  color: var(--text);
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+.integration-card > p {
+  color: var(--subtext0);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}

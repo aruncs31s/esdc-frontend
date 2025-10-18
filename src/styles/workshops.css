@@ -1,0 +1,77 @@
+.workshops-page {
+  min-height: 100vh;
+  padding: 6rem 0 3rem;
+  background: var(--base);
+}
+.workshops-page h1 {
+  font-size: 2.5rem;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.workshops-page > .container > p {
+  text-align: center;
+  color: var(--subtext0);
+  margin-bottom: 3rem;
+}
+.workshops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+.workshop-card {
+  background: var(--mantle);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--surface0);
+  transition: transform 0.3s;
+}
+.workshop-card:hover {
+  transform: translateY(-5px);
+}
+.workshop-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.workshop-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.workshop-content {
+  padding: 1.5rem;
+}
+.workshop-category {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: var(--blue);
+  color: var(--base);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.workshop-content h3 {
+  color: var(--text);
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+.workshop-content > p {
+  color: var(--subtext0);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+.workshop-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.workshop-details span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--subtext1);
+  font-size: 0.85rem;
+}

@@ -1,7 +1,7 @@
 import { IProjectRepository } from '../../domain/repositories/IProjectRepository.js';
 import { Project } from '../../domain/entities/Project.js';
 import apiClient from '../api/ApiClient.js';
-// import { ProjectDTO } from '../../dto/project_dto.js';
+import { ProjectCreateData } from '@/types/project.js';
 
 /**
  * Project Repository Implementation
@@ -75,7 +75,17 @@ export class ProjectRepository extends IProjectRepository {
       return [];
     }
   }
-
+  async createProject(project: ProjectCreateData) {
+    try {
+      // Update existing project
+      const response = await this.api.post(`/api/projects/`, project);
+      const data = response.data?.data || response.data;
+      return Project.fromAPI(data);
+    } catch (error) {
+      console.error('Error saving project:', error);
+      throw error;
+    }
+  }
   /**
    * Save project (create or update)
    */
@@ -83,10 +93,7 @@ export class ProjectRepository extends IProjectRepository {
     try {
       if (project.id) {
         // Update existing project
-        const response = await this.api.put(
-          `/api/admin/projects/${project.id}`,
-          project.toJSON()
-        );
+        const response = await this.api.put(`/api/admin/projects/${project.id}`, project.toJSON());
         const data = response.data?.data || response.data;
         return Project.fromAPI(data);
       } else {

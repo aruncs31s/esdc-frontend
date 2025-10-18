@@ -17,6 +17,8 @@ import { FaCode, FaTrophy, FaFire, FaStar } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import { useShop } from '../contexts/ShopContext';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface Activity {
   id: number;
@@ -53,6 +55,7 @@ interface Product {
 }
 
 const UserProfile = () => {
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ solved: 0, rank: 0, points: 0, streak: 0 });
   const [recentActivity, setRecentActivity] = useState<Activity[]>([]);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -78,72 +81,148 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      // Mock stats - replace with API call
-      setStats({
-        solved: 12,
-        rank: 45,
-        points: 850,
-        streak: 7,
-      });
+      setLoading(true);
+      // Simulate API call
+      setTimeout(() => {
+        // Mock stats - replace with API call
+        setStats({
+          solved: 12,
+          rank: 45,
+          points: 850,
+          streak: 7,
+        });
 
-      setRecentActivity([
-        { id: 1, type: 'solved', title: 'LED Blink Challenge', date: '2 hours ago' },
-        { id: 2, type: 'attempted', title: 'Motor Control', date: '1 day ago' },
-        { id: 3, type: 'solved', title: 'Sensor Reading', date: '3 days ago' },
-      ]);
+        setRecentActivity([
+          { id: 1, type: 'solved', title: 'LED Blink Challenge', date: '2 hours ago' },
+          { id: 2, type: 'attempted', title: 'Motor Control', date: '1 day ago' },
+          { id: 3, type: 'solved', title: 'Sensor Reading', date: '3 days ago' },
+        ]);
 
-      setAchievements([
-        {
-          id: 1,
-          icon: 'target',
-          title: 'First Steps',
-          desc: 'Completed first challenge',
-          color: 'var(--blue)',
-        },
-        { id: 2, icon: 'fire', title: 'On Fire', desc: '7 day streak', color: 'var(--peach)' },
-        {
-          id: 3,
-          icon: 'star',
-          title: 'Rising Star',
-          desc: 'Earned 500 points',
-          color: 'var(--yellow)',
-        },
-      ]);
+        setAchievements([
+          {
+            id: 1,
+            icon: 'target',
+            title: 'First Steps',
+            desc: 'Completed first challenge',
+            color: 'var(--blue)',
+          },
+          { id: 2, icon: 'fire', title: 'On Fire', desc: '7 day streak', color: 'var(--peach)' },
+          {
+            id: 3,
+            icon: 'star',
+            title: 'Rising Star',
+            desc: 'Earned 500 points',
+            color: 'var(--yellow)',
+          },
+        ]);
 
-      // Mock user projects - replace with API call
-      setUserProjects([
-        {
-          id: 1,
-          title: 'Smart Home Automation',
-          description: 'IoT-based home automation system using ESP32',
-          image: 'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1170',
-          tags: ['IoT', 'ESP32', 'Home Automation'],
-          status: 'completed',
-        },
-        {
-          id: 2,
-          title: 'Weather Station',
-          description: 'Real-time weather monitoring with sensor array',
-          image: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1170',
-          tags: ['Sensors', 'Arduino', 'Data'],
-          status: 'in-progress',
-        },
-      ]);
+        // Mock user projects - replace with API call
+        setUserProjects([
+          {
+            id: 1,
+            title: 'Smart Home Automation',
+            description: 'IoT-based home automation system using ESP32',
+            image: 'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1170',
+            tags: ['IoT', 'ESP32', 'Home Automation'],
+            status: 'completed',
+          },
+          {
+            id: 2,
+            title: 'Weather Station',
+            description: 'Real-time weather monitoring with sensor array',
+            image: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1170',
+            tags: ['Sensors', 'Arduino', 'Data'],
+            status: 'in-progress',
+          },
+        ]);
 
-      // Mock user products - replace with API call
-      setUserProducts([
-        {
-          id: 1,
-          name: 'Custom PCB Design',
-          description: 'Professional PCB design service',
-          price: 99.99,
-          image: 'https://images.unsplash.com/photo-1635514569146-9a9607ecf303?q=80&w=1170',
-          category: 'Services',
-          stock: 10,
-        },
-      ]);
+        // Mock user products - replace with API call
+        setUserProducts([
+          {
+            id: 1,
+            name: 'Custom PCB Design',
+            description: 'Professional PCB design service',
+            price: 99.99,
+            image: 'https://images.unsplash.com/photo-1635514569146-9a9607ecf303?q=80&w=1170',
+            category: 'Services',
+            stock: 10,
+          },
+        ]);
+        setLoading(false);
+      }, 1500);
+    } else {
+      setLoading(false);
     }
   }, [isAuthenticated, user]);
+
+  if (loading) {
+    return (
+      <section className="profile-page">
+        <div className="container" style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div
+            className="profile-content"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1.618fr',
+              gap: '30px',
+              alignItems: 'start',
+            }}
+          >
+            {/* Left Profile Card Skeleton */}
+            <div
+              className="profile-card"
+              style={{ maxWidth: '100%', position: 'sticky', top: '100px' }}
+            >
+              <Skeleton
+                height={150}
+                style={{ borderTopLeftRadius: '12px', borderTopRightRadius: '12px' }}
+              />
+              <div className="profile-card-avatar-wrapper">
+                <Skeleton
+                  circle
+                  height={120}
+                  width={120}
+                  style={{ marginTop: '-60px', border: '4px solid var(--base)' }}
+                />
+              </div>
+              <div className="profile-card-content">
+                <Skeleton height={30} width="60%" style={{ margin: '10px auto' }} />
+                <Skeleton height={20} width="40%" style={{ margin: '0 auto 10px' }} />
+                <Skeleton count={3} />
+                <Skeleton height={40} style={{ marginTop: '20px' }} />
+              </div>
+            </div>
+
+            {/* Right Content Skeleton */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Statistics Skeleton */}
+              <div className="profile-info-card">
+                <Skeleton height={30} width={200} style={{ marginBottom: '24px' }} />
+                <div
+                  style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}
+                >
+                  <Skeleton height={100} />
+                  <Skeleton height={100} />
+                </div>
+              </div>
+
+              {/* Achievements Skeleton */}
+              <div className="profile-info-card">
+                <Skeleton height={30} width={200} style={{ marginBottom: '24px' }} />
+                <Skeleton height={70} count={3} style={{ marginBottom: '12px' }} />
+              </div>
+
+              {/* Recent Activity Skeleton */}
+              <div className="profile-info-card">
+                <Skeleton height={30} width={200} style={{ marginBottom: '24px' }} />
+                <Skeleton height={50} count={3} style={{ marginBottom: '10px' }} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (!isAuthenticated || !user) {
     return (

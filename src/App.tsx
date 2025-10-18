@@ -9,9 +9,11 @@ import Home from './pages/Home';
 import Events from './pages/Events';
 import Resources from './pages/Resources';
 import Products from './pages/Products';
+import ProductDetailsPage from './pages/ProductDetail';
 import Shop from './pages/Shop';
 import ShopCart from './pages/ShopCart';
 import LMS from './pages/LMS';
+import CourseDetail from './pages/CourseDetail';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import MyProducts from './pages/MyProducts';
@@ -37,6 +39,19 @@ import Notifications from './pages/Notifications';
 import Blog from './pages/Blog';
 import Search from './pages/Search';
 import Settings from './pages/Settings';
+import ProjectPlanning from './pages/ProjectPlanning';
+import Mentorship from './pages/Mentorship';
+import Hackathons from './pages/Hackathons';
+import Workshops from './pages/Workshops';
+import Certifications from './pages/Certifications';
+import JobBoard from './pages/JobBoard';
+import Forum from './pages/Forum';
+import Documentation from './pages/Documentation';
+import CodeReview from './pages/CodeReview';
+import Analytics from './pages/Analytics';
+import Teams from './pages/Teams';
+import Integrations from './pages/Integrations';
+import Roadmap from './pages/Roadmap';
 import './index.css';
 
 const AppRoutes = () => {
@@ -110,16 +125,28 @@ const AppRoutes = () => {
           />
         )}
         {isFeatureEnabled('products') && (
-          <Route
-            path="/products"
-            element={
-              <>
-                <Header />
-                <Products />
-                <Footer />
-              </>
-            }
-          />
+          <>
+            <Route
+              path="/products"
+              element={
+                <>
+                  <Header />
+                  <Products />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/product/:id"
+              element={
+                <>
+                  <Header />
+                  <ProductDetailsPage />
+                  <Footer />
+                </>
+              }
+            />
+          </>
         )}
         {isFeatureEnabled('shop') && (
           <>
@@ -146,16 +173,28 @@ const AppRoutes = () => {
           </>
         )}
         {isFeatureEnabled('lms') && (
-          <Route
-            path="/lms"
-            element={
-              <>
-                <Header />
-                <LMS />
-                <Footer />
-              </>
-            }
-          />
+          <>
+            <Route
+              path="/lms"
+              element={
+                <>
+                  <Header />
+                  <LMS />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/lms/:id"
+              element={
+                <>
+                  <Header />
+                  <CourseDetail />
+                  <Footer />
+                </>
+              }
+            />
+          </>
         )}
         {isFeatureEnabled('products') && (
           <Route
@@ -371,6 +410,136 @@ const AppRoutes = () => {
             <>
               <Header />
               <Settings />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/planning"
+          element={
+            <>
+              <Header />
+              <ProjectPlanning />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/mentorship"
+          element={
+            <>
+              <Header />
+              <Mentorship />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/hackathons"
+          element={
+            <>
+              <Header />
+              <Hackathons />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/workshops"
+          element={
+            <>
+              <Header />
+              <Workshops />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/certifications"
+          element={
+            <>
+              <Header />
+              <Certifications />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/jobs"
+          element={
+            <>
+              <Header />
+              <JobBoard />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/forum"
+          element={
+            <>
+              <Header />
+              <Forum />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/docs"
+          element={
+            <>
+              <Header />
+              <Documentation />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/code-review"
+          element={
+            <>
+              <Header />
+              <CodeReview />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <>
+              <Header />
+              <Analytics />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/teams"
+          element={
+            <>
+              <Header />
+              <Teams />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/integrations"
+          element={
+            <>
+              <Header />
+              <Integrations />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/roadmap"
+          element={
+            <>
+              <Header />
+              <Roadmap />
               <Footer />
             </>
           }

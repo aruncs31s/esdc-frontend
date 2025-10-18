@@ -1,11 +1,12 @@
 import { UserData, LoginCredentials, UserRegisterData } from '../types/user';
-import { AuthResult, RegisterResponse } from '../types/auth';
+import { AuthTokenData, RegisterResponse } from '../types/auth';
+import { ApiSuccessResponse } from '@/types';
 
 export interface AuthContextType {
   user: UserData | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (credentials: LoginCredentials) => Promise<AuthResult>;
+  login: (credentials: LoginCredentials) => Promise<ApiSuccessResponse<AuthTokenData>>;
   register: (userData: UserRegisterData) => Promise<RegisterResponse>;
   logout: () => Promise<void>;
   checkAuthStatus: () => Promise<void>;

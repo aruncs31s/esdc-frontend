@@ -2,10 +2,10 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { authAPI } from '@/infrastructure/api/auth';
 import { jwtDecode } from 'jwt-decode';
-import { UserRegisterData } from '../types/user';
-import { UserData, LoginCredentials } from '../types/user';
-import { DecodedToken, AuthResult } from '../types/auth';
+import { UserData, LoginCredentials, UserRegisterData } from '../types/user';
+import { DecodedToken, AuthTokenData, RegisterResponse } from '../types/auth';
 import { AuthContextType } from './AuthContextTypes';
+import { ApiSuccessResponse } from '@/types';
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -73,7 +73,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (credentials: LoginCredentials): Promise<AuthResult> => {
+  const login = async (
+    credentials: LoginCredentials
+  ): Promise<ApiSuccessResponse<AuthTokenData>> => {
     try {
       const response = await authAPI.login(credentials);
       // Token is nested in response.data.token based on backend API structure
@@ -100,20 +102,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(userData);
         setIsAuthenticated(true);
 
-        return { success: true };
+        return {
+          success: true,
+          data: { token },
+          meta: response.meta || 'Login successful',
+        };
       } else {
-        return { success: false, message: 'Login failed' };
+        throw new Error('Login failed');
       }
     } catch (error: any) {
       console.error('Login error:', error);
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Login failed',
-      };
+      throw new Error(error.response?.data?.message || 'Login failed');
     }
   };
 
-  const register = async (userData: UserRegisterData): Promise<AuthResult> => {
+  const register = async (userData: UserRegisterData): Promise<RegisterResponse> => {
     try {
       const response = await authAPI.register(userData);
 
@@ -128,7 +131,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           // Decode the JWT to get user claims
           const decoded = jwtDecode<DecodedToken>(token);
 
-          const userData: UserData = {
+          const decodedUserData: UserData = {
             email: decoded.sub,
             username: decoded.username,
             role: decoded.role,
@@ -136,27 +139,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           };
 
           // Store user data in localStorage for persistence
-          localStorage.setItem('user_data', JSON.stringify(userData));
+          localStorage.setItem('user_data', JSON.stringify(decodedUserData));
 
-          setUser(userData);
+          setUser(decodedUserData);
           setIsAuthenticated(true);
 
-          return { success: true, message: response.message };
+          return {
+            success: true,
+            message: response.message,
+            meta: response.meta || 'Registration successful',
+            data: userData,
+          };
         } else {
           // Registration succeeded but no token - redirect to login
           return {
             success: true,
             message: response.message || 'Registration successful. Please log in.',
+            data: userData,
+            meta: response.meta || 'Registration successful',
           };
         }
       } else {
-        return { success: false, message: response.message || 'Registration failed' };
+        return {
+          success: false,
+          message: response.message || 'Registration failed',
+          meta: response.meta || 'Registration failed',
+        };
       }
     } catch (error: any) {
       console.error('Registration error:', error);
       return {
         success: false,
         message: error.response?.data?.message || 'Registration failed',
+        meta: error.response?.data?.message || 'Registration failed',
       };
     }
   };

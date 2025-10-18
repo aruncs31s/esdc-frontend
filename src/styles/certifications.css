@@ -1,0 +1,83 @@
+.certifications-page {
+  min-height: 100vh;
+  padding: 6rem 0 3rem;
+  background: var(--base);
+}
+.certifications-page h1 {
+  font-size: 2.5rem;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.certifications-page > .container > p {
+  text-align: center;
+  color: var(--subtext0);
+  margin-bottom: 3rem;
+}
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+.cert-card {
+  background: var(--mantle);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--surface0);
+  text-align: center;
+}
+.cert-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, var(--blue), var(--mauve));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.cert-card h3 {
+  color: var(--text);
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+.cert-card > p {
+  color: var(--subtext0);
+  margin-bottom: 1.5rem;
+}
+.cert-info {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.cert-info span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--subtext1);
+  font-size: 0.85rem;
+}
+.cert-progress {
+  margin-bottom: 1.5rem;
+}
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--surface0);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--mauve));
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+.cert-progress span {
+  color: var(--subtext0);
+  font-size: 0.9rem;
+}

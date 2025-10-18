@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FiSearch, FiUser, FiPackage, FiFileText, FiFolder, FiX } from 'react-icons/fi';
-import './Search.css';
+import '../styles/search.css';
 
 interface user {
   id: number;
@@ -41,22 +41,26 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [category, setCategory] = useState(searchParams.get('category') || 'all');
-  const [results, setResults] = useState<{ users: user[]; products: product[]; blogs: blog[]; projects: project[] }>({
+  const [results, setResults] = useState<{
+    users: user[];
+    products: product[];
+    blogs: blog[];
+    projects: project[];
+  }>({
     users: [],
     products: [],
     blogs: [],
-    projects: []
+    projects: [],
   });
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
 
-  
   const categories = [
     { id: 'all', label: 'All', icon: FiSearch },
     { id: 'users', label: 'Users', icon: FiUser },
     { id: 'products', label: 'Products', icon: FiPackage },
     { id: 'blogs', label: 'Blogs', icon: FiFileText },
-    { id: 'projects', label: 'Projects', icon: FiFolder }
+    { id: 'projects', label: 'Projects', icon: FiFolder },
   ];
 
   useEffect(() => {
@@ -76,25 +80,87 @@ const Search = () => {
     setLoading(true);
     try {
       // Mock search results - replace with actual API calls
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       const mockResults = {
-        users: searchCategory === 'all' || searchCategory === 'users' ? [
-          { id: 1, name: 'John Doe', username: '@johndoe', avatar: 'https://via.placeholder.com/50', role: 'Developer' },
-          { id: 2, name: 'Jane Smith', username: '@janesmith', avatar: 'https://via.placeholder.com/50', role: 'Designer' }
-        ] : [],
-        products: searchCategory === 'all' || searchCategory === 'products' ? [
-          { id: 1, name: 'Arduino Starter Kit', price: 45.99, image: 'https://via.placeholder.com/100', category: 'Hardware', stock: 25 },
-          { id: 2, name: 'Raspberry Pi 4', price: 75.00, image: 'https://via.placeholder.com/100', category: 'Hardware', stock: 15 }
-        ] : [],
-        blogs: searchCategory === 'all' || searchCategory === 'blogs' ? [
-          { id: 1, title: 'Getting Started with IoT', excerpt: 'Learn the basics of Internet of Things...', author: 'John Doe', date: '2025-01-15' },
-          { id: 2, title: 'Building Your First Robot', excerpt: 'A comprehensive guide to robotics...', author: 'Jane Smith', date: '2025-01-10' }
-        ] : [],
-        projects: searchCategory === 'all' || searchCategory === 'projects' ? [
-          { id: 1, title: 'Smart Home Automation', description: 'IoT-based home automation system', author: 'John Doe', stars: 45 },
-          { id: 2, title: 'Line Following Robot', description: 'Autonomous robot using sensors', author: 'Jane Smith', stars: 32 }
-        ] : []
+        users:
+          searchCategory === 'all' || searchCategory === 'users'
+            ? [
+                {
+                  id: 1,
+                  name: 'John Doe',
+                  username: '@johndoe',
+                  avatar: 'https://via.placeholder.com/50',
+                  role: 'Developer',
+                },
+                {
+                  id: 2,
+                  name: 'Jane Smith',
+                  username: '@janesmith',
+                  avatar: 'https://via.placeholder.com/50',
+                  role: 'Designer',
+                },
+              ]
+            : [],
+        products:
+          searchCategory === 'all' || searchCategory === 'products'
+            ? [
+                {
+                  id: 1,
+                  name: 'Arduino Starter Kit',
+                  price: 45.99,
+                  image: 'https://via.placeholder.com/100',
+                  category: 'Hardware',
+                  stock: 25,
+                },
+                {
+                  id: 2,
+                  name: 'Raspberry Pi 4',
+                  price: 75.0,
+                  image: 'https://via.placeholder.com/100',
+                  category: 'Hardware',
+                  stock: 15,
+                },
+              ]
+            : [],
+        blogs:
+          searchCategory === 'all' || searchCategory === 'blogs'
+            ? [
+                {
+                  id: 1,
+                  title: 'Getting Started with IoT',
+                  excerpt: 'Learn the basics of Internet of Things...',
+                  author: 'John Doe',
+                  date: '2025-01-15',
+                },
+                {
+                  id: 2,
+                  title: 'Building Your First Robot',
+                  excerpt: 'A comprehensive guide to robotics...',
+                  author: 'Jane Smith',
+                  date: '2025-01-10',
+                },
+              ]
+            : [],
+        projects:
+          searchCategory === 'all' || searchCategory === 'projects'
+            ? [
+                {
+                  id: 1,
+                  title: 'Smart Home Automation',
+                  description: 'IoT-based home automation system',
+                  author: 'John Doe',
+                  stars: 45,
+                },
+                {
+                  id: 2,
+                  title: 'Line Following Robot',
+                  description: 'Autonomous robot using sensors',
+                  author: 'Jane Smith',
+                  stars: 32,
+                },
+              ]
+            : [],
       };
 
       setResults(mockResults);
@@ -148,12 +214,20 @@ const Search = () => {
                 </button>
               )}
             </div>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className="category-select">
-              {categories.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.label}</option>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="category-select"
+            >
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.label}
+                </option>
               ))}
             </select>
-            <button type="submit" className="search-btn">Search</button>
+            <button type="submit" className="search-btn">
+              Search
+            </button>
           </form>
         </div>
       </div>
@@ -162,11 +236,16 @@ const Search = () => {
         <div className="search-results">
           <div className="container">
             <div className="results-header">
-              <h2>{getTotalResults()} results for "{query}"</h2>
+              <h2>
+                {getTotalResults()} results for "{query}"
+              </h2>
               <div className="category-tabs">
-                {categories.map(cat => {
+                {categories.map((cat) => {
                   const Icon = cat.icon;
-                  const count = cat.id === 'all' ? getTotalResults() : results[cat.id as keyof typeof results]?.length || 0;
+                  const count =
+                    cat.id === 'all'
+                      ? getTotalResults()
+                      : results[cat.id as keyof typeof results]?.length || 0;
                   return (
                     <button
                       key={cat.id}
@@ -186,9 +265,11 @@ const Search = () => {
               <div className="results-content">
                 {(activeTab === 'all' || activeTab === 'users') && results.users.length > 0 && (
                   <section className="result-section">
-                    <h3><FiUser /> Users</h3>
+                    <h3>
+                      <FiUser /> Users
+                    </h3>
                     <div className="user-results">
-                      {results.users.map(user => (
+                      {results.users.map((user) => (
                         <div key={user.id} className="user-card">
                           <img src={user.avatar} alt={user.name} />
                           <div className="user-info">
@@ -202,32 +283,37 @@ const Search = () => {
                   </section>
                 )}
 
-                {(activeTab === 'all' || activeTab === 'products') && results.products.length > 0 && (
-                  <section className="result-section">
-                    <h3><FiPackage /> Products</h3>
-                    <div className="product-results">
-                      {results.products.map(product => (
-                        <div key={product.id} className="product-card">
-                          <img src={product.image} alt={product.name} />
-                          <div className="product-info">
-                            <h4>{product.name}</h4>
-                            <p className="category">{product.category}</p>
-                            <div className="product-footer">
-                              <span className="price">${product.price}</span>
-                              <span className="stock">{product.stock} in stock</span>
+                {(activeTab === 'all' || activeTab === 'products') &&
+                  results.products.length > 0 && (
+                    <section className="result-section">
+                      <h3>
+                        <FiPackage /> Products
+                      </h3>
+                      <div className="product-results">
+                        {results.products.map((product) => (
+                          <div key={product.id} className="product-card">
+                            <img src={product.image} alt={product.name} />
+                            <div className="product-info">
+                              <h4>{product.name}</h4>
+                              <p className="category">{product.category}</p>
+                              <div className="product-footer">
+                                <span className="price">${product.price}</span>
+                                <span className="stock">{product.stock} in stock</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
+                        ))}
+                      </div>
+                    </section>
+                  )}
 
                 {(activeTab === 'all' || activeTab === 'blogs') && results.blogs.length > 0 && (
                   <section className="result-section">
-                    <h3><FiFileText /> Blogs</h3>
+                    <h3>
+                      <FiFileText /> Blogs
+                    </h3>
                     <div className="blog-results">
-                      {results.blogs.map(blog => (
+                      {results.blogs.map((blog) => (
                         <div key={blog.id} className="blog-card">
                           <h4>{blog.title}</h4>
                           <p className="excerpt">{blog.excerpt}</p>
@@ -241,23 +327,26 @@ const Search = () => {
                   </section>
                 )}
 
-                {(activeTab === 'all' || activeTab === 'projects') && results.projects.length > 0 && (
-                  <section className="result-section">
-                    <h3><FiFolder /> Projects</h3>
-                    <div className="project-results">
-                      {results.projects.map(project => (
-                        <div key={project.id} className="project-card">
-                          <h4>{project.title}</h4>
-                          <p>{project.description}</p>
-                          <div className="project-footer">
-                            <span>By {project.author}</span>
-                            <span>⭐ {project.stars}</span>
+                {(activeTab === 'all' || activeTab === 'projects') &&
+                  results.projects.length > 0 && (
+                    <section className="result-section">
+                      <h3>
+                        <FiFolder /> Projects
+                      </h3>
+                      <div className="project-results">
+                        {results.projects.map((project) => (
+                          <div key={project.id} className="project-card">
+                            <h4>{project.title}</h4>
+                            <p>{project.description}</p>
+                            <div className="project-footer">
+                              <span>By {project.author}</span>
+                              <span>⭐ {project.stars}</span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
+                        ))}
+                      </div>
+                    </section>
+                  )}
 
                 {getTotalResults() === 0 && !loading && (
                   <div className="no-results">

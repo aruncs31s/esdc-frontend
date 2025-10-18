@@ -12,16 +12,20 @@ const Contact = () => {
           <div className="contact-info">
             <div className="contact-item">
               <div className="contact-icon">
-                <FaMapMarkerAlt size={24} />
+                <FaMapMarkerAlt />
               </div>
               <div>
                 <h3>Location</h3>
-                <p>Government College of Engineering Kannur<br />Kannur, Kerala, India</p>
+                <p>
+                  Government College of Engineering Kannur
+                  <br />
+                  Kannur, Kerala, India
+                </p>
               </div>
             </div>
             <div className="contact-item">
               <div className="contact-icon">
-                <FaEnvelope size={24} />
+                <FaEnvelope />
               </div>
               <div>
                 <h3>Email</h3>
@@ -30,7 +34,7 @@ const Contact = () => {
             </div>
             <div className="contact-item">
               <div className="contact-icon">
-                <FaGlobe size={24} />
+                <FaGlobe />
               </div>
               <div>
                 <h3>Connect</h3>
@@ -41,10 +45,13 @@ const Contact = () => {
           <div className="contact-form-container">
             <div className="contact-whatsapp">
               <h3>Join Our Community</h3>
-              <p>Connect with fellow embedded systems enthusiasts, ask questions, and stay updated with our latest projects and events.</p>
-              <a 
-                href="https://chat.whatsapp.com/BKA9R6hfyMM2VE23a8UzkW" 
-                target="_blank" 
+              <p>
+                Connect with fellow embedded systems enthusiasts, ask questions, and stay updated
+                with our latest projects and events.
+              </p>
+              <a
+                href="https://chat.whatsapp.com/BKA9R6hfyMM2VE23a8UzkW"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary whatsapp-btn"
               >

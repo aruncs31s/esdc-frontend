@@ -6,32 +6,52 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Semantic color tokens - use these in your components
+        /* Pitch Black Theme - Primary Colors */
         primary: {
-          DEFAULT: '#1e66f5', // latte blue
-          dark: '#89b4fa', // mocha blue
+          DEFAULT: '#7da6ff' /* Bright Blue */,
+          dark: '#7da6ff',
+          light: '#a8c5ff',
         },
         secondary: {
-          DEFAULT: '#8839ef', // latte mauve
-          dark: '#cba6f7', // mocha mauve
+          DEFAULT: '#da70d6' /* Vibrant Mauve */,
+          dark: '#da70d6',
+          light: '#e896e0',
         },
         success: {
-          DEFAULT: '#40a02b', // latte green
-          dark: '#a6e3a1', // mocha green
+          DEFAULT: '#51cf66' /* Bright Green */,
+          dark: '#51cf66',
+          light: '#7fde88',
         },
         warning: {
-          DEFAULT: '#df8e1d', // latte yellow
-          dark: '#f9e2af', // mocha yellow
+          DEFAULT: '#ffd700' /* Gold Yellow */,
+          dark: '#ffd700',
+          light: '#ffdd4d',
         },
         danger: {
-          DEFAULT: '#d20f39', // latte red
-          dark: '#f38ba8', // mocha red
+          DEFAULT: '#ff6b6b' /* Bright Red */,
+          dark: '#ff6b6b',
+          light: '#ff9999',
         },
         info: {
-          DEFAULT: '#04a5e5', // latte sky
-          dark: '#89dceb', // mocha sky
+          DEFAULT: '#4da6ff' /* Sky Blue */,
+          dark: '#4da6ff',
+          light: '#7fc3ff',
         },
 
+        /* Pitch Black Theme - Neutral Colors */
+        pitchblack: {
+          base: '#000000' /* Pure Black */,
+          mantle: '#0a0a0a',
+          crust: '#050505',
+          surface0: '#1a1a1a',
+          surface1: '#2a2a2a',
+          surface2: '#3a3a3a',
+          text: '#ffffff',
+          subtext1: '#e0e0e0',
+          subtext0: '#b0b0b0',
+        },
+
+        /* Catppuccin Colors (retained for compatibility) */
         latte: {
           base: '#eff1f5',
           mantle: '#e6e9ef',
@@ -82,6 +102,20 @@ export default {
           blue: '#89b4fa',
           lavender: '#b4befe',
         },
+      },
+      backgroundColor: {
+        'pitch-black': '#000000',
+        'pitch-dark': '#0a0a0a',
+        'pitch-surface': '#1a1a1a',
+      },
+      textColor: {
+        'pitch-white': '#ffffff',
+        'pitch-light': '#e0e0e0',
+        'pitch-muted': '#b0b0b0',
+      },
+      borderColor: {
+        'pitch-border': '#2a2a2a',
+        'pitch-focus': '#7da6ff',
       },
     },
   },

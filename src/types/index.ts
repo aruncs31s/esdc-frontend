@@ -13,7 +13,7 @@ export type {
   RegisterRequest,
 } from './user';
 
-export type { DecodedToken, AuthResponse, AuthResult } from './auth';
+export type { DecodedToken, AuthResult, AuthTokenData } from './auth';
 
 export type {
   ProjectData,

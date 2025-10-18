@@ -433,10 +433,18 @@ section {
   background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
   border-radius: 12px;
   min-width: 60px;
-  text-align: center;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--base);
   box-shadow: 0 8px 20px rgba(30, 102, 245, 0.3);
   transition: all 0.3s ease;
+}
+
+.contact-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .contact-icon:hover {

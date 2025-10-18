@@ -1,0 +1,90 @@
+.roadmap-page {
+  min-height: 100vh;
+  padding: 6rem 0 3rem;
+  background: var(--base);
+}
+.roadmap-page h1 {
+  font-size: 2.5rem;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.roadmap-page > .container > p {
+  text-align: center;
+  color: var(--subtext0);
+  margin-bottom: 3rem;
+}
+.roadmap-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.roadmap-phase {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background: var(--mantle);
+  border-radius: 12px;
+  border: 1px solid var(--surface0);
+  position: relative;
+}
+.roadmap-phase::before {
+  content: '';
+  position: absolute;
+  left: 2.75rem;
+  top: 100%;
+  width: 2px;
+  height: 2rem;
+  background: var(--surface1);
+}
+.roadmap-phase:last-child::before {
+  display: none;
+}
+.phase-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.roadmap-phase.completed .phase-icon {
+  background: var(--green);
+  color: white;
+}
+.roadmap-phase.in-progress .phase-icon {
+  background: var(--yellow);
+  color: white;
+}
+.roadmap-phase.planned .phase-icon {
+  background: var(--surface0);
+  color: var(--subtext0);
+}
+.phase-content {
+  flex: 1;
+}
+.phase-content h3 {
+  color: var(--text);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.phase-content ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.phase-content li {
+  color: var(--subtext0);
+  padding-left: 1.5rem;
+  position: relative;
+}
+.phase-content li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+}

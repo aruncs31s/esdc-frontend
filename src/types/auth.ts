@@ -9,18 +9,22 @@ export interface DecodedToken {
   name?: string;
 }
 
-export interface AuthResponse {
-  success: boolean;
-  message?: string;
-  data?: any;
-  status?: boolean;
-  token?: string;
+// export interface AuthResponse {
+//   success: boolean;
+//   message?: string;
+//   data?: any;
+//   status?: boolean;
+// }
+
+export interface AuthTokenData {
+  token: string;
 }
 
-export interface AuthResult {
+export interface AuthResult<T> {
   success: boolean;
   message?: string;
-  data?: any;
+  data?: T;
+  meta?: string;
 }
 export interface RegisterResponse {
   success: boolean;
