@@ -378,6 +378,36 @@
           "solution": "Check CORS settings on your backend and ensure the API base URL is correctly configured"
         }
       ]
+    },
+    {
+      "id": "routes",
+      "title": "Application Routes",
+      "icon": "FiMap",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "The application has a comprehensive routing system. Below are all available routes organized by category:"
+        },
+        {
+          "type": "note",
+          "text": "Some routes are feature-gated and may require enabling specific features in the Settings context."
+        }
+      ]
+    },
+    {
+      "id": "markdown-docs",
+      "title": "Markdown Documentation",
+      "icon": "FiFileText",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Browse all markdown documentation files available in the docs/ directory. These files provide detailed guides, references, and implementation details."
+        },
+        {
+          "type": "note",
+          "text": "Documentation files are organized by category for easy navigation. Click on any file to view its contents."
+        }
+      ]
     }
   ]
 }

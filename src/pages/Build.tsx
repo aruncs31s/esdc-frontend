@@ -14,8 +14,13 @@ import {
   FiChevronRight,
   FiCopy,
   FiCheck,
+  FiMap,
+  FiFileText,
+  FiExternalLink,
 } from 'react-icons/fi';
 import buildDocumentation from '../data/buildDocumentation.json';
+import routesData from '../data/routesData.json';
+import docsFiles from '../data/docsFiles.json';
 import '../styles/build.css';
 
 interface ContentItem {
@@ -46,6 +51,8 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
   FiUploadCloud,
   FiServer,
   FiTool,
+  FiMap,
+  FiFileText,
 };
 
 export default function Build() {
@@ -243,6 +250,62 @@ export default function Build() {
             <h2 id={currentSection.id}>{currentSection.title}</h2>
             <div className="section-content">
               {currentSection.content.map((item, index) => renderContent(item, index))}
+
+              {/* Render routes if in routes section */}
+              {currentSection.id === 'routes' && (
+                <div className="routes-grid">
+                  {routesData.categories.map((category, idx) => (
+                    <div key={idx} className="route-category">
+                      <h3>{category.name}</h3>
+                      <div className="routes-list">
+                        {category.routes.map((route, ridx) => (
+                          <div key={ridx} className="route-item">
+                            <code className="route-path">{route.path}</code>
+                            <div className="route-info">
+                              <div className="route-name">{route.name}</div>
+                              <div className="route-description">{route.description}</div>
+                            </div>
+                            {route.feature && (
+                              <span className="route-badge">Feature: {route.feature}</span>
+                            )}
+                            {route.protected && <span className="route-badge">Protected</span>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Render docs files if in markdown-docs section */}
+              {currentSection.id === 'markdown-docs' && (
+                <div className="docs-grid">
+                  {docsFiles.categories.map((category, idx) => (
+                    <div key={idx} className="docs-category">
+                      <h3>{category.name}</h3>
+                      <div className="docs-list">
+                        {category.files.map((file, fidx) => (
+                          <a
+                            key={fidx}
+                            href={`https://github.com/aruncs31s/esdc-frontend/blob/main/docs/${file.path}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="doc-item"
+                          >
+                            <div className="doc-item-header">
+                              <FiFileText className="doc-item-icon" size={16} />
+                              <span className="doc-title">{file.title}</span>
+                              <FiExternalLink size={12} style={{ marginLeft: 'auto' }} />
+                            </div>
+                            <code className="doc-path">{file.path}</code>
+                            <div className="doc-description">{file.description}</div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

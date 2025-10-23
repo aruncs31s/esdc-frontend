@@ -1,0 +1,299 @@
+{
+  "title": "Documentation Files",
+  "description": "Browse and view all markdown documentation files",
+  "categories": [
+    {
+      "name": "Getting Started",
+      "files": [
+        { "path": "START_HERE.md", "title": "Start Here", "description": "Getting started guide" },
+        {
+          "path": "QUICK_START_GUIDE.md",
+          "title": "Quick Start",
+          "description": "Quick start guide"
+        },
+        {
+          "path": "QUICK_REFERENCE.md",
+          "title": "Quick Reference",
+          "description": "Quick reference guide"
+        }
+      ]
+    },
+    {
+      "name": "Architecture & Design",
+      "files": [
+        {
+          "path": "ARCHITECTURE_VISUAL_GUIDE.md",
+          "title": "Architecture Guide",
+          "description": "Visual architecture guide"
+        },
+        {
+          "path": "NEW_ARCHITECTURE_README.md",
+          "title": "New Architecture",
+          "description": "New architecture documentation"
+        },
+        {
+          "path": "DDD_README.md",
+          "title": "Domain-Driven Design",
+          "description": "DDD implementation guide"
+        },
+        { "path": "DDD_COMPLETE.md", "title": "DDD Complete", "description": "Complete DDD guide" },
+        {
+          "path": "DEPENDENCY_INJECTION_ARCHITECTURE.md",
+          "title": "Dependency Injection",
+          "description": "DI architecture"
+        }
+      ]
+    },
+    {
+      "name": "Features & Components",
+      "files": [
+        {
+          "path": "FEATURES_OVERVIEW.md",
+          "title": "Features Overview",
+          "description": "All features overview"
+        },
+        {
+          "path": "NEW_FEATURES_SUMMARY.md",
+          "title": "New Features",
+          "description": "New features summary"
+        },
+        {
+          "path": "COMPONENT_MIGRATION_GUIDE.md",
+          "title": "Component Migration",
+          "description": "Migration guide"
+        }
+      ]
+    },
+    {
+      "name": "User Interface",
+      "files": [
+        {
+          "path": "MODERN_DESIGN_UPDATES.md",
+          "title": "Modern Design",
+          "description": "Design updates"
+        },
+        {
+          "path": "MOBILE_RESPONSIVE.md",
+          "title": "Mobile Responsive",
+          "description": "Responsive design guide"
+        },
+        {
+          "path": "RESPONSIVE_QUICK_GUIDE.md",
+          "title": "Responsive Quick Guide",
+          "description": "Quick responsive guide"
+        },
+        {
+          "path": "THEME_SYSTEM.md",
+          "title": "Theme System",
+          "description": "Theming documentation"
+        },
+        {
+          "path": "THEME_QUICK_REFERENCE.md",
+          "title": "Theme Reference",
+          "description": "Theme quick reference"
+        },
+        {
+          "path": "PITCH_BLACK_THEME_SUMMARY.md",
+          "title": "Pitch Black Theme",
+          "description": "Dark theme guide"
+        }
+      ]
+    },
+    {
+      "name": "User Features",
+      "files": [
+        {
+          "path": "USER_PROFILE_FEATURE.md",
+          "title": "User Profile",
+          "description": "User profile feature"
+        },
+        {
+          "path": "USER_PROFILE_QUICKREF.md",
+          "title": "Profile Quick Ref",
+          "description": "Profile quick reference"
+        },
+        {
+          "path": "USER_PROFILE_NAVIGATION.md",
+          "title": "Profile Navigation",
+          "description": "Profile navigation"
+        },
+        {
+          "path": "USERS_PAGE_SUMMARY.md",
+          "title": "Users Page",
+          "description": "Users page documentation"
+        },
+        {
+          "path": "ProfileCard.md",
+          "title": "Profile Card",
+          "description": "Profile card component"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "files": [
+        {
+          "path": "PROJECTS_DOCUMENTATION_INDEX.md",
+          "title": "Projects Index",
+          "description": "Projects documentation index"
+        },
+        {
+          "path": "PROJECTS_QUICK_REFERENCE.md",
+          "title": "Projects Quick Ref",
+          "description": "Projects quick reference"
+        },
+        {
+          "path": "PROJECTS_COMPONENT_GUIDE.md",
+          "title": "Projects Components",
+          "description": "Projects components guide"
+        },
+        {
+          "path": "PROJECT_DETAIL_PAGE.md",
+          "title": "Project Detail",
+          "description": "Project detail page"
+        },
+        {
+          "path": "PROJECT_DETAIL_MODALS.md",
+          "title": "Project Modals",
+          "description": "Project modals documentation"
+        }
+      ]
+    },
+    {
+      "name": "Products & Shopping",
+      "files": [
+        {
+          "path": "PRODUCT_DETAIL_PAGE.md",
+          "title": "Product Detail",
+          "description": "Product detail page"
+        },
+        {
+          "path": "PRODUCT_DETAIL_QUICKSTART.md",
+          "title": "Product Quick Start",
+          "description": "Product quick start"
+        },
+        {
+          "path": "api/shopping.md",
+          "title": "Shopping API",
+          "description": "Shopping API documentation"
+        }
+      ]
+    },
+    {
+      "name": "Games",
+      "files": [
+        {
+          "path": "GAMES_README.md",
+          "title": "Games",
+          "description": "Games feature documentation"
+        }
+      ]
+    },
+    {
+      "name": "Chatbot",
+      "files": [
+        {
+          "path": "CHATBOT_IMPLEMENTATION.md",
+          "title": "Chatbot Implementation",
+          "description": "Chatbot implementation guide"
+        },
+        {
+          "path": "CHATBOT_QUICKSTART.md",
+          "title": "Chatbot Quick Start",
+          "description": "Chatbot quick start"
+        },
+        {
+          "path": "chatbot-documentation.md",
+          "title": "Chatbot Docs",
+          "description": "Chatbot documentation"
+        }
+      ]
+    },
+    {
+      "name": "Backend & API",
+      "files": [
+        {
+          "path": "BACKEND_INTEGRATION.md",
+          "title": "Backend Integration",
+          "description": "Backend integration guide"
+        },
+        {
+          "path": "GO_BACKEND_IMPLEMENTATION.md",
+          "title": "Go Backend",
+          "description": "Go backend implementation"
+        },
+        {
+          "path": "api/all-features-api.md",
+          "title": "All Features API",
+          "description": "Complete API documentation"
+        },
+        { "path": "api/blog.md", "title": "Blog API", "description": "Blog API documentation" },
+        {
+          "path": "api/project-planning.md",
+          "title": "Project Planning API",
+          "description": "Project planning API"
+        }
+      ]
+    },
+    {
+      "name": "Settings & Admin",
+      "files": [
+        {
+          "path": "SETTINGS_PAGE.md",
+          "title": "Settings Page",
+          "description": "Settings page documentation"
+        },
+        {
+          "path": "SETTINGS_QUICKSTART.md",
+          "title": "Settings Quick Start",
+          "description": "Settings quick start"
+        },
+        {
+          "path": "ADMIN_PANEL.md",
+          "title": "Admin Panel",
+          "description": "Admin panel documentation"
+        }
+      ]
+    },
+    {
+      "name": "Migration & Updates",
+      "files": [
+        {
+          "path": "MIGRATION_GUIDE.md",
+          "title": "Migration Guide",
+          "description": "Migration guide"
+        },
+        {
+          "path": "TYPESCRIPT_MIGRATION.md",
+          "title": "TypeScript Migration",
+          "description": "TypeScript migration"
+        },
+        {
+          "path": "TYPESCRIPT_QUICKSTART.md",
+          "title": "TypeScript Quick Start",
+          "description": "TypeScript quick start"
+        },
+        {
+          "path": "TRANSFORMATION_SUMMARY.md",
+          "title": "Transformation",
+          "description": "Transformation summary"
+        }
+      ]
+    },
+    {
+      "name": "Contributing",
+      "files": [
+        {
+          "path": "CONTRIBUTE.md",
+          "title": "Contributing",
+          "description": "Contributing guidelines"
+        },
+        {
+          "path": "DOCUMENTATION_INDEX.md",
+          "title": "Documentation Index",
+          "description": "Documentation index"
+        }
+      ]
+    }
+  ]
+}
