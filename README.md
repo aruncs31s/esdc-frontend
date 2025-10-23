@@ -2,14 +2,30 @@
 
 A modern React application for the Embedded Systems Design Club (ESDC) built with Vite, featuring authentication, theme switching, and responsive design.
 
+## 🏗️ Architecture
+
+This project follows **Domain-Driven Design (DDD)** with strict layered architecture.
+
+📖 **[Read the Architecture Documentation](./ARCHITECTURE.md)** - **MUST READ** for all developers
+
+Key architectural documents:
+
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Complete architecture overview and principles
+- **[Architecture Guidelines](./docs/architecture/GUIDELINES.md)** - Strict rules and requirements
+- **[Design Patterns](./docs/architecture/PATTERNS.md)** - Common patterns and examples
+- **[DDD Quick Reference](./docs/DDD_QUICK_REFERENCE.md)** - Quick reference for daily work
+
 ## Features
 
-- **Modern React Setup**: Built with React 19 and Vite for fast development
+- **Domain-Driven Design**: Clean architecture with proper separation of concerns
+- **Modern React Setup**: Built with React 19 and TypeScript with Vite
+- **Type Safety**: Full TypeScript implementation with strict mode
 - **Authentication**: GitHub OAuth integration with login/logout functionality
 - **Theme Switching**: Dark/Light mode toggle with persistent storage
-- **Responsive Design**: Mobile-first design with Bootstrap integration
+- **Responsive Design**: Mobile-first design with Tailwind CSS
 - **React Router**: Client-side routing for navigation
-- **React Icons**: Beautiful icon library integration
+- **TanStack Query**: Efficient data fetching and caching
+- **Testing**: Comprehensive test suite with Vitest
 
 ## Available Scripts
 
@@ -31,16 +47,42 @@ npm run lint
 
 ```
 src/
-├── components/
-│   ├── Navbar.jsx          # Navigation component with theme toggle
-│   ├── Login.jsx           # Authentication component with GitHub OAuth
-│   ├── Contact.jsx         # Contact information component
-│   ├── Footer.jsx          # Footer component
-│   └── ...
-├── pages/
-│   └── Home.jsx           # Main landing page
-├── App.jsx                # Main application component with routing
-└── main.jsx              # Application entry point
+├── domain/              # 🟢 Domain Layer - Business Logic
+│   ├── entities/        # Business entities (User, Challenge, Project, Event)
+│   ├── value-objects/   # Value objects (Email, Points, Difficulty)
+│   ├── services/        # Domain services
+│   ├── events/          # Domain events & event bus
+│   └── repositories/    # Repository interfaces
+│
+├── application/         # 🔵 Application Layer - Use Cases
+│   ├── use-cases/       # Application use cases
+│   ├── ApplicationService.ts  # Main facade for UI
+│   └── Container.ts     # Dependency injection
+│
+├── infrastructure/      # 🟡 Infrastructure Layer - External Services
+│   ├── api/            # API clients
+│   └── repositories/   # Repository implementations
+│
+├── app/                # 🔴 Presentation Layer - Application Setup
+│   ├── providers/      # React context providers
+│   └── router/         # Route configuration
+│
+├── features/           # Feature modules (auth, admin, challenges, etc.)
+├── components/         # Reusable UI components
+├── pages/             # Page components
+└── shared/            # Shared utilities and hooks
+```
+
+**Important**: Always use `ApplicationService` from UI components. Never access repositories or infrastructure directly.
+
+```typescript
+// ✅ Correct
+import applicationService from '@/application/ApplicationService';
+const users = await applicationService.getAllUsers();
+
+// ❌ Wrong
+import { userRepository } from '@/infrastructure';
+const users = await userRepository.findAll();
 ```
 
 ## Authentication
@@ -98,6 +140,7 @@ import { FaGithub, FaUser, FiSun, FiMoon } from 'react-icons/fa';
 ```
 
 Available icon libraries:
+
 - **FA** (Font Awesome)
 - **FI** (Feather Icons)
 - **MD** (Material Design)
