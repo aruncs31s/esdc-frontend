@@ -52,6 +52,7 @@ import Analytics from './pages/Analytics';
 import Teams from './pages/Teams';
 import Integrations from './pages/Integrations';
 import Roadmap from './pages/Roadmap';
+import Build from './pages/Build';
 import './index.css';
 
 const AppRoutes = () => {
@@ -540,6 +541,16 @@ const AppRoutes = () => {
             <>
               <Header />
               <Roadmap />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/build"
+          element={
+            <>
+              <Header />
+              <Build />
               <Footer />
             </>
           }
