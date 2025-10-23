@@ -1,8 +1,8 @@
-# 🎯 ESDC Frontend - Architecture Transformation Complete
+# 🎯 ESDC Frontend - Architecture Documentation
 
 ## 🎉 Welcome to Your New Architecture!
 
-Your ESDC frontend has been successfully transformed from a basic structure to a modern, scalable, enterprise-grade architecture. This index will help you navigate all the changes.
+Your ESDC frontend follows **Domain-Driven Design (DDD)** with strict layered architecture. This index will help you navigate all the documentation.
 
 ---
 
@@ -10,35 +10,51 @@ Your ESDC frontend has been successfully transformed from a basic structure to a
 
 ### 🚀 Start Here (Priority Order)
 
-1. **[TRANSFORMATION_SUMMARY.md](./TRANSFORMATION_SUMMARY.md)** ⭐ START HERE
-   - Complete overview of all changes
-   - What was done and why
-   - Immediate next steps
-   - Benefits summary
+1. **[ARCHITECTURE.md](../ARCHITECTURE.md)** ⭐ **MUST READ** - START HERE
+   - Complete architecture overview
+   - DDD principles and concepts
+   - Layer structure and responsibilities
+   - Coding standards
+   - Best practices and anti-patterns
+   - **Status**: Mandatory for all developers
 
-2. **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** 📌 KEEP HANDY
-   - Path aliases cheat sheet
-   - Common commands
-   - Code examples
-   - Troubleshooting
+2. **[Architecture Guidelines](./architecture/GUIDELINES.md)** 📋 **STRICT ENFORCEMENT**
+   - Layer responsibilities (MUST/MUST NOT)
+   - Dependency rules
+   - Coding rules with examples
+   - Code review checklist
+   - **Status**: Enforced in code reviews
 
-3. **[MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)** 📖 DETAILED GUIDE
-   - Step-by-step migration process
-   - Phase-by-phase instructions
-   - Import path examples
-   - Known issues and solutions
+3. **[DDD Quick Reference](./DDD_QUICK_REFERENCE.md)** 📌 KEEP HANDY
+   - Common operations reference
+   - Code snippets
+   - Quick lookup for daily work
+   - Import patterns
 
-4. **[ARCHITECTURE_VISUAL_GUIDE.md](./ARCHITECTURE_VISUAL_GUIDE.md)** 📊 VISUAL GUIDE
-   - Before vs After comparison
-   - Visual structure diagrams
-   - Benefits comparison tables
-   - Migration path visualization
+4. **[Design Patterns](./architecture/PATTERNS.md)** 🎯 REFERENCE
+   - Repository Pattern
+   - Use Case Pattern
+   - Value Object Pattern
+   - Entity Pattern
+   - Domain Service Pattern
+   - Event-Driven Pattern
+   - React Patterns
 
-5. **[NEW_ARCHITECTURE_README.md](./NEW_ARCHITECTURE_README.md)** 📚 FULL REFERENCE
-   - Complete architecture documentation
-   - All features explained
-   - Configuration details
-   - Best practices
+5. **[Architecture Decision Records](./architecture/ADR.md)** 📝 CONTEXT
+   - Why we made certain decisions
+   - Trade-offs and consequences
+   - Historical context
+   - 10 ADRs documented
+
+6. **[DDD Implementation Guide](./DDD_IMPLEMENTATION_GUIDE.md)** 📖 DETAILED GUIDE
+   - How to use each layer
+   - Step-by-step implementation
+   - Examples and best practices
+
+7. **[DDD Before/After Examples](./DDD_BEFORE_AFTER.md)** 📊 VISUAL GUIDE
+   - Migration examples
+   - Before/after comparisons
+   - Real-world use cases
 
 ---
 
@@ -321,6 +337,7 @@ onSubmit: () => void;
 
 export const MyComponent = ({ title, onSubmit }: Props) => {
 return (
+
 <div>
 <h1>{title}</h1>
 <Button onClick={onSubmit}>Submit</Button>
