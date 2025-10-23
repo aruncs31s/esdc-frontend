@@ -113,7 +113,7 @@ This comprehensive Domain-Driven Design (DDD) architecture documentation package
 | ----------------------------- | ----- |
 | Total files created           | 6     |
 | Total files updated           | 3     |
-| Total documentation size      | ~76KB |
+| Total documentation size      | ~86KB |
 | Number of code examples       | 50+   |
 | Number of ADRs                | 10    |
 | Number of patterns documented | 9     |
@@ -473,7 +473,7 @@ The team now has a **complete, authoritative reference** that will ensure strict
 | Category                      | Count             |
 | ----------------------------- | ----------------- |
 | Total Documentation Pages     | 6 new + 3 updated |
-| Total Content Size            | ~76KB             |
+| Total Content Size            | ~86KB             |
 | Code Examples                 | 50+               |
 | Design Patterns               | 9                 |
 | Architecture Decision Records | 10                |
