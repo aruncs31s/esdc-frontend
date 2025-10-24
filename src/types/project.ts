@@ -64,6 +64,6 @@ export interface ProjectCreateData {
   github_link?: string;
   live_url?: string;
   image?: string;
-  technologies?: TechnologyDetails[];
+  technologies?: string[];
   contributors?: string[];
 }

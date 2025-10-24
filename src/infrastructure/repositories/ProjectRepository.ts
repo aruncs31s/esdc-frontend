@@ -48,89 +48,17 @@ export class ProjectRepository extends IProjectRepository {
     }
   }
 
-  /**
-   * Find projects by user ID
-   */
-  async findByUserId(userId: string) {
-    try {
-      const response = await this.api.get(`/api/admin/projects?user_id=${userId}`);
-      const data = response.data?.data || response.data || [];
-      return Project.fromAPIArray(data);
-    } catch (error) {
-      console.error(`Error fetching projects for user ${userId}:`, error);
-      return [];
-    }
-  }
-
-  /**
-   * Find projects by status
-   */
-  async findByStatus(status: string) {
-    try {
-      const response = await this.api.get(`/api/admin/projects?status=${status}`);
-      const data = response.data?.data || response.data || [];
-      return Project.fromAPIArray(data);
-    } catch (error) {
-      console.error(`Error fetching projects by status ${status}:`, error);
-      return [];
-    }
-  }
   async createProject(project: ProjectCreateData) {
     try {
+      console.log('Project Data', project);
       // Update existing project
-      const response = await this.api.post(`/api/projects/`, project);
+      const response = await this.api.post(`/api/projects`, project);
+
       const data = response.data?.data || response.data;
       return Project.fromAPI(data);
     } catch (error) {
       console.error('Error saving project:', error);
       throw error;
-    }
-  }
-  /**
-   * Save project (create or update)
-   */
-  async save(project: any) {
-    try {
-      if (project.id) {
-        // Update existing project
-        const response = await this.api.put(`/api/admin/projects/${project.id}`, project.toJSON());
-        const data = response.data?.data || response.data;
-        return Project.fromAPI(data);
-      } else {
-        // Create new project
-        const response = await this.api.post('/api/admin/projects', project.toJSON());
-        const data = response.data?.data || response.data;
-        return Project.fromAPI(data);
-      }
-    } catch (error) {
-      console.error('Error saving project:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Delete project by ID
-   */
-  async delete(id: string) {
-    try {
-      await this.api.delete(`/api/admin/projects/${id}`);
-      return true;
-    } catch (error) {
-      console.error(`Error deleting project ${id}:`, error);
-      throw error;
-    }
-  }
-
-  /**
-   * Count total projects
-   */
-  async count() {
-    try {
-      const projects = await this.findAll();
-      return projects.length;
-    } catch (error) {
-      console.error('Error counting projects:', error);
-      return 0;
     }
   }
 }

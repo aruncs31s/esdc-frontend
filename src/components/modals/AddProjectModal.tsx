@@ -145,12 +145,10 @@ const AddProjectModal = ({ isOpen, onClose, onProjectAdded }: AddProjectModalPro
         return;
       }
 
-      // Parse technologies from comma-separated string
       const technologies = formData.technologies
         .split(',')
         .map((tech) => tech.trim())
-        .filter((tech) => tech)
-        .map((name) => ({ name }) as any);
+        .filter((tech) => tech);
 
       const newProject: ProjectCreateData = {
         title: formData.title,
@@ -205,7 +203,7 @@ const AddProjectModal = ({ isOpen, onClose, onProjectAdded }: AddProjectModalPro
             </div>
             <div>
               <h2>Create New Project</h2>
-              <p>Share your amazing work with the community</p>
+              <p>Dont forget to add contributers</p>
             </div>
           </div>
           <button className="modal-close-btn" onClick={onClose}>
