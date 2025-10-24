@@ -19,7 +19,7 @@ import {
   FiExternalLink,
 } from 'react-icons/fi';
 import buildDocumentation from '../data/buildDocumentation.json';
-import routesData from '../data/routesData.json';
+import routesDataJson from '../data/routesData.json';
 import docsFiles from '../data/docsFiles.json';
 import '../styles/build.css';
 
@@ -40,6 +40,28 @@ interface Section {
   icon: string;
   content: ContentItem[];
 }
+
+interface Route {
+  path: string;
+  name: string;
+  description: string;
+  feature?: string;
+  protected?: boolean;
+  role?: string;
+}
+
+interface RouteCategory {
+  name: string;
+  routes: Route[];
+}
+
+interface RoutesData {
+  title: string;
+  description: string;
+  categories: RouteCategory[];
+}
+
+const routesData = routesDataJson as RoutesData;
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   FiCheckCircle,
