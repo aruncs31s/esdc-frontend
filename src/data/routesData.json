@@ -1,0 +1,220 @@
+{
+  "title": "Application Routes",
+  "description": "Complete list of all routes available in the ESDC application",
+  "categories": [
+    {
+      "name": "Public Routes",
+      "routes": [
+        { "path": "/", "name": "Home", "description": "Main landing page" },
+        { "path": "/login", "name": "Login", "description": "User authentication" },
+        { "path": "/register", "name": "Register", "description": "User registration" },
+        { "path": "/search", "name": "Search", "description": "Search functionality" },
+        { "path": "/docs", "name": "Documentation", "description": "Platform documentation" },
+        { "path": "/build", "name": "Build Guide", "description": "Build and deployment guide" }
+      ]
+    },
+    {
+      "name": "Learning & Development",
+      "routes": [
+        {
+          "path": "/lms",
+          "name": "LMS",
+          "description": "Learning Management System",
+          "feature": "lms"
+        },
+        {
+          "path": "/lms/:id",
+          "name": "Course Detail",
+          "description": "Individual course page",
+          "feature": "lms"
+        },
+        {
+          "path": "/resources",
+          "name": "Resources",
+          "description": "Learning resources",
+          "feature": "resources"
+        }
+      ]
+    },
+    {
+      "name": "Projects & Portfolio",
+      "routes": [
+        {
+          "path": "/projects",
+          "name": "Projects",
+          "description": "Browse all projects",
+          "feature": "projects"
+        },
+        {
+          "path": "/projects/:id",
+          "name": "Project Detail",
+          "description": "View project details",
+          "feature": "projects"
+        },
+        {
+          "path": "/my-projects",
+          "name": "My Projects",
+          "description": "User's own projects",
+          "feature": "projects"
+        },
+        { "path": "/planning", "name": "Project Planning", "description": "Plan new projects" }
+      ]
+    },
+    {
+      "name": "E-Commerce",
+      "routes": [
+        {
+          "path": "/products",
+          "name": "Products",
+          "description": "Browse products",
+          "feature": "products"
+        },
+        {
+          "path": "/product/:id",
+          "name": "Product Detail",
+          "description": "Product details page",
+          "feature": "products"
+        },
+        {
+          "path": "/my-products",
+          "name": "My Products",
+          "description": "Purchased products",
+          "feature": "products"
+        },
+        { "path": "/shop", "name": "Shop", "description": "Online shop", "feature": "shop" },
+        {
+          "path": "/shop-cart",
+          "name": "Shopping Cart",
+          "description": "View cart items",
+          "feature": "shop"
+        }
+      ]
+    },
+    {
+      "name": "Community & Events",
+      "routes": [
+        {
+          "path": "/events",
+          "name": "Events",
+          "description": "Upcoming events",
+          "feature": "events"
+        },
+        { "path": "/blog", "name": "Blog", "description": "Community blog", "feature": "blog" },
+        { "path": "/forum", "name": "Forum", "description": "Community discussions" },
+        { "path": "/mentorship", "name": "Mentorship", "description": "Mentorship program" },
+        { "path": "/hackathons", "name": "Hackathons", "description": "Hackathon events" },
+        { "path": "/workshops", "name": "Workshops", "description": "Workshop sessions" }
+      ]
+    },
+    {
+      "name": "Games & Entertainment",
+      "routes": [
+        {
+          "path": "/games",
+          "name": "Games Hub",
+          "description": "Game collection",
+          "feature": "games"
+        },
+        {
+          "path": "/games/snake",
+          "name": "Snake Game",
+          "description": "Classic snake game",
+          "feature": "games"
+        },
+        {
+          "path": "/games/tetris",
+          "name": "Tetris",
+          "description": "Tetris puzzle game",
+          "feature": "games"
+        },
+        {
+          "path": "/games/pong",
+          "name": "Pong",
+          "description": "Pong arcade game",
+          "feature": "games"
+        },
+        {
+          "path": "/games/breakout",
+          "name": "Breakout",
+          "description": "Breakout arcade game",
+          "feature": "games"
+        },
+        {
+          "path": "/games/memory",
+          "name": "Memory Game",
+          "description": "Memory card game",
+          "feature": "games"
+        },
+        {
+          "path": "/games/simon",
+          "name": "Simon Says",
+          "description": "Simon Says game",
+          "feature": "games"
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "routes": [
+        { "path": "/profile", "name": "Profile", "description": "User profile page" },
+        {
+          "path": "/profile-card-demo",
+          "name": "Profile Card",
+          "description": "Profile card demo"
+        },
+        { "path": "/dashboard", "name": "Dashboard", "description": "User dashboard" },
+        { "path": "/users", "name": "Users", "description": "Browse users" },
+        { "path": "/settings", "name": "Settings", "description": "Account settings" },
+        {
+          "path": "/notifications",
+          "name": "Notifications",
+          "description": "User notifications",
+          "feature": "notifications"
+        }
+      ]
+    },
+    {
+      "name": "Professional Development",
+      "routes": [
+        {
+          "path": "/certifications",
+          "name": "Certifications",
+          "description": "Certification programs"
+        },
+        { "path": "/jobs", "name": "Job Board", "description": "Job opportunities" },
+        {
+          "path": "/leaderboard",
+          "name": "Leaderboard",
+          "description": "User rankings",
+          "feature": "leaderboard"
+        }
+      ]
+    },
+    {
+      "name": "Development Tools",
+      "routes": [
+        { "path": "/code-review", "name": "Code Review", "description": "Code review platform" },
+        { "path": "/analytics", "name": "Analytics", "description": "Platform analytics" },
+        { "path": "/teams", "name": "Teams", "description": "Team management" },
+        {
+          "path": "/integrations",
+          "name": "Integrations",
+          "description": "Third-party integrations"
+        },
+        { "path": "/roadmap", "name": "Roadmap", "description": "Product roadmap" }
+      ]
+    },
+    {
+      "name": "Administration",
+      "routes": [
+        {
+          "path": "/admin",
+          "name": "Admin Panel",
+          "description": "Administrative dashboard",
+          "protected": true,
+          "role": "admin"
+        }
+      ]
+    }
+  ]
+}

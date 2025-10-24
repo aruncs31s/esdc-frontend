@@ -1,0 +1,413 @@
+{
+  "title": "Build Documentation",
+  "description": "Complete guide on how to build and deploy the ESDC Frontend project",
+  "sections": [
+    {
+      "id": "prerequisites",
+      "title": "Prerequisites",
+      "icon": "FiCheckCircle",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Before building the project, ensure you have the following installed on your system:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Node.js 18.x or higher",
+            "npm 9.x or higher (comes with Node.js)",
+            "Git for version control",
+            "A code editor (VS Code recommended)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "icon": "FiDownload",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Follow these steps to set up the project on your local machine:"
+        },
+        {
+          "type": "step",
+          "number": 1,
+          "title": "Clone the repository",
+          "code": "git clone https://github.com/aruncs31s/esdc-frontend.git\ncd esdc-frontend"
+        },
+        {
+          "type": "step",
+          "number": 2,
+          "title": "Install dependencies",
+          "code": "npm install"
+        },
+        {
+          "type": "step",
+          "number": 3,
+          "title": "Configure environment variables",
+          "code": "cp .env.example .env",
+          "text": "Edit the .env file with your configuration values"
+        }
+      ]
+    },
+    {
+      "id": "development",
+      "title": "Development Build",
+      "icon": "FiCode",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "To start the development server with hot module replacement:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npm run dev"
+        },
+        {
+          "type": "paragraph",
+          "text": "The application will be available at http://localhost:5173"
+        },
+        {
+          "type": "note",
+          "text": "The development build includes source maps and detailed error messages for debugging."
+        }
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Production Build",
+      "icon": "FiPackage",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "To create an optimized production build:"
+        },
+        {
+          "type": "step",
+          "number": 1,
+          "title": "Run the build command",
+          "code": "npm run build"
+        },
+        {
+          "type": "paragraph",
+          "text": "This command does two things:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Runs TypeScript compiler (tsc) to check types",
+            "Builds the project using Vite with optimizations"
+          ]
+        },
+        {
+          "type": "step",
+          "number": 2,
+          "title": "Preview the production build locally",
+          "code": "npm run preview"
+        },
+        {
+          "type": "paragraph",
+          "text": "The built files will be in the dist/ directory, ready for deployment."
+        }
+      ]
+    },
+    {
+      "id": "testing",
+      "title": "Testing",
+      "icon": "FiCheckSquare",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Run the test suite to ensure code quality:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "# Run tests once\nnpm run test\n\n# Run tests in watch mode\nnpm run test:watch\n\n# Generate coverage report\nnpm run test:coverage"
+        }
+      ]
+    },
+    {
+      "id": "linting",
+      "title": "Code Quality",
+      "icon": "FiAlertCircle",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Maintain code quality with linting and formatting:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "# Run ESLint\nnpm run lint\n\n# Format code with Prettier\nnpm run format\n\n# Check formatting without changes\nnpm run format:check"
+        }
+      ]
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment",
+      "icon": "FiUploadCloud",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Deploy your production build to various platforms:"
+        },
+        {
+          "type": "subsection",
+          "title": "Vercel (Recommended)",
+          "items": [
+            {
+              "type": "step",
+              "number": 1,
+              "title": "Install Vercel CLI",
+              "code": "npm install -g vercel"
+            },
+            {
+              "type": "step",
+              "number": 2,
+              "title": "Deploy",
+              "code": "vercel"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Netlify",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Build command: npm run build"
+            },
+            {
+              "type": "paragraph",
+              "text": "Publish directory: dist"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "GitHub Pages",
+          "items": [
+            {
+              "type": "step",
+              "number": 1,
+              "title": "Update vite.config.ts with base path",
+              "code": "export default defineConfig({\n  base: '/esdc-frontend/',\n  // ... other config\n})"
+            },
+            {
+              "type": "step",
+              "number": 2,
+              "title": "Build and deploy",
+              "code": "npm run build\nnpx gh-pages -d dist"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "title": "Backend Implementation",
+      "icon": "FiServer",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "This project requires a backend API for full functionality. Here's how to implement it:"
+        },
+        {
+          "type": "subsection",
+          "title": "API Requirements",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "The backend should provide the following endpoints:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Authentication: POST /api/auth/login, POST /api/auth/register",
+                "User Management: GET /api/users/:id, PUT /api/users/:id",
+                "Projects: GET /api/projects, POST /api/projects, GET /api/projects/:id",
+                "Products: GET /api/products, GET /api/products/:id",
+                "Events: GET /api/events, POST /api/events",
+                "Resources: GET /api/resources"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Technology Stack Recommendations",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Choose one of these backend stacks:"
+            },
+            {
+              "type": "option",
+              "title": "Node.js + Express",
+              "items": [
+                "Fast and JavaScript-based",
+                "Easy integration with MongoDB or PostgreSQL",
+                "Large ecosystem of packages"
+              ]
+            },
+            {
+              "type": "option",
+              "title": "Python + FastAPI",
+              "items": [
+                "Modern, fast, and type-safe",
+                "Automatic API documentation",
+                "Great for machine learning integration"
+              ]
+            },
+            {
+              "type": "option",
+              "title": "Supabase (BaaS)",
+              "items": [
+                "Instant backend setup",
+                "Built-in authentication",
+                "Real-time subscriptions"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Basic Backend Setup (Node.js + Express)",
+          "items": [
+            {
+              "type": "step",
+              "number": 1,
+              "title": "Create backend directory",
+              "code": "mkdir backend\ncd backend\nnpm init -y"
+            },
+            {
+              "type": "step",
+              "number": 2,
+              "title": "Install dependencies",
+              "code": "npm install express cors dotenv mongoose\nnpm install -D typescript @types/express @types/node ts-node nodemon"
+            },
+            {
+              "type": "step",
+              "number": 3,
+              "title": "Create basic server structure",
+              "code": "// server.ts\nimport express from 'express';\nimport cors from 'cors';\n\nconst app = express();\n\napp.use(cors());\napp.use(express.json());\n\napp.get('/api/health', (req, res) => {\n  res.json({ status: 'ok' });\n});\n\nconst PORT = process.env.PORT || 3000;\napp.listen(PORT, () => {\n  console.log(`Server running on port ${PORT}`);\n});"
+            },
+            {
+              "type": "step",
+              "number": 4,
+              "title": "Connect frontend to backend",
+              "text": "Update the API base URL in your frontend .env file:",
+              "code": "VITE_API_BASE_URL=http://localhost:3000/api"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Database Schema",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Example MongoDB schemas for main entities:"
+            },
+            {
+              "type": "code",
+              "language": "javascript",
+              "code": "// User Schema\nconst userSchema = new Schema({\n  username: { type: String, required: true, unique: true },\n  email: { type: String, required: true, unique: true },\n  password: { type: String, required: true },\n  role: { type: String, enum: ['user', 'admin'], default: 'user' },\n  profile: {\n    name: String,\n    bio: String,\n    avatar: String\n  },\n  createdAt: { type: Date, default: Date.now }\n});\n\n// Project Schema\nconst projectSchema = new Schema({\n  title: { type: String, required: true },\n  description: String,\n  technologies: [String],\n  githubUrl: String,\n  liveUrl: String,\n  image: String,\n  userId: { type: Schema.Types.ObjectId, ref: 'User' },\n  createdAt: { type: Date, default: Date.now }\n});"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Authentication Implementation",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Implement JWT-based authentication:"
+            },
+            {
+              "type": "step",
+              "number": 1,
+              "title": "Install JWT package",
+              "code": "npm install jsonwebtoken bcrypt\nnpm install -D @types/jsonwebtoken @types/bcrypt"
+            },
+            {
+              "type": "step",
+              "number": 2,
+              "title": "Create auth middleware",
+              "code": "// middleware/auth.ts\nimport jwt from 'jsonwebtoken';\n\nexport const authenticate = (req, res, next) => {\n  const token = req.headers.authorization?.split(' ')[1];\n  \n  if (!token) {\n    return res.status(401).json({ error: 'No token provided' });\n  }\n  \n  try {\n    const decoded = jwt.verify(token, process.env.JWT_SECRET);\n    req.user = decoded;\n    next();\n  } catch (error) {\n    res.status(401).json({ error: 'Invalid token' });\n  }\n};"
+            }
+          ]
+        },
+        {
+          "type": "note",
+          "text": "For production, ensure you implement proper security measures including HTTPS, rate limiting, input validation, and secure password hashing."
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting",
+      "icon": "FiTool",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Common issues and their solutions:"
+        },
+        {
+          "type": "issue",
+          "title": "Build fails with TypeScript errors",
+          "solution": "Run npm run type-check to see detailed type errors. Fix them before building."
+        },
+        {
+          "type": "issue",
+          "title": "Port 5173 already in use",
+          "solution": "Kill the process using the port: lsof -ti:5173 | xargs kill -9 or change the port in vite.config.ts"
+        },
+        {
+          "type": "issue",
+          "title": "Module not found errors",
+          "solution": "Delete node_modules and package-lock.json, then run npm install again"
+        },
+        {
+          "type": "issue",
+          "title": "API calls failing in production",
+          "solution": "Check CORS settings on your backend and ensure the API base URL is correctly configured"
+        }
+      ]
+    },
+    {
+      "id": "routes",
+      "title": "Application Routes",
+      "icon": "FiMap",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "The application has a comprehensive routing system. Below are all available routes organized by category:"
+        },
+        {
+          "type": "note",
+          "text": "Some routes are feature-gated and may require enabling specific features in the Settings context."
+        }
+      ]
+    },
+    {
+      "id": "markdown-docs",
+      "title": "Markdown Documentation",
+      "icon": "FiFileText",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Browse all markdown documentation files available in the docs/ directory. These files provide detailed guides, references, and implementation details."
+        },
+        {
+          "type": "note",
+          "text": "Documentation files are organized by category for easy navigation. Click on any file to view its contents."
+        }
+      ]
+    }
+  ]
+}
