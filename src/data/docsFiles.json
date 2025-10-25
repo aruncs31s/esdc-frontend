@@ -15,6 +15,16 @@
           "path": "QUICK_REFERENCE.md",
           "title": "Quick Reference",
           "description": "Quick reference guide"
+        },
+        {
+          "path": "COMPLETE_SUMMARY.md",
+          "title": "Complete Summary",
+          "description": "Complete project summary"
+        },
+        {
+          "path": "NEXT_ACTIONS.md",
+          "title": "Next Actions",
+          "description": "Next actions and roadmap"
         }
       ]
     },
@@ -27,9 +37,19 @@
           "description": "Visual architecture guide"
         },
         {
+          "path": "ARCHITECTURE.md",
+          "title": "Architecture",
+          "description": "Architecture documentation"
+        },
+        {
           "path": "NEW_ARCHITECTURE_README.md",
           "title": "New Architecture",
           "description": "New architecture documentation"
+        },
+        {
+          "path": "VISUAL_GUIDE.md",
+          "title": "Visual Guide",
+          "description": "Visual guide documentation"
         },
         {
           "path": "DDD_README.md",
@@ -37,6 +57,27 @@
           "description": "DDD implementation guide"
         },
         { "path": "DDD_COMPLETE.md", "title": "DDD Complete", "description": "Complete DDD guide" },
+        { "path": "DDD_ANALYSIS.md", "title": "DDD Analysis", "description": "DDD analysis" },
+        {
+          "path": "DDD_BEFORE_AFTER.md",
+          "title": "DDD Before/After",
+          "description": "DDD before and after"
+        },
+        {
+          "path": "DDD_IMPLEMENTATION_GUIDE.md",
+          "title": "DDD Implementation",
+          "description": "DDD implementation guide"
+        },
+        {
+          "path": "DDD_IMPLEMENTATION_SUMMARY.md",
+          "title": "DDD Implementation Summary",
+          "description": "DDD implementation summary"
+        },
+        {
+          "path": "DDD_QUICK_REFERENCE.md",
+          "title": "DDD Quick Reference",
+          "description": "DDD quick reference"
+        },
         {
           "path": "DEPENDENCY_INJECTION_ARCHITECTURE.md",
           "title": "Dependency Injection",
@@ -100,7 +141,7 @@
       ]
     },
     {
-      "name": "User Features",
+      "name": "User Profiles",
       "files": [
         {
           "path": "USER_PROFILE_FEATURE.md",
@@ -118,14 +159,49 @@
           "description": "Profile navigation"
         },
         {
+          "path": "USER_PROFILE_ARCHITECTURE.md",
+          "title": "Profile Architecture",
+          "description": "User profile architecture"
+        },
+        {
           "path": "USERS_PAGE_SUMMARY.md",
           "title": "Users Page",
+          "description": "Users page documentation"
+        },
+        {
+          "path": "USERS_PAGE_QUICK_REF.md",
+          "title": "Users Page Ref",
+          "description": "Users page quick reference"
+        },
+        {
+          "path": "Users-Page.md",
+          "title": "Users Page Docs",
           "description": "Users page documentation"
         },
         {
           "path": "ProfileCard.md",
           "title": "Profile Card",
           "description": "Profile card component"
+        },
+        {
+          "path": "PROFILE_CARD_QUICKSTART.md",
+          "title": "Profile Card Quick Start",
+          "description": "Profile card quick start"
+        },
+        {
+          "path": "PROFILE_CARD_SUMMARY.md",
+          "title": "Profile Card Summary",
+          "description": "Profile card summary"
+        },
+        {
+          "path": "user-creation-implementation.md",
+          "title": "User Creation",
+          "description": "User creation implementation"
+        },
+        {
+          "path": "user-model-usage.md",
+          "title": "User Model Usage",
+          "description": "User model usage guide"
         }
       ]
     },
@@ -156,6 +232,41 @@
           "path": "PROJECT_DETAIL_MODALS.md",
           "title": "Project Modals",
           "description": "Project modals documentation"
+        },
+        {
+          "path": "PROJECTS_COMPLETION_REPORT.md",
+          "title": "Projects Completion",
+          "description": "Projects completion report"
+        },
+        {
+          "path": "PROJECTS_FINAL_CHECKLIST.md",
+          "title": "Projects Checklist",
+          "description": "Projects final checklist"
+        },
+        {
+          "path": "PROJECTS_IMPLEMENTATION_COMPLETE.md",
+          "title": "Implementation Complete",
+          "description": "Projects implementation complete"
+        },
+        {
+          "path": "PROJECTS_IMPLEMENTATION_DETAILS.md",
+          "title": "Implementation Details",
+          "description": "Projects implementation details"
+        },
+        {
+          "path": "PROJECTS_IMPROVEMENTS_SUMMARY.md",
+          "title": "Improvements Summary",
+          "description": "Projects improvements summary"
+        },
+        {
+          "path": "PROJECTS_LAYOUT_IMPROVEMENTS.md",
+          "title": "Layout Improvements",
+          "description": "Projects layout improvements"
+        },
+        {
+          "path": "PROJECTS_VISUAL_SUMMARY.md",
+          "title": "Visual Summary",
+          "description": "Projects visual summary"
         }
       ]
     },
@@ -173,9 +284,29 @@
           "description": "Product quick start"
         },
         {
-          "path": "api/shopping.md",
-          "title": "Shopping API",
-          "description": "Shopping API documentation"
+          "path": "PRODUCT_DETAIL_QUICK_REF.md",
+          "title": "Product Quick Ref",
+          "description": "Product quick reference"
+        },
+        {
+          "path": "PRODUCT_DETAIL_CHECKLIST.md",
+          "title": "Product Checklist",
+          "description": "Product detail checklist"
+        },
+        {
+          "path": "PRODUCT_DETAIL_IMPLEMENTATION.md",
+          "title": "Product Implementation",
+          "description": "Product detail implementation"
+        },
+        {
+          "path": "PRODUCT_DETAIL_VISUAL_GUIDE.md",
+          "title": "Product Visual Guide",
+          "description": "Product detail visual guide"
+        },
+        {
+          "path": "README_PRODUCT_DETAIL.md",
+          "title": "Product Detail README",
+          "description": "Product detail readme"
         }
       ]
     },
@@ -206,6 +337,36 @@
           "path": "chatbot-documentation.md",
           "title": "Chatbot Docs",
           "description": "Chatbot documentation"
+        },
+        {
+          "path": "CHATBOT_COMPARISON.md",
+          "title": "Chatbot Comparison",
+          "description": "Chatbot comparison"
+        },
+        {
+          "path": "CHATBOT_ENHANCEMENTS.md",
+          "title": "Chatbot Enhancements",
+          "description": "Chatbot enhancements"
+        },
+        {
+          "path": "CHATBOT_FIX.md",
+          "title": "Chatbot Fix",
+          "description": "Chatbot fixes"
+        },
+        {
+          "path": "CHATBOT_MINIMALIST_UPDATE.md",
+          "title": "Chatbot Minimalist",
+          "description": "Minimalist chatbot update"
+        },
+        {
+          "path": "CHATBOT_MOBILE_FIX.md",
+          "title": "Chatbot Mobile",
+          "description": "Mobile chatbot fixes"
+        },
+        {
+          "path": "CHATBOT_MOBILE_QUICKREF.md",
+          "title": "Chatbot Mobile Ref",
+          "description": "Mobile chatbot quick reference"
         }
       ]
     },
@@ -218,20 +379,19 @@
           "description": "Backend integration guide"
         },
         {
+          "path": "BACKEND_USER_SEARCH_GUIDE.md",
+          "title": "Backend User Search",
+          "description": "Backend user search guide"
+        },
+        {
           "path": "GO_BACKEND_IMPLEMENTATION.md",
           "title": "Go Backend",
           "description": "Go backend implementation"
         },
         {
-          "path": "api/all-features-api.md",
-          "title": "All Features API",
-          "description": "Complete API documentation"
-        },
-        { "path": "api/blog.md", "title": "Blog API", "description": "Blog API documentation" },
-        {
-          "path": "api/project-planning.md",
-          "title": "Project Planning API",
-          "description": "Project planning API"
+          "path": "api_implementation_requirement.md",
+          "title": "API Implementation",
+          "description": "API implementation requirements"
         }
       ]
     },
@@ -277,6 +437,11 @@
           "path": "TRANSFORMATION_SUMMARY.md",
           "title": "Transformation",
           "description": "Transformation summary"
+        },
+        {
+          "path": "REDUNDANCY_CLEANUP_REPORT.md",
+          "title": "Cleanup Report",
+          "description": "Redundancy cleanup report"
         }
       ]
     },
@@ -292,6 +457,36 @@
           "path": "DOCUMENTATION_INDEX.md",
           "title": "Documentation Index",
           "description": "Documentation index"
+        }
+      ]
+    },
+    {
+      "name": "Code Snippets & Tools",
+      "files": [
+        {
+          "path": "javascript-snippets.md",
+          "title": "JavaScript Snippets",
+          "description": "JavaScript code snippets"
+        },
+        {
+          "path": "typescript-snippets.md",
+          "title": "TypeScript Snippets",
+          "description": "TypeScript code snippets"
+        }
+      ]
+    },
+    {
+      "name": "Reference & Checklists",
+      "files": [
+        {
+          "path": "FILE_INVENTORY.md",
+          "title": "File Inventory",
+          "description": "File inventory documentation"
+        },
+        {
+          "path": "IMPLEMENTATION_CHECKLIST.md",
+          "title": "Implementation Checklist",
+          "description": "Implementation checklist"
         }
       ]
     }

@@ -226,7 +226,7 @@ export default function Build() {
   };
 
   const currentSection = sections.find((s) => s.id === activeSection);
-  const IconComponent = currentSection ? iconMap[currentSection.icon] : FiBook;
+  const PageIcon = FiBook;
 
   return (
     <div className="build-page">
@@ -259,17 +259,14 @@ export default function Build() {
       </div>
 
       <div className="build-content">
-        <div className="build-header">
-          {IconComponent && <IconComponent size={32} />}
-          <div>
-            <h1>{buildDocumentation.title}</h1>
-            <p className="build-description">{buildDocumentation.description}</p>
-          </div>
-        </div>
-
         {currentSection && (
           <div className="build-section">
-            <h2 id={currentSection.id}>{currentSection.title}</h2>
+            <div className="build-header">
+              <PageIcon size={32} />
+              <div>
+                <h1>{currentSection.title}</h1>
+              </div>
+            </div>
             <div className="section-content">
               {currentSection.content.map((item, index) => renderContent(item, index))}
 

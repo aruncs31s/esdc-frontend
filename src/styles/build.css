@@ -1,6 +1,7 @@
 .build-page {
+  padding-top: var(--header-height, 80px);
   display: flex;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - var(--header-height, 80px));
   background: var(--bg-primary);
   color: var(--text-primary);
 }

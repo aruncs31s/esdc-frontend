@@ -19,6 +19,31 @@
             "Git for version control",
             "A code editor (VS Code recommended)"
           ]
+        },
+        {
+          "type": "subsection",
+          "title": "Recommended VS Code Extensions",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Install these extensions in VS Code for optimal development experience:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "ES7+ React/Redux/React-Native snippets - dsznajder.es7-react-js-snippets",
+                "Prettier - Code formatter - esbenp.prettier-vscode",
+                "ESLint - Microsoft.vscode-eslint",
+                "TypeScript Vue Plugin (Volar) - Vue.volar",
+                "Tailwind CSS IntelliSense - bradlc.vscode-tailwindcss",
+                "Thunder Client - rangav.vscode-thunder-client (API testing)",
+                "Rest Client - humao.rest-client (REST API testing)",
+                "GitLens - eamodio.gitlens",
+                "Git Graph - mhutchie.git-graph",
+                "Vite - antfu.vite"
+              ]
+            }
+          ]
         }
       ]
     },

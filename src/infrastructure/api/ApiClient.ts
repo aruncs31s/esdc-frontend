@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ApiSuccessResponse } from '@/types';
 // Base URL for the API
-// const API_BASE_URL = 'http://localhost:9090';
-const API_BASE_URL = 'https://esdc-backend.onrender.com';
+const API_BASE_URL = 'http://localhost:9090';
+// const API_BASE_URL = 'https://esdc-backend.onrender.com';
 /**
  * API Client
  * Central HTTP client with interceptors for authentication
