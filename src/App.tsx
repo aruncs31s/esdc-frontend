@@ -53,6 +53,7 @@ import Teams from './pages/Teams';
 import Integrations from './pages/Integrations';
 import Roadmap from './pages/Roadmap';
 import Build from './pages/Build';
+import DockSidebar from './components/DockSidebar';
 import './index.css';
 
 const AppRoutes = () => {
@@ -60,6 +61,7 @@ const AppRoutes = () => {
 
   return (
     <div className="App">
+      <DockSidebar />
       {isFeatureEnabled('chatbot') && <Chatbot />}
       <Routes>
         <Route
