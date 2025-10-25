@@ -17,6 +17,8 @@ import {
   FiMap,
   FiFileText,
   FiExternalLink,
+  FiMenu,
+  FiX,
 } from 'react-icons/fi';
 import buildDocumentation from '../data/buildDocumentation.json';
 import routesDataJson from '../data/routesData.json';
@@ -26,12 +28,16 @@ import '../styles/build.css';
 interface ContentItem {
   type: string;
   text?: string;
-  items?: string[] | ContentItem[];
+  items?: string[] | ContentItem[] | any[];
   code?: string;
   language?: string;
   number?: number;
   title?: string;
   solution?: string;
+  icon?: string;
+  description?: string;
+  command?: string;
+  extensions?: any[];
 }
 
 interface Section {
@@ -81,6 +87,7 @@ export default function Build() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSection, setActiveSection] = useState('prerequisites');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const sections: Section[] = buildDocumentation.sections;
 
@@ -220,6 +227,64 @@ export default function Build() {
           </div>
         );
 
+      case 'prerequisites-grid':
+        return (
+          <div key={index} className="prerequisites-grid">
+            {item.items?.map((prereq: any, i: number) => {
+              const PrereqIcon = iconMap[prereq.icon] || FiCheckCircle;
+              return (
+                <div key={i} className="prerequisite-card">
+                  <div className="prerequisite-icon">
+                    <PrereqIcon size={24} />
+                  </div>
+                  <div className="prerequisite-content">
+                    <h4>{prereq.title}</h4>
+                    <p>{prereq.description}</p>
+                    {prereq.command && (
+                      <code className="prerequisite-command">{prereq.command}</code>
+                    )}
+                    {prereq.downloadUrl && (
+                      <a
+                        href={prereq.downloadUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="prerequisite-download"
+                      >
+                        <FiDownload size={16} />
+                        Download
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+
+      case 'extensions-section':
+        return (
+          <div key={index} className="extensions-section">
+            <h4 className="extensions-title">{item.title}</h4>
+            <p className="extensions-description">{item.description}</p>
+            <div className="extensions-grid">
+              {item.extensions?.map((ext: any, i: number) => (
+                <div key={i} className="extension-card">
+                  <div className="extension-header">
+                    <FiPackage className="extension-icon" />
+                    <h5>{ext.name}</h5>
+                  </div>
+                  <p className="extension-description">{ext.description}</p>
+                  <code className="extension-id">{ext.id}</code>
+                  <a href={`vscode:extension/${ext.id}`} className="extension-install">
+                    <FiDownload size={14} />
+                    Install
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -228,9 +293,26 @@ export default function Build() {
   const currentSection = sections.find((s) => s.id === activeSection);
   const PageIcon = FiBook;
 
+  const handleSectionClick = (sectionId: string) => {
+    setActiveSection(sectionId);
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="build-page">
-      <div className="build-sidebar">
+      <div className="build-background">
+        <div className="build-gradient-orb build-orb-1"></div>
+        <div className="build-gradient-orb build-orb-2"></div>
+        <div className="build-gradient-orb build-orb-3"></div>
+      </div>
+      <button
+        className="sidebar-toggle"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        aria-label="Toggle sidebar"
+      >
+        {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
+      <div className={`build-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-search">
           <FiSearch />
           <input
@@ -247,7 +329,7 @@ export default function Build() {
               <button
                 key={section.id}
                 className={`nav-item ${activeSection === section.id ? 'active' : ''}`}
-                onClick={() => setActiveSection(section.id)}
+                onClick={() => handleSectionClick(section.id)}
               >
                 <SectionIcon size={18} />
                 <span>{section.title}</span>

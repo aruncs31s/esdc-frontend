@@ -8,182 +8,242 @@
       "icon": "FiCheckCircle",
       "content": [
         {
-          "type": "paragraph",
-          "text": "Before building the project, ensure you have the following installed on your system:"
-        },
-        {
-          "type": "list",
+          "type": "prerequisites-grid",
           "items": [
-            "Node.js 18.x or higher",
-            "npm 9.x or higher (comes with Node.js)",
-            "Git for version control",
-            "A code editor (VS Code recommended)"
+            {
+              "icon": "FiPackage",
+              "title": "Node.js 18+",
+              "description": "JavaScript runtime environment",
+              "command": "node --version",
+              "downloadUrl": "https://nodejs.org/en/download/"
+            },
+            {
+              "icon": "FiDownload",
+              "title": "npm 9+",
+              "description": "Package manager (comes with Node.js)",
+              "command": "npm --version",
+              "downloadUrl": "https://nodejs.org/en/download/"
+            },
+            {
+              "icon": "FiCode",
+              "title": "Git",
+              "description": "Version control system",
+              "command": "git --version",
+              "downloadUrl": "https://git-scm.com/downloads"
+            },
+            {
+              "icon": "FiTool",
+              "title": "VS Code",
+              "description": "Recommended code editor",
+              "command": "code --version",
+              "downloadUrl": "https://code.visualstudio.com/download"
+            }
           ]
         },
         {
-          "type": "subsection",
+          "type": "extensions-section",
           "title": "Recommended VS Code Extensions",
-          "items": [
+          "description": "Install these extensions in VS Code for optimal development experience",
+          "extensions": [
             {
-              "type": "paragraph",
-              "text": "Install these extensions in VS Code for optimal development experience:"
+              "name": "ES7+ React/Redux/React-Native snippets",
+              "id": "dsznajder.es7-react-js-snippets",
+              "description": "JavaScript and React/Redux snippets"
             },
             {
-              "type": "list",
-              "items": [
-                "ES7+ React/Redux/React-Native snippets - dsznajder.es7-react-js-snippets",
-                "Prettier - Code formatter - esbenp.prettier-vscode",
-                "ESLint - Microsoft.vscode-eslint",
-                "TypeScript Vue Plugin (Volar) - Vue.volar",
-                "Tailwind CSS IntelliSense - bradlc.vscode-tailwindcss",
-                "Thunder Client - rangav.vscode-thunder-client (API testing)",
-                "Rest Client - humao.rest-client (REST API testing)",
-                "GitLens - eamodio.gitlens",
-                "Git Graph - mhutchie.git-graph",
-                "Vite - antfu.vite"
-              ]
+              "name": "Prettier - Code formatter",
+              "id": "esbenp.prettier-vscode",
+              "description": "Code formatter using prettier"
+            },
+            {
+              "name": "ESLint",
+              "id": "dbaeumer.vscode-eslint",
+              "description": "Integrates ESLint JavaScript"
+            },
+            {
+              "name": "TypeScript Vue Plugin (Volar)",
+              "id": "Vue.volar",
+              "description": "Vue 3 language support"
+            },
+            {
+              "name": "Tailwind CSS IntelliSense",
+              "id": "bradlc.vscode-tailwindcss",
+              "description": "Intelligent Tailwind CSS tooling"
+            },
+            {
+              "name": "Thunder Client",
+              "id": "rangav.vscode-thunder-client",
+              "description": "Lightweight REST API Client"
+            },
+            {
+              "name": "Rest Client",
+              "id": "humao.rest-client",
+              "description": "REST Client for VS Code"
+            },
+            {
+              "name": "GitLens",
+              "id": "eamodio.gitlens",
+              "description": "Supercharge Git capabilities"
+            },
+            {
+              "name": "Git Graph",
+              "id": "mhutchie.git-graph",
+              "description": "View a Git Graph of your repository"
+            },
+            {
+              "name": "Vite",
+              "id": "antfu.vite",
+              "description": "Vite integration for VS Code"
             }
           ]
         }
       ]
     },
     {
-      "id": "installation",
-      "title": "Installation",
-      "icon": "FiDownload",
-      "content": [
-        {
-          "type": "paragraph",
-          "text": "Follow these steps to set up the project on your local machine:"
-        },
-        {
-          "type": "step",
-          "number": 1,
-          "title": "Clone the repository",
-          "code": "git clone https://github.com/aruncs31s/esdc-frontend.git\ncd esdc-frontend"
-        },
-        {
-          "type": "step",
-          "number": 2,
-          "title": "Install dependencies",
-          "code": "npm install"
-        },
-        {
-          "type": "step",
-          "number": 3,
-          "title": "Configure environment variables",
-          "code": "cp .env.example .env",
-          "text": "Edit the .env file with your configuration values"
-        }
-      ]
-    },
-    {
-      "id": "development",
-      "title": "Development Build",
+      "id": "frontend",
+      "title": "Frontend Setup & Build",
       "icon": "FiCode",
       "content": [
         {
           "type": "paragraph",
-          "text": "To start the development server with hot module replacement:"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "code": "npm run dev"
-        },
-        {
-          "type": "paragraph",
-          "text": "The application will be available at http://localhost:5173"
-        },
-        {
-          "type": "note",
-          "text": "The development build includes source maps and detailed error messages for debugging."
-        }
-      ]
-    },
-    {
-      "id": "production",
-      "title": "Production Build",
-      "icon": "FiPackage",
-      "content": [
-        {
-          "type": "paragraph",
-          "text": "To create an optimized production build:"
-        },
-        {
-          "type": "step",
-          "number": 1,
-          "title": "Run the build command",
-          "code": "npm run build"
-        },
-        {
-          "type": "paragraph",
-          "text": "This command does two things:"
-        },
-        {
-          "type": "list",
-          "items": [
-            "Runs TypeScript compiler (tsc) to check types",
-            "Builds the project using Vite with optimizations"
-          ]
-        },
-        {
-          "type": "step",
-          "number": 2,
-          "title": "Preview the production build locally",
-          "code": "npm run preview"
-        },
-        {
-          "type": "paragraph",
-          "text": "The built files will be in the dist/ directory, ready for deployment."
-        }
-      ]
-    },
-    {
-      "id": "testing",
-      "title": "Testing",
-      "icon": "FiCheckSquare",
-      "content": [
-        {
-          "type": "paragraph",
-          "text": "Run the test suite to ensure code quality:"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "code": "# Run tests once\nnpm run test\n\n# Run tests in watch mode\nnpm run test:watch\n\n# Generate coverage report\nnpm run test:coverage"
-        }
-      ]
-    },
-    {
-      "id": "linting",
-      "title": "Code Quality",
-      "icon": "FiAlertCircle",
-      "content": [
-        {
-          "type": "paragraph",
-          "text": "Maintain code quality with linting and formatting:"
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "code": "# Run ESLint\nnpm run lint\n\n# Format code with Prettier\nnpm run format\n\n# Check formatting without changes\nnpm run format:check"
-        }
-      ]
-    },
-    {
-      "id": "deployment",
-      "title": "Deployment",
-      "icon": "FiUploadCloud",
-      "content": [
-        {
-          "type": "paragraph",
-          "text": "Deploy your production build to various platforms:"
+          "text": "Complete guide for setting up and building the React frontend application."
         },
         {
           "type": "subsection",
-          "title": "Vercel (Recommended)",
+          "title": "Installation",
           "items": [
+            {
+              "type": "paragraph",
+              "text": "Follow these steps to set up the frontend project on your local machine:"
+            },
+            {
+              "type": "step",
+              "number": 1,
+              "title": "Clone the repository",
+              "code": "git clone https://github.com/aruncs31s/esdc-frontend.git\ncd esdc-frontend"
+            },
+            {
+              "type": "step",
+              "number": 2,
+              "title": "Install dependencies",
+              "code": "npm install"
+            },
+            {
+              "type": "step",
+              "number": 3,
+              "title": "Configure environment variables",
+              "code": "cp .env.example .env",
+              "text": "Edit the .env file with your configuration values"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Development Build",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "To start the development server with hot module replacement:"
+            },
+            {
+              "type": "code",
+              "language": "bash",
+              "code": "npm run dev"
+            },
+            {
+              "type": "paragraph",
+              "text": "The application will be available at http://localhost:5173"
+            },
+            {
+              "type": "note",
+              "text": "The development build includes source maps and detailed error messages for debugging."
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Production Build",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "To create an optimized production build:"
+            },
+            {
+              "type": "step",
+              "number": 1,
+              "title": "Run the build command",
+              "code": "npm run build"
+            },
+            {
+              "type": "paragraph",
+              "text": "This command does two things:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Runs TypeScript compiler (tsc) to check types",
+                "Builds the project using Vite with optimizations"
+              ]
+            },
+            {
+              "type": "step",
+              "number": 2,
+              "title": "Preview the production build locally",
+              "code": "npm run preview"
+            },
+            {
+              "type": "paragraph",
+              "text": "The built files will be in the dist/ directory, ready for deployment."
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Testing",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Run the test suite to ensure code quality:"
+            },
+            {
+              "type": "code",
+              "language": "bash",
+              "code": "# Run tests once\nnpm run test\n\n# Run tests in watch mode\nnpm run test:watch\n\n# Generate coverage report\nnpm run test:coverage"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Code Quality",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Maintain code quality with linting and formatting:"
+            },
+            {
+              "type": "code",
+              "language": "bash",
+              "code": "# Run ESLint\nnpm run lint\n\n# Format code with Prettier\nnpm run format\n\n# Check formatting without changes\nnpm run format:check"
+            }
+          ]
+        },
+        {
+          "type": "subsection",
+          "title": "Frontend Deployment",
+          "items": [
+            {
+              "type": "paragraph",
+              "text": "Deploy your production build to various platforms:"
+            },
+            {
+              "type": "option",
+              "title": "Vercel (Recommended)",
+              "items": [
+                "Seamless Git integration",
+                "Automatic deployments on push",
+                "Edge functions and serverless support"
+              ]
+            },
             {
               "type": "step",
               "number": 1,
@@ -195,36 +255,34 @@
               "number": 2,
               "title": "Deploy",
               "code": "vercel"
-            }
-          ]
-        },
-        {
-          "type": "subsection",
-          "title": "Netlify",
-          "items": [
-            {
-              "type": "paragraph",
-              "text": "Build command: npm run build"
             },
             {
-              "type": "paragraph",
-              "text": "Publish directory: dist"
-            }
-          ]
-        },
-        {
-          "type": "subsection",
-          "title": "GitHub Pages",
-          "items": [
+              "type": "option",
+              "title": "Netlify",
+              "items": [
+                "Build command: npm run build",
+                "Publish directory: dist",
+                "Easy rollback and preview deployments"
+              ]
+            },
             {
-              "type": "step",
-              "number": 1,
-              "title": "Update vite.config.ts with base path",
-              "code": "export default defineConfig({\n  base: '/esdc-frontend/',\n  // ... other config\n})"
+              "type": "option",
+              "title": "GitHub Pages",
+              "items": [
+                "Free hosting with GitHub",
+                "Automatic deployments with GitHub Actions",
+                "Custom domain support"
+              ]
             },
             {
               "type": "step",
-              "number": 2,
+              "number": 3,
+              "title": "GitHub Pages Setup",
+              "code": "# Update vite.config.ts with base path\nexport default defineConfig({\n  base: '/esdc-frontend/',\n  // ... other config\n})"
+            },
+            {
+              "type": "step",
+              "number": 4,
               "title": "Build and deploy",
               "code": "npm run build\nnpx gh-pages -d dist"
             }
@@ -286,6 +344,15 @@
                 "Modern, fast, and type-safe",
                 "Automatic API documentation",
                 "Great for machine learning integration"
+              ]
+            },
+            {
+              "type": "option",
+              "title": "Go + Gin",
+              "items": [
+                "High performance and concurrency",
+                "Minimal dependencies",
+                "Excellent for microservices"
               ]
             },
             {

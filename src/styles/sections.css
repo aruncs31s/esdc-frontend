@@ -430,7 +430,6 @@ section {
 .contact-icon {
   font-size: 1.8rem;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
   border-radius: 12px;
   min-width: 60px;
   height: 60px;
