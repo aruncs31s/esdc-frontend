@@ -231,10 +231,10 @@ const LMS = () => {
                     style={{
                       fontSize: '1.5rem',
                       fontWeight: '700',
-                      color: 'var(--blue)',
+                      color: course.isFree ? 'var(--green)' : 'var(--blue)',
                     }}
                   >
-                    ${course.price}
+                    {course.isFree ? 'FREE' : `₹${course.price.toLocaleString()}`}
                   </div>
                   <Link
                     to={`/lms/${course.id}`}

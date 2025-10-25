@@ -9,9 +9,31 @@ export const mockCourses = [
     enrolled: 245,
     rating: 4.8,
     image: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?w=400&h=300&fit=crop',
-    price: 49.99,
+    price: 2499, // INR
+    isFree: true,
     lessons: 24,
-    category: 'Embedded Systems'
+    category: 'Embedded Systems',
+    views: 1250,
+    likes: 342,
+    comments: 45,
+    modules: [
+      { id: 1, title: 'Arduino Basics', duration: '2 weeks', lessons: 8 },
+      { id: 2, title: 'Digital I/O', duration: '2 weeks', lessons: 8 },
+      { id: 3, title: 'Analog I/O', duration: '2 weeks', lessons: 8 },
+    ],
+    exams: [
+      { id: 1, title: 'Basics Quiz', duration: '30 min', questions: 20 },
+      { id: 2, title: 'Final Project', duration: '2 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Mid-term Test', duration: '1 hour', questions: 30 },
+      { id: 2, title: 'Final Test', duration: '2 hours', questions: 50 },
+    ],
+    commentsData: [
+      { user: 'John Doe', avatar: 'JD', text: 'Great course! Very easy to follow.', rating: 5 },
+      { user: 'Jane Smith', avatar: 'JS', text: 'Loved the hands-on projects!', rating: 4 },
+      { user: 'Mike Johnson', avatar: 'MJ', text: 'Perfect for beginners like me.', rating: 5 },
+    ],
   },
   {
     id: 2,
@@ -23,9 +45,32 @@ export const mockCourses = [
     enrolled: 189,
     rating: 4.9,
     image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&h=300&fit=crop',
-    price: 79.99,
+    price: 3999, // INR
+    isFree: false,
     lessons: 32,
-    category: 'IoT'
+    category: 'IoT',
+    views: 892,
+    likes: 267,
+    comments: 38,
+    modules: [
+      { id: 1, title: 'Setup & Installation', duration: '1 week', lessons: 4 },
+      { id: 2, title: 'GPIO Programming', duration: '2 weeks', lessons: 8 },
+      { id: 3, title: 'Web Server', duration: '2 weeks', lessons: 8 },
+      { id: 4, title: 'Projects', duration: '3 weeks', lessons: 12 },
+    ],
+    exams: [
+      { id: 1, title: 'Setup Quiz', duration: '20 min', questions: 15 },
+      { id: 2, title: 'GPIO Test', duration: '45 min', questions: 25 },
+      { id: 3, title: 'Final Project', duration: '3 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Mid-term Test', duration: '1.5 hours', questions: 40 },
+      { id: 2, title: 'Final Test', duration: '2.5 hours', questions: 60 },
+    ],
+    commentsData: [
+      { user: 'Alice Wong', avatar: 'AW', text: 'Excellent project-based learning!', rating: 5 },
+      { user: 'Bob Lee', avatar: 'BL', text: 'Good content, challenging exercises.', rating: 4 },
+    ],
   },
   {
     id: 3,
@@ -37,9 +82,31 @@ export const mockCourses = [
     enrolled: 156,
     rating: 4.7,
     image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop',
-    price: 99.99,
+    price: 4999, // INR
+    isFree: false,
     lessons: 40,
-    category: 'Hardware Design'
+    category: 'Hardware Design',
+    views: 756,
+    likes: 198,
+    comments: 29,
+    modules: [
+      { id: 1, title: 'Design Principles', duration: '2 weeks', lessons: 8 },
+      { id: 2, title: 'Schematic Design', duration: '3 weeks', lessons: 12 },
+      { id: 3, title: 'PCB Layout', duration: '3 weeks', lessons: 12 },
+      { id: 4, title: 'Advanced Techniques', duration: '2 weeks', lessons: 8 },
+    ],
+    exams: [
+      { id: 1, title: 'Design Quiz', duration: '30 min', questions: 20 },
+      { id: 2, title: 'Schematic Test', duration: '1 hour', questions: 30 },
+      { id: 3, title: 'Final Design Project', duration: '4 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Module Tests', duration: '2 hours', questions: 45 },
+      { id: 2, title: 'Comprehensive Final', duration: '3 hours', questions: 70 },
+    ],
+    commentsData: [
+      { user: 'Tom Brady', avatar: 'TB', text: 'Professional-level content!', rating: 5 },
+    ],
   },
   {
     id: 4,
@@ -51,9 +118,34 @@ export const mockCourses = [
     enrolled: 312,
     rating: 4.9,
     image: 'https://images.unsplash.com/photo-1608564697071-ddf911d81370?w=400&h=300&fit=crop',
-    price: 69.99,
+    price: 0, // Free course
+    isFree: true,
     lessons: 28,
-    category: 'IoT'
+    category: 'IoT',
+    views: 1543,
+    likes: 478,
+    comments: 67,
+    modules: [
+      { id: 1, title: 'ESP32 Basics', duration: '1 week', lessons: 4 },
+      { id: 2, title: 'Sensors & Hardware', duration: '2 weeks', lessons: 8 },
+      { id: 3, title: 'Cloud Integration', duration: '2 weeks', lessons: 8 },
+      { id: 4, title: 'Real Projects', duration: '2 weeks', lessons: 8 },
+    ],
+    exams: [
+      { id: 1, title: 'Basics Quiz', duration: '25 min', questions: 18 },
+      { id: 2, title: 'Sensors Test', duration: '45 min', questions: 28 },
+      { id: 3, title: 'Cloud Test', duration: '50 min', questions: 30 },
+      { id: 4, title: 'Final Capstone', duration: '3 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Midterm', duration: '1.5 hours', questions: 45 },
+      { id: 2, title: 'Final', duration: '2.5 hours', questions: 65 },
+    ],
+    commentsData: [
+      { user: 'Priya Sharma', avatar: 'PS', text: 'Best IoT course ever! Free too!', rating: 5 },
+      { user: 'Raj Patel', avatar: 'RP', text: 'Cloud integration part is amazing.', rating: 5 },
+      { user: 'Sofia Garcia', avatar: 'SG', text: 'Practical and well-structured.', rating: 4 },
+    ],
   },
   {
     id: 5,
@@ -65,9 +157,32 @@ export const mockCourses = [
     enrolled: 198,
     rating: 4.8,
     image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=300&fit=crop',
-    price: 89.99,
+    price: 4499, // INR
+    isFree: false,
     lessons: 48,
-    category: 'Programming'
+    category: 'Programming',
+    views: 1089,
+    likes: 312,
+    comments: 51,
+    modules: [
+      { id: 1, title: 'C Fundamentals', duration: '2 weeks', lessons: 8 },
+      { id: 2, title: 'Pointers & Memory', duration: '3 weeks', lessons: 12 },
+      { id: 3, title: 'Data Structures', duration: '3 weeks', lessons: 12 },
+      { id: 4, title: 'Embedded Specific', duration: '4 weeks', lessons: 16 },
+    ],
+    exams: [
+      { id: 1, title: 'Basics Quiz', duration: '30 min', questions: 22 },
+      { id: 2, title: 'Pointers Test', duration: '1 hour', questions: 35 },
+      { id: 3, title: 'Data Structures', duration: '1 hour', questions: 30 },
+      { id: 4, title: 'Final Project', duration: '4 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Midterm', duration: '2 hours', questions: 50 },
+      { id: 2, title: 'Final', duration: '3 hours', questions: 75 },
+    ],
+    commentsData: [
+      { user: 'Alex Turner', avatar: 'AT', text: 'Most comprehensive C course!', rating: 5 },
+    ],
   },
   {
     id: 6,
@@ -79,9 +194,30 @@ export const mockCourses = [
     enrolled: 134,
     rating: 4.9,
     image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop',
-    price: 119.99,
+    price: 5999, // INR
+    isFree: false,
     lessons: 45,
-    category: 'Robotics'
+    category: 'Robotics',
+    views: 645,
+    likes: 189,
+    comments: 26,
+    modules: [
+      { id: 1, title: 'ROS Basics', duration: '2 weeks', lessons: 8 },
+      { id: 2, title: 'Robot Simulation', duration: '2 weeks', lessons: 8 },
+      { id: 3, title: 'Autonomous Navigation', duration: '3 weeks', lessons: 12 },
+      { id: 4, title: 'Advanced Projects', duration: '3 weeks', lessons: 17 },
+    ],
+    exams: [
+      { id: 1, title: 'ROS Fundamentals', duration: '45 min', questions: 28 },
+      { id: 2, title: 'Simulation Test', duration: '1 hour', questions: 32 },
+      { id: 3, title: 'Navigation Challenge', duration: '2 hours', questions: 1 },
+      { id: 4, title: 'Final Capstone', duration: '4 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Midterm', duration: '2 hours', questions: 55 },
+      { id: 2, title: 'Final', duration: '3 hours', questions: 80 },
+    ],
+    commentsData: [{ user: 'Chris Brown', avatar: 'CB', text: 'Robotics made simple!', rating: 5 }],
   },
   {
     id: 7,
@@ -93,9 +229,37 @@ export const mockCourses = [
     enrolled: 278,
     rating: 4.6,
     image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop',
-    price: 39.99,
+    price: 0, // Free course
+    isFree: true,
     lessons: 20,
-    category: 'Embedded Systems'
+    category: 'Embedded Systems',
+    views: 1456,
+    likes: 421,
+    comments: 58,
+    modules: [
+      { id: 1, title: 'Sensor Types', duration: '1 week', lessons: 4 },
+      { id: 2, title: 'Analog Sensors', duration: '1 week', lessons: 4 },
+      { id: 3, title: 'Digital Sensors', duration: '1 week', lessons: 4 },
+      { id: 4, title: 'Data Integration', duration: '2 weeks', lessons: 8 },
+    ],
+    exams: [
+      { id: 1, title: 'Sensor Types Quiz', duration: '20 min', questions: 15 },
+      { id: 2, title: 'Analog Sensors Test', duration: '40 min', questions: 25 },
+      { id: 3, title: 'Final Project', duration: '2 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Unit Tests', duration: '1 hour', questions: 35 },
+      { id: 2, title: 'Final Test', duration: '1.5 hours', questions: 50 },
+    ],
+    commentsData: [
+      { user: 'Lisa Chen', avatar: 'LC', text: 'Free and amazing! Highly recommended.', rating: 5 },
+      {
+        user: 'Marco Rossi',
+        avatar: 'MR',
+        text: 'Practical sensor examples are great.',
+        rating: 4,
+      },
+    ],
   },
   {
     id: 8,
@@ -107,8 +271,32 @@ export const mockCourses = [
     enrolled: 89,
     rating: 4.8,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop',
-    price: 149.99,
+    price: 7499, // INR
+    isFree: false,
     lessons: 56,
-    category: 'Hardware Design'
-  }
+    category: 'Hardware Design',
+    views: 534,
+    likes: 156,
+    comments: 22,
+    modules: [
+      { id: 1, title: 'Verilog Basics', duration: '2 weeks', lessons: 8 },
+      { id: 2, title: 'Combinational Logic', duration: '3 weeks', lessons: 12 },
+      { id: 3, title: 'Sequential Logic', duration: '3 weeks', lessons: 12 },
+      { id: 4, title: 'FPGA Implementation', duration: '3 weeks', lessons: 12 },
+      { id: 5, title: 'Advanced Projects', duration: '3 weeks', lessons: 12 },
+    ],
+    exams: [
+      { id: 1, title: 'Verilog Quiz', duration: '35 min', questions: 25 },
+      { id: 2, title: 'Logic Design', duration: '1.5 hours', questions: 40 },
+      { id: 3, title: 'FPGA Challenge', duration: '2 hours', questions: 1 },
+      { id: 4, title: 'Final Capstone', duration: '4 hours', questions: 1 },
+    ],
+    tests: [
+      { id: 1, title: 'Midterm', duration: '2 hours', questions: 60 },
+      { id: 2, title: 'Final', duration: '3 hours', questions: 85 },
+    ],
+    commentsData: [
+      { user: 'Nathan Drake', avatar: 'ND', text: 'Complex but thorough course!', rating: 4 },
+    ],
+  },
 ];
