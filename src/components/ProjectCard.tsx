@@ -19,81 +19,58 @@ const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
   };
 
   return (
-    <div className="group" style={{ animation: `slideUp 0.6s ease-out ${index * 0.1}s both` }}>
-      <div
-        className="bg-gradient-to-br from-slate-900/80 to-slate-800 border border-slate-700/50 rounded-xl overflow-hidden cursor-pointer transition-all duration-500 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-1"
-        onClick={handleCardClick}
-      >
-        {/* Image Section */}
-        <div className="relative h-44 overflow-hidden bg-slate-950">
+    <div
+      className="project-card-modern"
+      style={{ animation: `slideUp 0.6s ease-out ${index * 0.1}s both` }}
+    >
+      <div className="project-card-inner" onClick={handleCardClick}>
+        <div className="project-card-image">
           <img
             src={
               project.image ||
               'https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0'
             }
             alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" />
-
-          {/* Status Badge */}
+          <div className="project-card-overlay" />
           {project.status && (
-            <div className="absolute top-3 left-3">
-              <span className="inline-block px-3 py-1 text-xs font-bold bg-blue-500 text-white rounded-full shadow-lg">
-                {project.status.replace(/_/g, ' ')}
-              </span>
+            <div className="project-card-status">
+              <span>{project.status.replace(/_/g, ' ')}</span>
             </div>
           )}
         </div>
 
-        {/* Content Section */}
-        <div className="p-4 flex flex-col gap-3 min-h-48">
-          {/* Title */}
+        <div className="project-card-content">
           <div>
-            <h3 className="text-base font-bold text-white line-clamp-2 group-hover:text-blue-300 transition-colors">
-              {project.title}
-            </h3>
-            {project.category && (
-              <p className="text-xs text-blue-400 mt-1 font-semibold uppercase tracking-wide">
-                {project.category}
-              </p>
-            )}
+            <h3 className="project-card-title">{project.title}</h3>
+            {project.category && <p className="project-card-category">{project.category}</p>}
           </div>
 
-          {/* Description */}
-          {project.description && (
-            <p className="text-sm text-gray-300 line-clamp-2 flex-grow">{project.description}</p>
-          )}
+          {project.description && <p className="project-card-description">{project.description}</p>}
 
-          {/* Technologies */}
           {project.technologies && project.technologies.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="project-card-tech">
               {project.technologies.slice(0, 3).map((tech, idx) => (
-                <span
-                  key={idx}
-                  className="px-2.5 py-1 text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/40 rounded-lg"
-                >
+                <span key={idx} className="tech-badge">
                   {tech.name}
                 </span>
               ))}
               {project.technologies.length > 3 && (
-                <span className="px-2.5 py-1 text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-lg">
+                <span className="tech-badge tech-badge-more">
                   +{project.technologies.length - 3}
                 </span>
               )}
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex gap-2 mt-auto pt-2">
+          <div className="project-card-actions">
             {project.github_link && (
               <a
                 href={project.github_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-700 text-white hover:bg-slate-600 border border-slate-600 hover:border-slate-500 transition-all no-underline shadow-sm hover:shadow-md"
+                className="project-btn project-btn-secondary"
                 onClick={(e) => e.stopPropagation()}
-                style={{ textDecoration: 'none' }}
               >
                 <FaGithub size={13} />
                 Code
@@ -104,16 +81,15 @@ const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
                 href={project.live_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400 transition-all no-underline shadow-sm hover:shadow-md hover:shadow-blue-500/50"
+                className="project-btn project-btn-primary"
                 onClick={(e) => e.stopPropagation()}
-                style={{ textDecoration: 'none' }}
               >
                 <FaExternalLinkAlt size={13} />
                 Demo
               </a>
             )}
             {!project.github_link && !project.live_url && (
-              <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400 transition-all shadow-sm hover:shadow-md hover:shadow-blue-500/50">
+              <button className="project-btn project-btn-primary">
                 Details
                 <FaArrowRight size={12} />
               </button>
@@ -124,14 +100,165 @@ const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
 
       <style>{`
         @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .project-card-modern {
+          height: 100%;
+        }
+        .project-card-inner {
+          background: var(--base);
+          backdrop-filter: blur(20px);
+          border: 1px solid var(--surface0);
+          border-radius: 16px;
+          overflow: hidden;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        .project-card-inner:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+          border-color: var(--blue);
+        }
+        .project-card-image {
+          position: relative;
+          height: 180px;
+          overflow: hidden;
+          background: var(--surface0);
+        }
+        .project-card-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+        .project-card-inner:hover .project-card-image img {
+          transform: scale(1.1);
+        }
+        .project-card-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, var(--base), transparent);
+        }
+        .project-card-status {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+        }
+        .project-card-status span {
+          display: inline-block;
+          padding: 6px 12px;
+          font-size: 11px;
+          font-weight: 600;
+          background: var(--blue);
+          color: white;
+          border-radius: 20px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          text-transform: uppercase;
+        }
+        .project-card-content {
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          flex: 1;
+        }
+        .project-card-title {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin: 0;
+          line-height: 1.3;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          transition: color 0.3s ease;
+        }
+        .project-card-inner:hover .project-card-title {
+          color: var(--blue);
+        }
+        .project-card-category {
+          font-size: 11px;
+          color: var(--blue);
+          margin: 4px 0 0 0;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .project-card-description {
+          font-size: 13px;
+          color: var(--text-secondary);
+          line-height: 1.5;
+          margin: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          flex-grow: 1;
+        }
+        .project-card-tech {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+        .tech-badge {
+          padding: 4px 10px;
+          font-size: 11px;
+          font-weight: 600;
+          background: rgba(137, 180, 250, 0.15);
+          color: var(--blue);
+          border: 1px solid rgba(137, 180, 250, 0.3);
+          border-radius: 8px;
+        }
+        .tech-badge-more {
+          background: rgba(203, 166, 247, 0.15);
+          color: var(--mauve);
+          border-color: rgba(203, 166, 247, 0.3);
+        }
+        .project-card-actions {
+          display: flex;
+          gap: 8px;
+          margin-top: auto;
+          padding-top: 8px;
+        }
+        .project-btn {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 10px 16px;
+          font-size: 12px;
+          font-weight: 600;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+        .project-btn-secondary {
+          background: var(--surface0);
+          color: var(--text-primary);
+          border: 1px solid var(--surface1);
+        }
+        .project-btn-secondary:hover {
+          background: var(--surface1);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .project-btn-primary {
+          background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+          color: white;
+          box-shadow: 0 4px 12px rgba(137, 180, 250, 0.3);
+        }
+        .project-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(137, 180, 250, 0.4);
         }
       `}</style>
     </div>

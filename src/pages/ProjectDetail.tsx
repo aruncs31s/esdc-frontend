@@ -49,7 +49,9 @@ const ProjectDetail = () => {
         // const projectData = Project.fromAPI(mockProjectData);
         setProject(projectData);
         // Increment views
-        projectData.incrementViews();
+        if (projectData && typeof projectData.incrementViews === 'function') {
+          projectData.incrementViews();
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load project');
       } finally {

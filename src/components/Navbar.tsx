@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
 import {
@@ -23,10 +23,33 @@ export function Header() {
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showFloatingNav, setShowFloatingNav] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 10);
+
+      // Show/hide floating nav based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setShowFloatingNav(false); // Scrolling down
+      } else {
+        setShowFloatingNav(true); // Scrolling up
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
     <>
-      <header className="github-header">
+      <header
+        className={`github-header ${showFloatingNav ? 'visible' : 'hidden'} ${isScrolled ? 'scrolled' : ''}`}
+      >
         <div className="github-header-container">
           <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
@@ -48,6 +71,9 @@ export function Header() {
             </Link>
             <Link to="/shop" onClick={() => setMobileMenuOpen(false)}>
               Shop
+            </Link>
+            <Link to="/events" onClick={() => setMobileMenuOpen(false)}>
+              Events
             </Link>
 
             <div
@@ -76,7 +102,7 @@ export function Header() {
                     Forum
                   </Link>
                   <Link to="/docs" onClick={() => setMobileMenuOpen(false)}>
-                    Docs
+                    Documentation
                   </Link>
                 </div>
               )}

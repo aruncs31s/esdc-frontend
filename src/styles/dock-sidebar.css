@@ -5,6 +5,20 @@
   transform: translateY(-50%);
   z-index: 1000;
   pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dock-sidebar.hidden {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-100px);
+  pointer-events: none;
+}
+
+.dock-sidebar.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 .dock-container {
@@ -90,6 +104,53 @@
 
 .dark-mode .dock-item.active {
   background: rgba(137, 180, 250, 0.2);
+}
+
+.dock-toggle-btn {
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  font-size: 20px;
+  animation: fadeInScale 0.4s ease;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dock-toggle-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dock-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.dark-mode .dock-toggle-btn {
+  background: rgba(30, 30, 46, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Responsive */
