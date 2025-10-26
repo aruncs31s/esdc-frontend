@@ -4,7 +4,6 @@ import {
   FaHome,
   FaProjectDiagram,
   FaCalendarAlt,
-  FaGamepad,
   FaShoppingCart,
   FaGraduationCap,
   FaTrophy,
