@@ -13,28 +13,8 @@ interface Notice {
 const Hero = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showNotices, setShowNotices] = useState(true);
   const fullText = 'Embedded Systems Design Club';
   const typingSpeed = 80; // milliseconds per character
-
-  const importantNotices: Notice[] = [
-    {
-      id: 1,
-      type: 'event',
-      title: 'Annual Tech Fest 2024',
-      description: 'Join us for our biggest event of the year!',
-      date: 'Dec 15, 2024',
-      link: '/events',
-    },
-    {
-      id: 2,
-      type: 'notice',
-      title: 'Workshop Registration Open',
-      description: 'Arduino and IoT workshop - Limited seats available',
-      date: 'Dec 10, 2024',
-      link: '/workshops',
-    },
-  ];
 
   useEffect(() => {
     if (currentIndex < fullText.length) {
@@ -63,36 +43,6 @@ const Hero = () => {
 
   return (
     <section id="home" className="hero">
-      {showNotices && importantNotices.length > 0 && (
-        <div className="hero-notices-left">
-          <button
-            className="notices-close"
-            onClick={() => setShowNotices(false)}
-            aria-label="Close notices"
-          >
-            <FaTimes />
-          </button>
-          <div className="notices-container">
-            {importantNotices.map((notice) => (
-              <div key={notice.id} className="notice-card">
-                <div className="notice-icon">
-                  {notice.type === 'event' ? <FaCalendarCheck /> : <FaBullhorn />}
-                </div>
-                <div className="notice-content">
-                  <h4>{notice.title}</h4>
-                  <p>{notice.description}</p>
-                  {notice.date && <span className="notice-date">{notice.date}</span>}
-                </div>
-                {notice.link && (
-                  <a href={notice.link} className="notice-link">
-                    View →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
       <div className="container">
         <div className="hero-content">
           <h1 className="hero-title">

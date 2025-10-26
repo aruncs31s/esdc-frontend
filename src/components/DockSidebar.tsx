@@ -59,7 +59,7 @@ const DockSidebar = () => {
     { id: 'home', icon: <FaHome />, label: 'Home', path: '/' },
     { id: 'projects', icon: <FaProjectDiagram />, label: 'Projects', path: '/projects' },
     { id: 'events', icon: <FaCalendarAlt />, label: 'Events', path: '/events' },
-    { id: 'games', icon: <FaGamepad />, label: 'Games', path: '/games' },
+    // { id: 'games', icon: <FaGamepad />, label: 'Games', path: '/games' },
     { id: 'shop', icon: <FaShoppingCart />, label: 'Shop', path: '/shop' },
     { id: 'lms', icon: <FaGraduationCap />, label: 'LMS', path: '/lms' },
     { id: 'leaderboard', icon: <FaTrophy />, label: 'Leaderboard', path: '/leaderboard' },
