@@ -1,14 +1,4 @@
 import { useState, useEffect } from 'react';
-import { FaBullhorn, FaCalendarCheck, FaTimes } from 'react-icons/fa';
-
-interface Notice {
-  id: number;
-  type: 'event' | 'notice';
-  title: string;
-  description: string;
-  date?: string;
-  link?: string;
-}
 
 const Hero = () => {
   const [displayedText, setDisplayedText] = useState('');
