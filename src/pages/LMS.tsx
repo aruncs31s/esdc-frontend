@@ -1,23 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiBook, FiClock, FiUsers, FiStar, FiPlay, FiSearch } from 'react-icons/fi';
-import { mockCourses } from '../data/mockCourses';
+import { FiBook, FiClock, FiUsers, FiStar, FiPlay, FiSearch, FiLoader } from 'react-icons/fi';
+import applicationService from '@/application/ApplicationService';
+import { Course, CourseLevel } from '@/domain';
 
 const LMS = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [categories, setCategories] = useState<string[]>(['All']);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
-  const categories = ['All', ...Array.from(new Set(mockCourses.map((c) => c.category)))];
+  const levels = ['All', CourseLevel.BEGINNER, CourseLevel.INTERMEDIATE, CourseLevel.ADVANCED];
 
-  const filteredCourses = mockCourses.filter((course) => {
-    const matchesSearch =
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesLevel = selectedLevel === 'All' || course.level === selectedLevel;
-    const matchesCategory = selectedCategory === 'All' || course.category === selectedCategory;
-    return matchesSearch && matchesLevel && matchesCategory;
+  // Load courses and categories on mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Load courses with filters
+        const filters: { category?: string; level?: string; search?: string } = {};
+        if (selectedCategory !== 'All') {
+          filters.category = selectedCategory;
+        }
+        if (selectedLevel !== 'All') {
+          filters.level = selectedLevel;
+        }
+        if (searchTerm) {
+          filters.search = searchTerm;
+        }
+
+        const [coursesData, categoriesData] = await Promise.all([
+          applicationService.getAllCourses(filters),
+          applicationService.getCourseCategories(),
+        ]);
+
+        setCourses(coursesData);
+        setCategories(['All', ...categoriesData]);
+      } catch (err) {
+        console.error('Failed to load courses:', err);
+        setError('Failed to load courses. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [selectedCategory, selectedLevel, searchTerm]);
+
+  // Filter courses based on search (client-side filtering for immediate feedback)
+  const filteredCourses = courses.filter((course) => {
+    if (!searchTerm) return true;
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      course.title.toLowerCase().includes(searchLower) ||
+      course.description.toLowerCase().includes(searchLower)
+    );
   });
 
   return (
@@ -122,141 +164,160 @@ const LMS = () => {
           </div>
         </div>
 
-        <div className="projects-grid">
-          {filteredCourses.map((course) => (
-            <div key={course.id} className="project-card">
-              <div className="project-image">
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    left: '10px',
-                    background: 'var(--blue)',
-                    color: 'var(--base)',
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '20px',
-                    fontSize: '0.85rem',
-                    fontWeight: '600',
-                  }}
-                >
-                  {course.level}
-                </div>
-              </div>
-              <div className="project-content">
-                <h3>{course.title}</h3>
-                <p style={{ color: 'var(--subtext0)', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                  {course.description}
-                </p>
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--subtext0)' }}>
+            <FiLoader
+              size={48}
+              style={{ marginBottom: '1rem', animation: 'spin 1s linear infinite' }}
+            />
+            <p>Loading courses...</p>
+          </div>
+        )}
 
-                <div style={{ marginBottom: '1rem' }}>
-                  <p
+        {error && (
+          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--red)' }}>
+            <FiBook size={64} style={{ marginBottom: '1rem', opacity: 0.5 }} />
+            <p>{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="projects-grid">
+            {filteredCourses.map((course) => (
+              <div key={course.id} className="project-card">
+                <div className="project-image">
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div
                     style={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '10px',
+                      background: 'var(--blue)',
+                      color: 'var(--base)',
+                      padding: '0.25rem 0.75rem',
+                      borderRadius: '20px',
                       fontSize: '0.85rem',
-                      color: 'var(--subtext0)',
-                      marginBottom: '0.25rem',
+                      fontWeight: '600',
                     }}
                   >
-                    Instructor: <strong>{course.instructor}</strong>
+                    {course.level}
+                  </div>
+                </div>
+                <div className="project-content">
+                  <h3>{course.title}</h3>
+                  <p style={{ color: 'var(--subtext0)', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                    {course.description}
                   </p>
-                </div>
 
-                <div
-                  style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontSize: '0.9rem',
-                    }}
-                  >
-                    <FiClock color="var(--blue)" />
-                    <span>{course.duration}</span>
+                  <div style={{ marginBottom: '1rem' }}>
+                    <p
+                      style={{
+                        fontSize: '0.85rem',
+                        color: 'var(--subtext0)',
+                        marginBottom: '0.25rem',
+                      }}
+                    >
+                      Instructor: <strong>{course.instructor}</strong>
+                    </p>
                   </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontSize: '0.9rem',
-                    }}
-                  >
-                    <FiBook color="var(--mauve)" />
-                    <span>{course.lessons} lessons</span>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontSize: '0.9rem',
-                    }}
-                  >
-                    <FiUsers color="var(--green)" />
-                    <span>{course.enrolled} enrolled</span>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontSize: '0.9rem',
-                    }}
-                  >
-                    <FiStar color="var(--yellow)" fill="var(--yellow)" />
-                    <span>{course.rating}</span>
-                  </div>
-                </div>
 
-                <div className="project-tags" style={{ marginBottom: '1rem' }}>
-                  <span className="tag">{course.category}</span>
-                </div>
+                  <div
+                    style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.9rem',
+                      }}
+                    >
+                      <FiClock color="var(--blue)" />
+                      <span>{course.duration}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.9rem',
+                      }}
+                    >
+                      <FiBook color="var(--mauve)" />
+                      <span>{course.lessons} lessons</span>
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.9rem',
+                      }}
+                    >
+                      <FiUsers color="var(--green)" />
+                      <span>{course.enrolled} enrolled</span>
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.9rem',
+                      }}
+                    >
+                      <FiStar color="var(--yellow)" fill="var(--yellow)" />
+                      <span>{course.rating}</span>
+                    </div>
+                  </div>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingTop: '1rem',
-                    borderTop: '1px solid var(--surface0)',
-                  }}
-                >
+                  <div className="project-tags" style={{ marginBottom: '1rem' }}>
+                    <span className="tag">{course.category}</span>
+                  </div>
+
                   <div
                     style={{
-                      fontSize: '1.5rem',
-                      fontWeight: '700',
-                      color: course.isFree ? 'var(--green)' : 'var(--blue)',
-                    }}
-                  >
-                    {course.isFree ? 'FREE' : `₹${course.price.toLocaleString()}`}
-                  </div>
-                  <Link
-                    to={`/lms/${course.id}`}
-                    className="btn btn-primary"
-                    style={{
-                      padding: '10px 20px',
-                      fontSize: '0.9rem',
                       display: 'flex',
+                      justifyContent: 'space-between',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      textDecoration: 'none',
+                      paddingTop: '1rem',
+                      borderTop: '1px solid var(--surface0)',
                     }}
                   >
-                    <FiPlay /> View Course
-                  </Link>
+                    <div
+                      style={{
+                        fontSize: '1.5rem',
+                        fontWeight: '700',
+                        color: course.isFreeAccess() ? 'var(--green)' : 'var(--blue)',
+                      }}
+                    >
+                      {course.getFormattedPrice()}
+                    </div>
+                    <Link
+                      to={`/lms/${course.id}`}
+                      className="btn btn-primary"
+                      style={{
+                        padding: '10px 20px',
+                        fontSize: '0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <FiPlay /> View Course
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        {filteredCourses.length === 0 && (
+        {!loading && !error && filteredCourses.length === 0 && (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--subtext0)' }}>
             <FiBook size={64} style={{ marginBottom: '1rem', opacity: 0.5 }} />
             <p>No courses found matching your criteria</p>
