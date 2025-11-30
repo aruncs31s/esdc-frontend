@@ -1,23 +1,26 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { ReactNode } from 'react';
+import { ReactNode, ReactElement } from 'react';
 
 interface ProtectedRouteProps {
   children: ReactNode;
   requiredRole?: string | null;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole = null }) => {
+const ProtectedRoute = ({ children, requiredRole = null }: ProtectedRouteProps): ReactElement => {
   const { isAuthenticated, user, loading } = useAuth();
 
   if (loading) {
     return (
-      <div className="loading-container" style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh'
-      }}>
+      <div
+        className="loading-container"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -34,8 +37,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };
-
 
 export default ProtectedRoute;

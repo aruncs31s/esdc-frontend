@@ -9,7 +9,9 @@ export const UserRole = {
   ADMIN: 'admin',
   USER: 'user',
   MODERATOR: 'moderator',
-};
+} as const;
+
+export type UserRoleType = (typeof UserRole)[keyof typeof UserRole];
 
 /**
  * User Status Enumeration
@@ -19,7 +21,39 @@ export const UserStatus = {
   INACTIVE: 'inactive',
   SUSPENDED: 'suspended',
   PENDING: 'pending',
-};
+} as const;
+
+export type UserStatusType = (typeof UserStatus)[keyof typeof UserStatus];
+
+/**
+ * User constructor data type
+ */
+export interface UserConstructorData {
+  id?: string | null;
+  name?: string;
+  username?: string;
+  email?: string | Email;
+  role?: string;
+  status?: string;
+  githubUsername?: string;
+  github_username?: string;
+  points?: number | Points;
+  completedChallenges?: number;
+  completed_challenges?: number;
+  avatar?: string | null;
+  bio?: string;
+  joinedDate?: string;
+  joined_date?: string;
+  lastActive?: string | null;
+  last_active?: string | null;
+  createdAt?: string;
+  created_at?: string;
+  updatedAt?: string;
+  updated_at?: string;
+  suspensionReason?: string | null;
+  suspension_reason?: string | null;
+  password?: string;
+}
 
 /**
  * User Entity (Aggregate Root)
@@ -44,25 +78,44 @@ export class User {
   suspensionReason: string | null;
   password?: string; // Optional, only for creation workflows
 
-  constructor(data: UserRegisterData | UserRegisterDataByAdmin | any = {}) {
-    this.id = data.id || null;
-    this.name = data.name || 'New User';
-    this.username = data.username || '';
+  constructor(data: UserConstructorData | UserRegisterData | UserRegisterDataByAdmin = {}) {
+    // Cast to UserConstructorData for easier property access
+    const d = data as UserConstructorData;
+
+    this.id = d.id ?? null;
+    this.name = d.name || 'New User';
+    this.username = d.username || '';
+
+    // Handle email - use temp email only if none provided
+    const emailValue = d.email instanceof Email ? d.email : d.email;
     this.email =
-      data.email instanceof Email ? data.email : new Email(data.email || 'temp@example.com');
-    this.role = data.role || UserRole.USER;
-    this.status = data.status || UserStatus.ACTIVE;
-    this.githubUsername = data.githubUsername || data.github_username || '';
-    this.points = data.points instanceof Points ? data.points : new Points(data.points || 0);
-    this.completedChallenges = data.completedChallenges || data.completed_challenges || 0;
-    this.avatar = data.avatar || `https://github.com/${this.githubUsername}.png?size=200` || null;
-    this.bio = data.bio || '';
-    this.joinedDate = data.joinedDate || data.joined_date || new Date().toISOString();
-    this.lastActive = data.lastActive || data.last_active || null;
-    this.createdAt = data.createdAt || data.created_at || new Date().toISOString();
-    this.updatedAt = data.updatedAt || data.updated_at || new Date().toISOString();
-    this.suspensionReason = data.suspensionReason || data.suspension_reason || null;
-    this.password = data.password || undefined; // Only for creation, not stored
+      emailValue instanceof Email ? emailValue : new Email(emailValue || 'temp@example.com');
+
+    this.role = d.role || UserRole.USER;
+    this.status = d.status || UserStatus.ACTIVE;
+    this.githubUsername = d.githubUsername || d.github_username || '';
+
+    const pointsValue = d.points;
+    this.points = pointsValue instanceof Points ? pointsValue : new Points(pointsValue || 0);
+
+    this.completedChallenges = d.completedChallenges || d.completed_challenges || 0;
+
+    // Fix avatar logic - only use GitHub avatar if githubUsername exists
+    if (d.avatar) {
+      this.avatar = d.avatar;
+    } else if (this.githubUsername) {
+      this.avatar = `https://github.com/${this.githubUsername}.png?size=200`;
+    } else {
+      this.avatar = null;
+    }
+
+    this.bio = d.bio || '';
+    this.joinedDate = d.joinedDate || d.joined_date || new Date().toISOString();
+    this.lastActive = d.lastActive || d.last_active || null;
+    this.createdAt = d.createdAt || d.created_at || new Date().toISOString();
+    this.updatedAt = d.updatedAt || d.updated_at || new Date().toISOString();
+    this.suspensionReason = d.suspensionReason || d.suspension_reason || null;
+    this.password = d.password; // Only for creation, not stored
   }
 
   // Business Logic Methods
@@ -232,7 +285,7 @@ export class User {
    * Validate user data
    */
   validate() {
-    const errors = [];
+    const errors: string[] = [];
 
     if (!this.username || this.username.length < 3) {
       errors.push('Username must be at least 3 characters long');
@@ -247,11 +300,13 @@ export class User {
       errors.push((error as Error).message);
     }
 
-    if (!Object.values(UserRole).includes(this.role)) {
+    const validRoles = Object.values(UserRole) as string[];
+    if (!validRoles.includes(this.role)) {
       errors.push('Invalid user role');
     }
 
-    if (!Object.values(UserStatus).includes(this.status)) {
+    const validStatuses = Object.values(UserStatus) as string[];
+    if (!validStatuses.includes(this.status)) {
       errors.push('Invalid user status');
     }
 

@@ -2,23 +2,24 @@ import { IUserRepository } from '@/domain/repositories/IUserRepository.js';
 import { User } from '@/domain/entities/User.js';
 import apiClient from '../api/ApiClient.js';
 import { UserSearchData } from '@/types/user.js';
-// import api from '../../services/api';
+
 /**
  * User Repository Implementation
  * Handles user data persistence via API
  */
-export class UserRepository extends IUserRepository {
+export class UserRepository implements IUserRepository {
   private api: typeof apiClient;
 
   constructor(client = apiClient) {
-    super();
     this.api = client;
   }
   // From this remove unwanted and only add wanted
 
   async searchUsers(query: string): Promise<UserSearchData[]> {
     try {
-      const response = await this.api.get(`/api/users/search?q=${encodeURIComponent(query)}`);
+      const response = await this.api.get<{ users: UserSearchData[] }>(
+        `/api/users/search?q=${encodeURIComponent(query)}`
+      );
       console.log('User search response:', response);
       const users = response.data?.users || [];
       return users as UserSearchData[];
@@ -36,8 +37,8 @@ export class UserRepository extends IUserRepository {
   async findAllProjects(filters = {}): Promise<User[]> {
     try {
       const params = new URLSearchParams(filters);
-      const response = await this.api.get(`/api/admin/users?${params}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<User[]>(`/api/admin/users?${params}`);
+      const data = response.data || [];
       return User.fromAPIArray(data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -49,8 +50,8 @@ export class UserRepository extends IUserRepository {
   async findAll(filters = {}): Promise<User[]> {
     try {
       const params = new URLSearchParams(filters);
-      const response = await this.api.get(`/api/admin/users?${params}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<User[]>(`/api/admin/users?${params}`);
+      const data = response.data || [];
       return User.fromAPIArray(data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -63,8 +64,8 @@ export class UserRepository extends IUserRepository {
    */
   async findById(id: number): Promise<User | null> {
     try {
-      const response = await this.api.get(`/api/admin/users/${id}`);
-      const data = response.data?.data || response.data;
+      const response = await this.api.get<User>(`/api/admin/users/${id}`);
+      const data = response.data;
       return User.fromAPI(data);
     } catch (error) {
       console.error(`Error fetching user ${id}:`, error);
@@ -77,8 +78,8 @@ export class UserRepository extends IUserRepository {
    */
   async findByEmail(email: string) {
     try {
-      const response = await this.api.get(`/api/admin/users?email=${email}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<User[]>(`/api/admin/users?email=${email}`);
+      const data = response.data || [];
       const users = User.fromAPIArray(data);
       return users.length > 0 ? users[0] : null;
     } catch (error) {
@@ -92,8 +93,8 @@ export class UserRepository extends IUserRepository {
    */
   async findByUsername(username: string) {
     try {
-      const response = await this.api.get(`/api/admin/users?username=${username}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<User[]>(`/api/admin/users?username=${username}`);
+      const data = response.data || [];
       const users = User.fromAPIArray(data);
       return users.length > 0 ? users[0] : null;
     } catch (error) {
@@ -109,13 +110,13 @@ export class UserRepository extends IUserRepository {
     try {
       if (user.id) {
         // Update existing user
-        const response = await this.api.put(`/api/admin/users/${user.id}`, user.toJSON());
-        const data = response.data?.data || response.data;
+        const response = await this.api.put<User>(`/api/admin/users/${user.id}`, user.toJSON());
+        const data = response.data;
         return User.fromAPI(data);
       } else {
         // Create new user
-        const response = await this.api.post('/api/admin/users', user.toJSON());
-        const data = response.data?.data || response.data;
+        const response = await this.api.post<User>('/api/admin/users', user.toJSON());
+        const data = response.data;
         return User.fromAPI(data);
       }
     } catch (error) {

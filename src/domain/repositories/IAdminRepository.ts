@@ -1,48 +1,22 @@
+import { Project } from '../entities/Project';
+import { ProjectDataForAdmin } from '@/types/project';
+import { UserDataForAdmin, UserRegisterDataByAdmin } from '@/types/user';
+import { statsForAdmin } from '@/types';
+
 /**
- * Project Repository Interface
- * Defines the contract for project data access
+ * Admin Repository Interface
+ * Defines the contract for admin data access
  */
-export class IAdminRepository {
-  async findAllProjects(_filters = {}): Promise<any[]> {
-    throw new Error('Method not implemented');
-  }
-
-  async findProjectById(_id: string): Promise<any> {
-    throw new Error('Method not implemented');
-  }
-
-  async findProjectByUserId(_userId: string): Promise<any[]> {
-    throw new Error('Method not implemented');
-  }
-
-  async findProjectByStatus(_status: string): Promise<any[]> {
-    throw new Error('Method not implemented');
-  }
-
-  async saveProject(_project: any): Promise<any> {
-    throw new Error('Method not implemented');
-  }
-
-  async deleteProject(_id: string): Promise<boolean> {
-    throw new Error('Method not implemented');
-  }
-  async findAllUsers(_filters = {}): Promise<any[]> {
-    throw new Error('Method not implemented');
-  }
-
-  async findUserById(_id: string): Promise<any> {
-    throw new Error('Method not implemented');
-  }
-
-  async saveUser(_user: any): Promise<any> {
-    throw new Error('Method not implemented');
-  }
-
-  async deleteUser(_id: string): Promise<boolean> {
-    throw new Error('Method not implemented');
-  }
-
-  async countUsers(): Promise<number> {
-    throw new Error('Method not implemented');
-  }
+export interface IAdminRepository {
+  findAllProjects(filters?: Record<string, unknown>): Promise<ProjectDataForAdmin[]>;
+  findById(id: string): Promise<Project | null>;
+  findByUserId(userId: string): Promise<Project[]>;
+  findByStatus(status: string): Promise<Project[]>;
+  saveProject(project: Project): Promise<Project>;
+  deleteProject(id: string): Promise<boolean>;
+  countProjects(): Promise<number>;
+  getAdminStats(filters?: Record<string, unknown>): Promise<statsForAdmin>;
+  findAllUsers(filters?: Record<string, unknown>): Promise<UserDataForAdmin[]>;
+  createUser(userData: UserRegisterDataByAdmin): Promise<UserRegisterDataByAdmin>;
+  createProject(userId: string, projectData: Record<string, unknown>): Promise<Project>;
 }

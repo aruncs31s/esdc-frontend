@@ -6,11 +6,10 @@ import apiClient from '../api/ApiClient';
  * Event Repository Implementation
  * Handles event data persistence via API
  */
-export class EventRepository extends IEventRepository {
+export class EventRepository implements IEventRepository {
   private api: typeof apiClient;
 
   constructor(client = apiClient) {
-    super();
     this.api = client;
   }
 
@@ -20,8 +19,8 @@ export class EventRepository extends IEventRepository {
   async findAll(filters = {}) {
     try {
       const params = new URLSearchParams(filters);
-      const response = await this.api.get(`/api/events?${params}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<Event[]>(`/api/events?${params}`);
+      const data = response.data || [];
       return Event.fromAPIArray(data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -34,8 +33,8 @@ export class EventRepository extends IEventRepository {
    */
   async findById(id: string) {
     try {
-      const response = await this.api.get(`/api/events/${id}`);
-      const data = response.data?.data || response.data;
+      const response = await this.api.get<Event>(`/api/events/${id}`);
+      const data = response.data;
       return Event.fromAPI(data);
     } catch (error) {
       console.error(`Error fetching event ${id}:`, error);
@@ -48,8 +47,8 @@ export class EventRepository extends IEventRepository {
    */
   async findByStatus(status: string) {
     try {
-      const response = await this.api.get(`/api/events?status=${status}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<Event[]>(`/api/events?status=${status}`);
+      const data = response.data || [];
       return Event.fromAPIArray(data);
     } catch (error) {
       console.error(`Error fetching events by status ${status}:`, error);
@@ -62,8 +61,8 @@ export class EventRepository extends IEventRepository {
    */
   async findUpcoming() {
     try {
-      const response = await this.api.get('/api/events?upcoming=true');
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<Event[]>('/api/events?upcoming=true');
+      const data = response.data || [];
       return Event.fromAPIArray(data);
     } catch (error) {
       console.error('Error fetching upcoming events:', error);
@@ -78,13 +77,13 @@ export class EventRepository extends IEventRepository {
     try {
       if (event.id) {
         // Update existing event
-        const response = await this.api.put(`/api/events/${event.id}`, event.toJSON());
-        const data = response.data?.data || response.data;
+        const response = await this.api.put<Event>(`/api/events/${event.id}`, event.toJSON());
+        const data = response.data;
         return Event.fromAPI(data);
       } else {
         // Create new event
-        const response = await this.api.post('/api/events', event.toJSON());
-        const data = response.data?.data || response.data;
+        const response = await this.api.post<Event>('/api/events', event.toJSON());
+        const data = response.data;
         return Event.fromAPI(data);
       }
     } catch (error) {

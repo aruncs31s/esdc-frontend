@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import applicationService from '../application/ApplicationService';
 import { mockProjects } from '../data/mockProjects';
 import { Project } from '../domain';
-import ProjectCard from '../components/ProjectCard'; 
+import ProjectCard from '../components/ProjectCard';
 const Projects = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -17,7 +16,8 @@ const Projects = () => {
           setProjects(data);
         } else {
           // Fallback to mock data if no data from DB
-          setProjects(mockProjects);
+          // setProjects(mockProjects);
+          alert('No projects found in the database.');
         }
       } catch (error) {
         console.error('Error fetching projects:', error);
@@ -34,7 +34,10 @@ const Projects = () => {
 
   if (loading) {
     return (
-      <section className="projects-section" style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '60px' }}>
+      <section
+        className="projects-section"
+        style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '60px' }}
+      >
         <div className="container">
           <div className="section-header">
             <h2>Community Projects</h2>
@@ -46,7 +49,10 @@ const Projects = () => {
   }
 
   return (
-    <section className="projects-section" style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '60px' }}>
+    <section
+      className="projects-section"
+      style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '60px' }}
+    >
       <div className="container">
         <div className="section-header">
           <h2>Community Projects</h2>

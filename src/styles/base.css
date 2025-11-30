@@ -1,73 +1,83 @@
 /* Reset and base styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body, #root {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
-    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: var(--text);
-    background-color: var(--base);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  line-height: 1.6;
+  color: var(--text, #4c4f69);
+  background-color: var(--base, #eff1f5);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .App {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
 }
 
 /* Selection styling */
 ::selection {
-    background: var(--lavender);
-    color: var(--base);
+  background: var(--lavender, #7287fd);
+  color: var(--base, #eff1f5);
 }
 
 ::-moz-selection {
-    background: var(--lavender);
-    color: var(--base);
+  background: var(--lavender, #7287fd);
+  color: var(--base, #eff1f5);
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--base);
+  background: var(--base, #eff1f5);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--surface2);
-    border-radius: 4px;
+  background: var(--surface2, #acb0be);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--subtext0);
+  background: var(--subtext0, #6c6f85);
 }

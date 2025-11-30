@@ -4,7 +4,8 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { ShopProvider } from './contexts/ShopContext';
 import { SettingsProvider, useSettings } from './contexts/SettingsContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import Header from './components/Navbar';
+import ErrorBoundary from './components/ErrorBoundary';
+import { MainLayout } from './components/Layout';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Resources from './pages/Resources';
@@ -27,7 +28,6 @@ import UserProfile from './components/UserProfile';
 import Dashboard from './components/Dashboard';
 import Leaderboard from './components/Leaderboard';
 import UserProjects from './pages/UserProjects';
-import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import SnakeGame from './components/games/SnakeGame';
 import TetrisGame from './components/games/TetrisGame';
@@ -39,7 +39,7 @@ import Notifications from './pages/Notifications';
 import Blog from './pages/Blog';
 import Search from './pages/Search';
 import Settings from './pages/Settings';
-import ProjectPlanning from './pages/ProjectPlanning';
+import ProjectPlanningPage from './pages/ProjectPlanning';
 import Mentorship from './pages/Mentorship';
 import Hackathons from './pages/Hackathons';
 import Workshops from './pages/Workshops';
@@ -53,519 +53,459 @@ import Teams from './pages/Teams';
 import Integrations from './pages/Integrations';
 import Roadmap from './pages/Roadmap';
 import Build from './pages/Build';
+import ProjectTrending from './pages/ProjectTrending';
+import ProjectTemplatesPage from './pages/ProjectTemplatesPage';
+import ProjectNotificationsPage from './pages/ProjectNotificationsPage';
 import DockSidebar from './components/DockSidebar';
+import { DemoModeToggle, DemoBanner, useDemoMode } from './modules/demo';
 import './index.css';
 
 const AppRoutes = () => {
   const { isFeatureEnabled } = useSettings();
+  const { isDemoMode } = useDemoMode();
 
   return (
     <div className="App">
       <DockSidebar />
       {isFeatureEnabled('chatbot') && <Chatbot />}
+      <DemoModeToggle />
+      {isDemoMode && <DemoBanner />}
       <Routes>
         <Route
           path="/"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Home />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/login"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Login />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/register"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Register />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
+
         {isFeatureEnabled('events') && (
           <Route
             path="/events"
             element={
-              <>
-                <Header />
+              <MainLayout>
                 <Events />
-                <Footer />
-              </>
+              </MainLayout>
             }
           />
         )}
-        {/* {isFeatureEnabled('challenges') && (
-                  <Route path="/challenges" element={
-                    <>
-                      <Header />
-                      <Challenges />
-                      <Footer />
-                    </>
-                  } />
-                )} */}
+
         {isFeatureEnabled('resources') && (
           <Route
             path="/resources"
             element={
-              <>
-                <Header />
+              <MainLayout>
                 <Resources />
-                <Footer />
-              </>
+              </MainLayout>
             }
           />
         )}
+
         {isFeatureEnabled('products') && (
           <>
             <Route
               path="/products"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <Products />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/product/:id"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <ProductDetailsPage />
-                  <Footer />
-                </>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/my-products"
+              element={
+                <MainLayout>
+                  <MyProducts />
+                </MainLayout>
               }
             />
           </>
         )}
+
         {isFeatureEnabled('shop') && (
           <>
             <Route
               path="/shop"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <Shop />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/shop-cart"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <ShopCart />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
           </>
         )}
+
         {isFeatureEnabled('lms') && (
           <>
             <Route
               path="/lms"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <LMS />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/lms/:id"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <CourseDetail />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
           </>
         )}
-        {isFeatureEnabled('products') && (
-          <Route
-            path="/my-products"
-            element={
-              <>
-                <Header />
-                <MyProducts />
-                <Footer />
-              </>
-            }
-          />
-        )}
+
         {isFeatureEnabled('projects') && (
           <>
             <Route
+              path="/projects"
+              element={
+                <MainLayout>
+                  <Projects />
+                </MainLayout>
+              }
+            />
+            <Route
               path="/my-projects"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <UserProjects />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/projects/:id"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <ProjectDetail />
-                  <Footer />
-                </>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/projects/trending"
+              element={
+                <MainLayout>
+                  <ProjectTrending />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/projects/templates"
+              element={
+                <MainLayout>
+                  <ProjectTemplatesPage />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/projects/notifications"
+              element={
+                <MainLayout>
+                  <ProjectNotificationsPage />
+                </MainLayout>
               }
             />
           </>
         )}
+
         {isFeatureEnabled('games') && (
           <>
             <Route
               path="/games"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <Games />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/games/snake"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <SnakeGame />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/games/tetris"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <TetrisGame />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/games/pong"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <PongGame />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/games/breakout"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <BreakoutGame />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/games/memory"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <MemoryGame />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
             <Route
               path="/games/simon"
               element={
-                <>
-                  <Header />
+                <MainLayout>
                   <SimonGame />
-                  <Footer />
-                </>
+                </MainLayout>
               }
             />
           </>
         )}
+
         <Route
           path="/dashboard"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Dashboard />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
+
         {isFeatureEnabled('leaderboard') && (
           <Route
             path="/leaderboard"
             element={
-              <>
-                <Header />
+              <MainLayout>
                 <Leaderboard />
-                <Footer />
-              </>
+              </MainLayout>
             }
           />
         )}
-        {isFeatureEnabled('projects') && (
-          <Route
-            path="/projects"
-            element={
-              <>
-                <Header />
-                <Projects />
-                {/* <UserProjects /> */}
-                <Footer />
-              </>
-            }
-          />
-        )}
+
         <Route
           path="/profile"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <UserProfile />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/profile-card-demo"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <ProfileCardPage />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/users"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Users />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
+
         {isFeatureEnabled('notifications') && (
           <Route
             path="/notifications"
             element={
-              <>
+              <MainLayout showHeader={false}>
                 <Notifications />
-                <Footer />
-              </>
+              </MainLayout>
             }
           />
         )}
+
         {isFeatureEnabled('blog') && (
           <Route
             path="/blog"
             element={
-              <>
-                <Header />
+              <MainLayout>
                 <Blog />
-                <Footer />
-              </>
+              </MainLayout>
             }
           />
         )}
+
         <Route
           path="/search"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Search />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/settings"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Settings />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/planning"
           element={
-            <>
-              <Header />
-              <ProjectPlanning />
-              <Footer />
-            </>
+            <MainLayout>
+              <ProjectPlanningPage />
+            </MainLayout>
           }
         />
         <Route
           path="/mentorship"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Mentorship />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/hackathons"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Hackathons />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/workshops"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Workshops />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/certifications"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Certifications />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/jobs"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <JobBoard />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/forum"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Forum />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/docs"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Documentation />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/code-review"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <CodeReview />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/analytics"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Analytics />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/teams"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Teams />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/integrations"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Integrations />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/roadmap"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Roadmap />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
         <Route
           path="/build"
           element={
-            <>
-              <Header />
+            <MainLayout>
               <Build />
-              <Footer />
-            </>
+            </MainLayout>
           }
         />
+
         <Route
           path="/admin"
           element={
             <ProtectedRoute requiredRole="admin">
-              <>
-                <Header />
+              <MainLayout>
                 <AdminPanel />
-                <Footer />
-              </>
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -576,17 +516,19 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider>
-        <ShopProvider>
-          <SettingsProvider>
-            <Router>
-              <AppRoutes />
-            </Router>
-          </SettingsProvider>
-        </ShopProvider>
-      </ThemeProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <ThemeProvider>
+          <ShopProvider>
+            <SettingsProvider>
+              <Router>
+                <AppRoutes />
+              </Router>
+            </SettingsProvider>
+          </ShopProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
