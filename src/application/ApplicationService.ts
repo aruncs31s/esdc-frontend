@@ -4,7 +4,7 @@
  * This acts as the main entry point for UI components
  */
 
-import { Project } from '../domain/index';
+import { Project, Course, Enrollment, CourseProgress } from '../domain/index';
 import container from './Container';
 import { ProjectData, ProjectDataForAdmin } from '@/types/project';
 import { AdminRepository } from '@/infrastructure/repositories/AdminRepository';
@@ -14,6 +14,9 @@ import { authAPI } from '@/infrastructure/api/auth';
 import { LoginCredentials, UserRegisterData } from '@/types';
 import { NotificationRepository } from '@/infrastructure/repositories/NotificationsRepository';
 import { Notification as AppNotification } from '@/types/notifications';
+import { CourseRepository } from '@/infrastructure/repositories/CourseRepository';
+import { EnrollmentRepository } from '@/infrastructure/repositories/EnrollmentRepository';
+import { CourseProgressRepository } from '@/infrastructure/repositories/CourseProgressRepository';
 
 class ApplicationService {
   private container: typeof container;
@@ -192,6 +195,144 @@ class ApplicationService {
   async getUserNotifications(): Promise<AppNotification[]> {
     const repository = this.container.get('notificationRepository') as NotificationRepository;
     return await repository.getNotifications();
+  }
+
+  // LMS - Course Operations
+  async getAllCourses(filters?: {
+    category?: string;
+    level?: string;
+    search?: string;
+    isFree?: boolean;
+  }): Promise<Course[]> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.findAll(filters);
+  }
+
+  async getCourseById(courseId: string | number): Promise<Course | null> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.findById(courseId);
+  }
+
+  async getPopularCourses(limit?: number): Promise<Course[]> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.findPopular(limit);
+  }
+
+  async getCoursesByCategory(category: string): Promise<Course[]> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.findByCategory(category);
+  }
+
+  async getCoursesByLevel(level: string): Promise<Course[]> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.findByLevel(level);
+  }
+
+  async searchCourses(query: string): Promise<Course[]> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.search(query);
+  }
+
+  async getCourseCategories(): Promise<string[]> {
+    const repository = this.container.get('courseRepository') as CourseRepository;
+    return await repository.getCategories();
+  }
+
+  // LMS - Enrollment Operations
+  async enrollInCourse(
+    userId: string,
+    courseId: string | number,
+    paymentAmount?: number
+  ): Promise<Enrollment> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.enroll(userId, courseId, paymentAmount);
+  }
+
+  async unenrollFromCourse(userId: string, courseId: string | number): Promise<boolean> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.unenroll(userId, courseId);
+  }
+
+  async getUserEnrollments(userId: string): Promise<Enrollment[]> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.findByUserId(userId);
+  }
+
+  async getActiveEnrollments(userId: string): Promise<Enrollment[]> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.findActiveByUserId(userId);
+  }
+
+  async getCompletedEnrollments(userId: string): Promise<Enrollment[]> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.findCompletedByUserId(userId);
+  }
+
+  async isEnrolledInCourse(userId: string, courseId: string | number): Promise<boolean> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.isEnrolled(userId, courseId);
+  }
+
+  async getEnrollment(userId: string, courseId: string | number): Promise<Enrollment | null> {
+    const repository = this.container.get('enrollmentRepository') as EnrollmentRepository;
+    return await repository.findByUserAndCourse(userId, courseId);
+  }
+
+  // LMS - Progress Operations
+  async getCourseProgress(
+    userId: string,
+    courseId: string | number
+  ): Promise<CourseProgress | null> {
+    const repository = this.container.get('courseProgressRepository') as CourseProgressRepository;
+    return await repository.findByUserAndCourse(userId, courseId);
+  }
+
+  async getUserCourseProgress(userId: string): Promise<CourseProgress[]> {
+    const repository = this.container.get('courseProgressRepository') as CourseProgressRepository;
+    return await repository.findByUserId(userId);
+  }
+
+  async startCourse(userId: string, courseId: string | number): Promise<CourseProgress> {
+    const repository = this.container.get('courseProgressRepository') as CourseProgressRepository;
+    return await repository.startCourse(userId, courseId);
+  }
+
+  async startLesson(
+    userId: string,
+    courseId: string | number,
+    lessonId: string | number
+  ): Promise<CourseProgress> {
+    const repository = this.container.get('courseProgressRepository') as CourseProgressRepository;
+    return await repository.startLesson(userId, courseId, lessonId);
+  }
+
+  async completeLesson(
+    userId: string,
+    courseId: string | number,
+    lessonId: string | number,
+    timeSpent?: number
+  ): Promise<CourseProgress> {
+    const repository = this.container.get('courseProgressRepository') as CourseProgressRepository;
+    return await repository.completeLesson(userId, courseId, lessonId, timeSpent);
+  }
+
+  async recordQuizResult(
+    userId: string,
+    courseId: string | number,
+    quizId: string | number,
+    score: number,
+    maxScore: number,
+    passingScore: number
+  ): Promise<CourseProgress> {
+    const repository = this.container.get('courseProgressRepository') as CourseProgressRepository;
+    return await repository.recordQuizResult(
+      userId,
+      courseId,
+      quizId,
+      score,
+      maxScore,
+      passingScore
+    );
   }
 }
 
