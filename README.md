@@ -26,6 +26,18 @@ Key architectural documents:
 - **React Router**: Client-side routing for navigation
 - **TanStack Query**: Efficient data fetching and caching
 - **Testing**: Comprehensive test suite with Vitest
+- **LMS (Learning Management System)**: Complete course management platform - see [LMS Implementation Guide](./docs/LMS_IMPLEMENTATION_GUIDE.md)
+
+## Documentation
+
+📚 **[Complete Documentation Index](./docs/README.md)** - Browse all documentation
+
+Key documentation:
+- **[LMS Implementation Guide](./docs/LMS_IMPLEMENTATION_GUIDE.md)** - Complete guide for implementing and using the LMS
+- **[Architecture](./ARCHITECTURE.md)** - System architecture
+- **[DDD Quick Reference](./docs/DDD_QUICK_REFERENCE.md)** - Domain-Driven Design patterns
+- **[Theme System](./docs/THEME_SYSTEM.md)** - Theming and styling guide
+- **[Contributing](./docs/CONTRIBUTE.md)** - How to contribute
 
 ## Available Scripts
 
