@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import UserQuickModal from './modals/UserQuickModal';
-import UserProfileModal from './modals/UserProfileModal';
+import UserQuickModal from '@/shared/components/ui/modals/UserQuickModal';
+import UserProfileModal from '@/shared/components/ui/modals/UserProfileModal';
 import { UserData } from '@/types/user';
 
 const Team = () => {

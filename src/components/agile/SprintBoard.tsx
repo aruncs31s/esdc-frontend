@@ -17,7 +17,7 @@ import {
 } from 'react-icons/fi';
 import { Sprint, SprintStatusType } from '@/types/agile';
 import { Issue } from '@/types/issues';
-import IssueCard from '../issues/IssueCard';
+import IssueCard from '@/features/issues/components/IssueCard';
 
 interface SprintBoardProps {
   sprints: Sprint[];

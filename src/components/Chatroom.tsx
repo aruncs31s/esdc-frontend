@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { FiSend, FiX } from 'react-icons/fi';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../modules/auth/useAuth';
 import '../styles/chatroom.css';
 
 interface Message {

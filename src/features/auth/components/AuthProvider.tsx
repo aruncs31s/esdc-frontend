@@ -6,9 +6,9 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { UserData, LoginCredentials, UserRegisterData } from '@/types/user';
-import { DecodedToken, AuthTokenData, RegisterResponse } from '@/types/auth';
+import { DecodedToken, AuthTokenData, RegisterResponse } from '@/modules/auth/auth';
 import { ApiSuccessResponse } from '@/types';
-import { AuthContextType } from '@/contexts/AuthContextTypes';
+import { AuthContextType } from '@/modules/auth/AuthContextTypes';
 import { applicationService } from '@/application';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -86,10 +86,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const decoded = jwtDecode<DecodedToken>(token);
         const userData: UserData = {
-          email: decoded.sub,
-          username: decoded.username,
+          email: decoded.sub || decoded.email || '',
+          username: decoded.username || '',
           role: decoded.role,
-          name: decoded.name,
+          name: decoded.name || '',
         };
 
         localStorage.setItem('user_data', JSON.stringify(userData));
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         return {
           success: true as const,
-          data: { token },
+          data: { token, user: userData },
           meta: new Date().toISOString(),
         };
       }
@@ -120,10 +120,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const decoded = jwtDecode<DecodedToken>(token);
         const userData: UserData = {
-          email: decoded.sub,
-          username: decoded.username,
+          email: decoded.sub || decoded.email || '',
+          username: decoded.username || '',
           role: decoded.role,
-          name: decoded.name,
+          name: decoded.name || '',
         };
 
         localStorage.setItem('user_data', JSON.stringify(userData));
@@ -133,7 +133,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return {
           success: true,
           meta: new Date().toISOString(),
-          data: registerData, // The original register data
+          data: { token },
           message: 'Registration successful!',
         };
       }

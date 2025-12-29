@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { FiPlus, FiMoreVertical, FiEdit2, FiTrash2, FiSettings, FiMaximize2 } from 'react-icons/fi';
 import { KanbanBoard as KanbanBoardType, KanbanColumn, KanbanCard } from '@/types/agile';
 import { Issue } from '@/types/issues';
-import IssueCard from '../issues/IssueCard';
+import IssueCard from '@/features/issues/components/IssueCard';
 
 interface KanbanBoardProps {
   board: KanbanBoardType;

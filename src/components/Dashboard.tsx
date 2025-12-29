@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../modules/auth/useAuth';
 import { FaTrophy, FaCalendar, FaCode, FaUsers } from 'react-icons/fa';
 
 interface Stats {
@@ -15,7 +15,7 @@ const Dashboard = () => {
     totalPoints: 0,
     completedChallenges: 0,
     upcomingEvents: 0,
-    rank: 0
+    rank: 0,
   });
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
 
@@ -29,13 +29,13 @@ const Dashboard = () => {
       totalPoints: 450,
       completedChallenges: 3,
       upcomingEvents: 2,
-      rank: 15
+      rank: 15,
     });
 
     setRecentActivity([
       { id: 1, type: 'challenge', title: 'LED Matrix Display completed', date: '2025-01-20' },
       { id: 2, type: 'event', title: 'Registered for Arduino Workshop', date: '2025-01-18' },
-      { id: 3, type: 'achievement', title: 'Earned Beginner Badge', date: '2025-01-15' }
+      { id: 3, type: 'achievement', title: 'Earned Beginner Badge', date: '2025-01-15' },
     ]);
   };
 
@@ -43,7 +43,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="container">
         <h1>Welcome back, {user?.username}!</h1>
-        
+
         <div className="stats-grid">
           <div className="stat-card">
             <FaTrophy />
@@ -52,7 +52,7 @@ const Dashboard = () => {
               <p>Total Points</p>
             </div>
           </div>
-          
+
           <div className="stat-card">
             <FaCode />
             <div>
@@ -60,7 +60,7 @@ const Dashboard = () => {
               <p>Challenges Completed</p>
             </div>
           </div>
-          
+
           <div className="stat-card">
             <FaCalendar />
             <div>
@@ -68,7 +68,7 @@ const Dashboard = () => {
               <p>Upcoming Events</p>
             </div>
           </div>
-          
+
           <div className="stat-card">
             <FaUsers />
             <div>
@@ -81,7 +81,7 @@ const Dashboard = () => {
         <div className="recent-activity">
           <h2>Recent Activity</h2>
           <div className="activity-list">
-            {recentActivity.map(activity => (
+            {recentActivity.map((activity) => (
               <div key={activity.id} className="activity-item">
                 <span className={`activity-type ${activity.type}`}></span>
                 <div>

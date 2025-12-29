@@ -10,7 +10,7 @@ import { ProjectData, ProjectDataForAdmin } from '@/types/project';
 import { AdminRepository } from '@/infrastructure/repositories/AdminRepository';
 import { statsForAdmin } from '@/types';
 import { UserDataForAdmin, UserRegisterDataByAdmin } from '@/types/user';
-import { authAPI } from '@/infrastructure/api/auth';
+import { authAPI } from '@/modules/auth/auth';
 import { LoginCredentials, UserRegisterData } from '@/types';
 import { NotificationRepository } from '@/infrastructure/repositories/NotificationsRepository';
 import { Notification as AppNotification } from '@/types/notifications';
