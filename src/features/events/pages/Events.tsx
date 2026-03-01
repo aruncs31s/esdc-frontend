@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/modules/auth/useAuth';
+import { useAuth } from '@/features/auth';
 import { FaMapMarkerAlt, FaClock, FaUsers, FaCalendarAlt } from 'react-icons/fa';
 import '@/styles/events.css';
 

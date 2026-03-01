@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import ProfileCard from '@/shared/components/ui/ProfileCard';
-import { useAuth } from '@/modules/auth/useAuth';
+import { useAuth } from '@/features/auth';
 
 /**
  * ProfileCard Page

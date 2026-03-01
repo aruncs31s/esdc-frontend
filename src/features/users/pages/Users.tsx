@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BsSearch, BsFilter, BsGrid, BsList, BsPersonPlus } from 'react-icons/bs';
 import ProfileCard from '@/shared/components/ui/ProfileCard';
 
-import { useAuth } from '@/modules/auth/useAuth';
+import { useAuth } from '@/features/auth';
 import { UserDataForAdmin } from '@/types/user';
 import { applicationService } from '@/application';
 /**

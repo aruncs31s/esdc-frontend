@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../modules/auth/useAuth';
+import { useAuth } from '@/features/auth';
 import { FaTrophy, FaCalendar, FaCode, FaUsers } from 'react-icons/fa';
 
 interface Stats {

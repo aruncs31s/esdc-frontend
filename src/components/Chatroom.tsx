@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { FiSend, FiX } from 'react-icons/fi';
-import { useAuth } from '../modules/auth/useAuth';
+import { useAuth } from '@/features/auth';
 import '@/styles/chatroom.css';
 
 interface Message {
@@ -30,7 +30,6 @@ export function Chatroom({ onClose }: ChatroomProps) {
     wsRef.current = ws;
 
     ws.onopen = () => {
-      console.log('✅ WebSocket connected');
       setConnected(true);
     };
 
@@ -46,8 +45,7 @@ export function Chatroom({ onClose }: ChatroomProps) {
       ]);
     };
 
-    ws.onerror = (error) => {
-      console.error('❌ WebSocket error:', error);
+    ws.onerror = () => {
       setUseMock(true);
       setMessages([
         {
@@ -61,7 +59,6 @@ export function Chatroom({ onClose }: ChatroomProps) {
     };
 
     ws.onclose = () => {
-      console.log('🔌 WebSocket disconnected');
       setConnected(false);
     };
 
@@ -94,10 +91,7 @@ export function Chatroom({ onClose }: ChatroomProps) {
         },
       ]);
     } else if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      console.log('📤 Sending message:', message);
       wsRef.current.send(JSON.stringify(message));
-    } else {
-      console.error('❌ WebSocket not connected');
     }
 
     setInputText('');

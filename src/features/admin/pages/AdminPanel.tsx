@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/modules/auth/useAuth';
+import { useAuth } from '@/features/auth';
 import applicationService from '@/application/ApplicationService';
 import UsersTable from '@/components/table_views/UserTable';
 import ProjectsTable from '@/components/table_views/ProjectsTable';

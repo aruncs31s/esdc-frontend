@@ -10,7 +10,7 @@ import {
   FiSearch,
   FiChevronDown,
 } from 'react-icons/fi';
-import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useAuth } from '@/features/auth';
 import { useTheme } from '@/app/providers/ThemeProvider';
 import { useShop } from '@/app/providers/ShopProvider';
 import ProfilePopup from '@/components/ProfilePopup';
