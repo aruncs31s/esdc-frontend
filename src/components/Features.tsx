@@ -21,7 +21,7 @@ import {
   FiGlobe,
   FiCode,
 } from 'react-icons/fi';
-import '../styles/features.css';
+import '@/styles/features.css';
 
 const Features = () => {
   const navigate = useNavigate();

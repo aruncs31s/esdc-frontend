@@ -9,11 +9,10 @@ import { UserDataForAdmin, UserRegisterDataByAdmin } from '@/types/user';
  * Handles admin data persistence via API
  */
 
-export class AdminRepository extends IAdminRepository {
+export class AdminRepository implements IAdminRepository {
   private api: typeof apiClient;
 
   constructor(client = apiClient) {
-    super();
     this.api = client;
   }
 
@@ -45,9 +44,9 @@ export class AdminRepository extends IAdminRepository {
    */
   async findById(id: string): Promise<Project | null> {
     try {
-      const response = await this.api.get(`/api/projects/${id}`);
+      const response = await this.api.get<Project>(`/api/projects/${id}`);
 
-      const data = response.data?.data || response.data;
+      const data = response.data;
       console.log(`Project ${id} fetched from API:`, data);
       return Project.fromAPI(data);
     } catch (error) {
@@ -61,8 +60,8 @@ export class AdminRepository extends IAdminRepository {
    */
   async findByUserId(userId: string) {
     try {
-      const response = await this.api.get(`/api/admin/projects?user_id=${userId}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<Project[]>(`/api/admin/projects?user_id=${userId}`);
+      const data = response.data || [];
       return Project.fromAPIArray(data);
     } catch (error) {
       console.error(`Error fetching projects for user ${userId}:`, error);
@@ -75,8 +74,8 @@ export class AdminRepository extends IAdminRepository {
    */
   async findByStatus(status: string) {
     try {
-      const response = await this.api.get(`/api/admin/projects?status=${status}`);
-      const data = response.data?.data || response.data || [];
+      const response = await this.api.get<Project[]>(`/api/admin/projects?status=${status}`);
+      const data = response.data || [];
       return Project.fromAPIArray(data);
     } catch (error) {
       console.error(`Error fetching projects by status ${status}:`, error);
@@ -91,13 +90,16 @@ export class AdminRepository extends IAdminRepository {
     try {
       if (project.id) {
         // Update existing project
-        const response = await this.api.put(`/api/admin/projects/${project.id}`, project.toJSON());
-        const data = response.data?.data || response.data;
+        const response = await this.api.put<Project>(
+          `/api/admin/projects/${project.id}`,
+          project.toJSON()
+        );
+        const data = response.data;
         return Project.fromAPI(data);
       } else {
         // Create new project
-        const response = await this.api.post('/api/admin/projects', project.toJSON());
-        const data = response.data?.data || response.data;
+        const response = await this.api.post<Project>('/api/admin/projects', project.toJSON());
+        const data = response.data;
         return Project.fromAPI(data);
       }
     } catch (error) {

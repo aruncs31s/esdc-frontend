@@ -14,7 +14,7 @@ import {
   FiZap,
 } from 'react-icons/fi';
 import { FaCode, FaTrophy, FaFire, FaStar } from 'react-icons/fa';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../modules/auth/useAuth';
 import { useShop } from '../contexts/ShopContext';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';

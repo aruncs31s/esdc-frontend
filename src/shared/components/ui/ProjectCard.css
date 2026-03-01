@@ -1,0 +1,249 @@
+/* Project Card Styles - GitHub Style */
+
+.pcard {
+  background: var(--base);
+  border: 1px solid var(--surface0);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pcard:hover {
+  border-color: var(--subtext0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Image Section */
+.pcard-image {
+  width: 100%;
+  height: 160px;
+  background: var(--mantle);
+  border-bottom: 1px solid var(--surface0);
+  position: relative;
+  overflow: hidden;
+}
+
+.pcard-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.pcard:hover .pcard-image img {
+  transform: scale(1.03);
+}
+
+/* Status Badge */
+.pcard-status {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  z-index: 2;
+  background: var(--surface0);
+  color: var(--text);
+  border: 1px solid var(--surface1);
+  backdrop-filter: blur(4px);
+}
+
+.pcard-status--completed {
+  background: rgba(40, 167, 69, 0.9);
+  color: white;
+  border-color: transparent;
+}
+
+.pcard-status--in-progress {
+  background: rgba(3, 102, 214, 0.9);
+  color: white;
+  border-color: transparent;
+}
+
+.pcard-status--draft {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* Metrics Overlay */
+.pcard-metrics {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.pcard-metric {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Content Body */
+.pcard-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.pcard-category {
+  font-size: 0.75rem;
+  color: var(--subtext0);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pcard-category::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--blue);
+}
+
+.pcard-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--blue);
+  margin: 0;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.pcard-title:hover {
+  text-decoration: underline;
+}
+
+.pcard-desc {
+  font-size: 0.85rem;
+  color: var(--subtext0);
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* Technologies */
+.pcard-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pcard-tech {
+  font-size: 0.75rem;
+  color: var(--subtext0);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pcard-tech::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--surface2);
+}
+
+.pcard-tech--more {
+  background: var(--surface0);
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.pcard-tech--more::before {
+  display: none;
+}
+
+/* Footer */
+.pcard-footer {
+  padding: 12px 16px;
+  background: var(--mantle);
+  border-top: 1px solid var(--surface0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.pcard-links {
+  display: flex;
+  gap: 8px;
+}
+
+.pcard-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--subtext0);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.pcard-link:hover {
+  color: var(--text);
+  background: var(--surface0);
+  border-color: var(--surface1);
+}
+
+.pcard-btn {
+  padding: 6px 12px;
+  background: var(--surface0);
+  color: var(--text);
+  border: 1px solid var(--surface1);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pcard-btn:hover {
+  background: var(--surface1);
+  border-color: var(--subtext0);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .pcard-image {
+    height: 140px;
+  }
+
+  .pcard-body {
+    padding: 12px;
+  }
+
+  .pcard-footer {
+    padding: 10px 12px;
+  }
+}

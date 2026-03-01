@@ -45,7 +45,7 @@ export class UserRegistrationService {
 
     // Publish domain event
     const event = new UserCreatedEvent(
-      savedUser.id,
+      savedUser.id ?? '',
       savedUser.email.toString(),
       savedUser.username
     );

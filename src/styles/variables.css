@@ -36,23 +36,23 @@
   --overlay: rgba(76, 79, 105, 0.05);
 
   /* Semantic Colors - Use these in your components */
-  --color-primary: var(--blue);
-  --color-secondary: var(--mauve);
-  --color-success: var(--green);
-  --color-warning: var(--yellow);
-  --color-danger: var(--red);
-  --color-info: var(--sky);
+  --color-primary: var(--blue, #1e66f5);
+  --color-secondary: var(--mauve, #8839ef);
+  --color-success: var(--green, #40a02b);
+  --color-warning: var(--yellow, #df8e1d);
+  --color-danger: var(--red, #d20f39);
+  --color-info: var(--sky, #04a5e5);
 
-  --color-bg-primary: var(--base);
-  --color-bg-secondary: var(--mantle);
-  --color-bg-tertiary: var(--crust);
+  --color-bg-primary: var(--base, #eff1f5);
+  --color-bg-secondary: var(--mantle, #e6e9ef);
+  --color-bg-tertiary: var(--crust, #dce0e8);
 
-  --color-text-primary: var(--text);
-  --color-text-secondary: var(--subtext1);
-  --color-text-muted: var(--subtext0);
+  --color-text-primary: var(--text, #4c4f69);
+  --color-text-secondary: var(--subtext1, #5c5f77);
+  --color-text-muted: var(--subtext0, #6c6f85);
 
-  --color-border: var(--surface0);
-  --color-border-focus: var(--blue);
+  --color-border: var(--surface0, #ccd0da);
+  --color-border-focus: var(--blue, #1e66f5);
 }
 
 /* Dark Mode - Catppuccin Mocha */
@@ -88,21 +88,21 @@
   --overlay: rgba(0, 0, 0, 0.1);
 
   /* Semantic Colors - Dark Mode */
-  --color-primary: var(--blue);
-  --color-secondary: var(--mauve);
-  --color-success: var(--green);
-  --color-warning: var(--yellow);
-  --color-danger: var(--red);
-  --color-info: var(--sky);
+  --color-primary: var(--blue, #89b4fa);
+  --color-secondary: var(--mauve, #cba6f7);
+  --color-success: var(--green, #a6e3a1);
+  --color-warning: var(--yellow, #f9e2af);
+  --color-danger: var(--red, #f38ba8);
+  --color-info: var(--sky, #89dceb);
 
-  --color-bg-primary: var(--base);
-  --color-bg-secondary: var(--mantle);
-  --color-bg-tertiary: var(--crust);
+  --color-bg-primary: var(--base, #1e1e2e);
+  --color-bg-secondary: var(--mantle, #181825);
+  --color-bg-tertiary: var(--crust, #11111b);
 
-  --color-text-primary: var(--text);
-  --color-text-secondary: var(--subtext1);
-  --color-text-muted: var(--subtext0);
+  --color-text-primary: var(--text, #cdd6f4);
+  --color-text-secondary: var(--subtext1, #bac2de);
+  --color-text-muted: var(--subtext0, #a6adc8);
 
-  --color-border: var(--surface0);
-  --color-border-focus: var(--blue);
+  --color-border: var(--surface0, #313244);
+  --color-border-focus: var(--blue, #89b4fa);
 }

@@ -11,7 +11,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    
+
+    // Silence deprecation warning for baseUrl
+    "ignoreDeprecations": "5.0",
+
     // Path aliases
     "baseUrl": ".",
     "paths": {
@@ -23,7 +26,7 @@
       "@/infrastructure/*": ["src/infrastructure/*"],
       "@/application/*": ["src/application/*"]
     },
-    
+
     // Gradually enable strict mode
     "strict": true,
     "noUnusedLocals": true,
@@ -33,7 +36,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    
+
     // Allow JS temporarily during migration
     "allowJs": true,
     "noImplicitAny": true,

@@ -1,547 +1,524 @@
 /* Buttons */
 .btn {
-    display: inline-block;
-    padding: 14px 32px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-    cursor: pointer;
-    font-size: 1.05rem;
-    position: relative;
-    overflow: hidden;
-    letter-spacing: 0.3px;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; /* Improves touch responsiveness */
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* Improves touch responsiveness */
 }
 
 .btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.6s,
+    height 0.6s;
+  pointer-events: none;
 }
 
 .btn:hover::before {
-    width: 300px;
-    height: 300px;
+  width: 300px;
+  height: 300px;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--blue) 0%, var(--sapphire) 100%);
-    color: var(--base);
-    box-shadow: 0 8px 20px rgba(30, 102, 245, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, var(--blue) 0%, var(--sapphire) 100%);
+  color: var(--base);
+  box-shadow: 0 8px 20px rgba(30, 102, 245, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(30, 102, 245, 0.4);
-    background: linear-gradient(135deg, var(--sapphire) 0%, var(--lavender) 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(30, 102, 245, 0.4);
+  background: linear-gradient(135deg, var(--sapphire) 0%, var(--lavender) 100%);
 }
 
 .btn-primary:active {
-    transform: translateY(-1px) scale(0.98);
+  transform: translateY(-1px) scale(0.98);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--blue);
-    border: 2px solid var(--blue);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--blue);
+  border: 2px solid var(--blue);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-    background: var(--blue);
-    color: var(--base);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(30, 102, 245, 0.3);
-    border-color: var(--blue);
+  background: var(--blue);
+  color: var(--base);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(30, 102, 245, 0.3);
+  border-color: var(--blue);
 }
 
 .btn-secondary:active {
-    transform: translateY(-1px) scale(0.98);
+  transform: translateY(-1px) scale(0.98);
 }
 
 .btn-outline-primary {
-    color: var(--blue);
-    border-color: var(--blue);
-    background-color: transparent;
+  color: var(--blue);
+  border-color: var(--blue);
+  background-color: transparent;
 }
 
 .btn-outline-primary:hover {
-    background-color: var(--blue);
-    border-color: var(--blue);
-    color: var(--base);
+  background-color: var(--blue);
+  border-color: var(--blue);
+  color: var(--base);
 }
 
 .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
 }
 
 .btn-group-sm > .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
 }
 
 /* Cards */
 .about-card,
 .project-card,
 .team-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    position: relative;
-    overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .about-card {
-    padding: 2.5rem;
-    text-align: center;
+  padding: 2.5rem;
+  text-align: center;
 }
 
 .about-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  pointer-events: none;
 }
 
 .about-card:hover,
 .project-card:hover,
 .team-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .about-card:hover::before {
-    left: 100%;
+  left: 100%;
 }
 
 .card-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline-block;
-    transition: all 0.3s ease;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  transition: all 0.3s ease;
 }
 
 .about-card:hover .card-icon {
-    transform: scale(1.1) rotateY(180deg);
+  transform: scale(1.1);
 }
 
 .about-card h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
 }
 
 .about-card p {
-    color: var(--subtext0);
-    line-height: 1.6;
+  color: var(--subtext0);
+  line-height: 1.6;
 }
 
 /* Tags */
 .tag {
-    background: linear-gradient(135deg, var(--lavender) 0%, var(--blue) 100%);
-    color: var(--base);
-    padding: 0.3rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    box-shadow: 0 2px 10px rgba(114, 135, 253, 0.3);
-    transition: all 0.3s ease;
-    letter-spacing: 0.3px;
+  background: linear-gradient(135deg, var(--lavender) 0%, var(--blue) 100%);
+  color: var(--base);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(114, 135, 253, 0.3);
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
 }
 
 .tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(114, 135, 253, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(114, 135, 253, 0.5);
 }
 
 /* Badges */
 .badge {
-    font-size: 0.75em;
+  font-size: 0.75em;
 }
 
 .bg-success {
-    background-color: var(--green) !important;
+  background-color: var(--green) !important;
 }
 
 .bg-warning {
-    background-color: var(--yellow) !important;
-    color: var(--base) !important;
+  background-color: var(--yellow) !important;
+  color: var(--base) !important;
 }
 
 .bg-danger {
-    background-color: var(--red) !important;
+  background-color: var(--red) !important;
 }
 
 .bg-secondary {
-    background-color: var(--surface2) !important;
+  background-color: var(--surface2) !important;
 }
 
 /* Utility Classes */
 .glass-card {
-    background: rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
 }
 
 .dark-mode .glass-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .gradient-text {
-    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .gradient-border {
-    position: relative;
-    border-radius: 20px;
-    padding: 2px;
-    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  position: relative;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
 }
 
 .gradient-border-inner {
-    background: var(--base);
-    border-radius: 18px;
-    padding: 2rem;
-}
-
-.pulse-on-hover:hover {
-    animation: pulse 1.5s infinite;
-}
-
-.shimmer {
-    background: linear-gradient(
-        to right,
-        var(--base) 4%,
-        var(--surface0) 25%,
-        var(--base) 36%
-    );
-    background-size: 1000px 100%;
-    animation: shimmer 2s infinite linear;
+  background: var(--base);
+  border-radius: 18px;
+  padding: 2rem;
 }
 
 .text-muted {
-    color: var(--subtext0) !important;
+  color: var(--subtext0) !important;
 }
 
 .spinner-border {
-    color: var(--blue);
+  color: var(--blue);
 }
 
 .scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
-    z-index: 10000;
-    transition: width 0.1s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue) 0%, var(--lavender) 50%, var(--mauve) 100%);
+  z-index: 10000;
+  transition: width 0.1s ease;
 }
 
 /* Events Page */
 .events-page {
-    background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
+  position: relative;
+  overflow: hidden;
 }
 
 .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
 .event-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-out;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .event-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  pointer-events: none;
 }
 
 .event-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .event-card:hover::before {
-    left: 100%;
+  left: 100%;
 }
 
 .event-card h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .event-card p {
-    color: var(--subtext0);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+  color: var(--subtext0);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 .event-details {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .event-detail-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--subtext1);
-    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--subtext1);
+  font-size: 0.9rem;
 }
 
 .event-detail-item svg {
-    color: var(--blue);
-    font-size: 1rem;
+  color: var(--blue);
+  font-size: 1rem;
 }
 
 .event-card .btn {
-    width: 100%;
-    margin-top: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
 }
-
-.event-card:nth-child(1) { animation-delay: 0.1s; }
-.event-card:nth-child(2) { animation-delay: 0.2s; }
-.event-card:nth-child(3) { animation-delay: 0.3s; }
-.event-card:nth-child(4) { animation-delay: 0.4s; }
 
 /* Challenges Page */
 .challenges-page {
-    background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(180deg, var(--base) 0%, var(--mantle) 50%, var(--base) 100%);
+  position: relative;
+  overflow: hidden;
 }
 
 .filter-tabs {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2rem 0;
 }
 
 .filter-btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--subtext1);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--subtext1);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .filter-btn:hover {
-    border-color: var(--blue);
-    color: var(--blue);
-    transform: translateY(-2px);
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-2px);
 }
 
 .filter-btn.active {
-    background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
-    color: var(--base);
-    border-color: transparent;
-    box-shadow: 0 8px 20px rgba(30, 102, 245, 0.3);
+  background: linear-gradient(135deg, var(--blue) 0%, var(--lavender) 100%);
+  color: var(--base);
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(30, 102, 245, 0.3);
 }
 
 .challenges-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
 .challenge-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-out;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .challenge-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  pointer-events: none;
 }
 
 .challenge-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .challenge-card:hover::before {
-    left: 100%;
+  left: 100%;
 }
 
 .challenge-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .challenge-card h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--text);
-    flex: 1;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
 }
 
 .difficulty-badge {
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .difficulty-badge.beginner {
-    background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
-    color: var(--base);
-    box-shadow: 0 4px 15px rgba(166, 227, 161, 0.3);
+  background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+  color: var(--base);
+  box-shadow: 0 4px 15px rgba(166, 227, 161, 0.3);
 }
 
 .difficulty-badge.intermediate {
-    background: linear-gradient(135deg, var(--yellow) 0%, var(--peach) 100%);
-    color: var(--base);
-    box-shadow: 0 4px 15px rgba(249, 226, 175, 0.3);
+  background: linear-gradient(135deg, var(--yellow) 0%, var(--peach) 100%);
+  color: var(--base);
+  box-shadow: 0 4px 15px rgba(249, 226, 175, 0.3);
 }
 
 .difficulty-badge.advanced {
-    background: linear-gradient(135deg, var(--red) 0%, var(--maroon) 100%);
-    color: var(--base);
-    box-shadow: 0 4px 15px rgba(243, 139, 168, 0.3);
+  background: linear-gradient(135deg, var(--red) 0%, var(--maroon) 100%);
+  color: var(--base);
+  box-shadow: 0 4px 15px rgba(243, 139, 168, 0.3);
 }
 
 .challenge-card p {
-    color: var(--subtext0);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+  color: var(--subtext0);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 .challenge-meta {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .meta-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--subtext1);
-    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--subtext1);
+  font-size: 0.9rem;
 }
 
 .meta-item svg {
-    color: var(--blue);
-    font-size: 1rem;
+  color: var(--blue);
+  font-size: 1rem;
 }
 
 .challenge-actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .challenge-actions .btn {
-    flex: 1;
-    min-width: 140px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+  flex: 1;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
-
-.challenge-card:nth-child(1) { animation-delay: 0.1s; }
-.challenge-card:nth-child(2) { animation-delay: 0.2s; }
-.challenge-card:nth-child(3) { animation-delay: 0.3s; }
-.challenge-card:nth-child(4) { animation-delay: 0.4s; }

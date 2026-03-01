@@ -15,7 +15,7 @@ import {
   FiGlobe,
   FiBell,
 } from 'react-icons/fi';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../modules/auth/useAuth';
 import './ProfilePopup.css';
 
 /**

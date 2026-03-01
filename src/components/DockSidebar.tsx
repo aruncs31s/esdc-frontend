@@ -11,7 +11,7 @@ import {
   FaCog,
   FaGripVertical,
 } from 'react-icons/fa';
-import '../styles/dock-sidebar.css';
+import '@/styles/dock-sidebar.css';
 
 interface DockItem {
   id: string;

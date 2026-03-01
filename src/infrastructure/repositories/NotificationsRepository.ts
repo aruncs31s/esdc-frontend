@@ -5,11 +5,10 @@ import apiClient from '../api/ApiClient';
 import { Notification } from '@/types/notifications';
 import { ApiSuccessResponse } from '@/types';
 
-export class NotificationRepository extends INotificationRepository {
+export class NotificationRepository implements INotificationRepository {
   private api: typeof apiClient;
 
   constructor(client = apiClient) {
-    super();
     this.api = client;
   }
 

@@ -2,6 +2,9 @@ import userRepository from '../infrastructure/repositories/UserRepository.js';
 import projectRepository from '../infrastructure/repositories/ProjectRepository.js';
 import eventRepository from '../infrastructure/repositories/EventRepository.js';
 import chatbotRepository from '../infrastructure/repositories/ChatbotRepository.js';
+import courseRepository from '../infrastructure/repositories/CourseRepository.js';
+import enrollmentRepository from '../infrastructure/repositories/EnrollmentRepository.js';
+import courseProgressRepository from '../infrastructure/repositories/CourseProgressRepository.js';
 
 import { UserRegistrationService } from '../domain/services/UserRegistrationService.js';
 import { LeaderboardService } from '../domain/services/LeaderboardService.js';
@@ -37,6 +40,11 @@ class Container {
     this.services.set('eventRepository', eventRepository);
     this.services.set('chatbotRepository', chatbotRepository);
     this.services.set('adminRepository', adminRepository);
+
+    // LMS Repositories
+    this.services.set('courseRepository', courseRepository);
+    this.services.set('enrollmentRepository', enrollmentRepository);
+    this.services.set('courseProgressRepository', courseProgressRepository);
     // Domain Services
     const userRegistrationService = new UserRegistrationService(userRepository);
 

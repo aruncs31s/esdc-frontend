@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ProjectRepository } from '@/infrastructure/repositories/ProjectRepository';
-import ProjectCard from './ProjectCard';
+import ProjectCard from '@/shared/components/ui/ProjectCard';
 import { container } from '@/application';
 import { Project } from '@/domain/entities/Project';
 import { FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
